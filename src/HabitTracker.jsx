@@ -1,80 +1,117 @@
 import React, { useState, useEffect } from 'react';
+import './App.css'; // підключається той самий CSS
 
-const initialHabits = [
-  { id: 1, name: 'Пити воду', streak: 0, xp: 0, lastCompleted: null },
-  { id: 2, name: '10 хв фокуса', streak: 0, xp: 0, lastCompleted: null },
-];
+const getToday = () => new Date().toISOString().split('T')[0];
 
 function HabitTracker() {
-  const [habits, setHabits] = useState(() => {
-    const stored = localStorage.getItem('habits');
-    return stored ? JSON.parse(stored) : initialHabits;
-  });
+  const [habits, setHabits] = useState([]);
+  const [newHabit, setNewHabit] = useState('');
+
+  useEffect(() => {
+    const stored = JSON.parse(localStorage.getItem('habits')) || [];
+    setHabits(stored);
+  }, []);
 
   useEffect(() => {
     localStorage.setItem('habits', JSON.stringify(habits));
   }, [habits]);
 
-  const handleComplete = (id) => {
-    setHabits(prev =>
-      prev.map(habit => {
-        if (habit.id !== id) return habit;
+  const addHabit = () => {
+    if (!newHabit.trim()) return;
+    const newItem = {
+      id: Date.now(),
+      name: newHabit.trim(),
+      log: {} // ключі: дати, значення: true/false
+    };
+    setHabits([...habits, newItem]);
+    setNewHabit('');
+  };
 
-        const today = new Date().toDateString();
-        if (habit.lastCompleted === today) return habit;
+  const toggleDay = (id, date) => {
+    setHabits(habits.map(habit => {
+      if (habit.id !== id) return habit;
+      const updatedLog = { ...habit.log, [date]: !habit.log[date] };
+      return { ...habit, log: updatedLog };
+    }));
+  };
 
-        const isNextDay =
-          new Date(habit.lastCompleted).toDateString() ===
-          new Date(Date.now() - 86400000).toDateString();
+  const today = getToday();
+  const last7Days = [...Array(7)].map((_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - (6 - i));
+    return d.toISOString().split('T')[0];
+  });
 
-        const newStreak = isNextDay ? habit.streak + 1 : 1;
-        const newXP = habit.xp + 10;
+  const calculateProgress = (log) => {
+    const checked = last7Days.filter(date => log[date]).length;
+    return { count: checked, percent: Math.round((checked / 7) * 100) };
+  };
 
-        return {
-          ...habit,
-          streak: newStreak,
-          xp: newXP,
-          lastCompleted: today,
-        };
-      })
-    );
+  const calculateStreak = (log) => {
+    let streak = 0;
+    for (let i = last7Days.length - 1; i >= 0; i--) {
+      const date = last7Days[i];
+      if (log[date]) {
+        streak++;
+      } else {
+        break;
+      }
+    }
+    return streak;
   };
 
   return (
-    <div style={{ maxWidth: '600px', margin: '40px auto' }}>
+    <div className="habit-tracker">
       <h2>🎯 Трекер звичок</h2>
-      {habits.map(habit => {
-        const level = Math.floor(habit.xp / 100);
-        const progress = habit.xp % 100;
+      <div style={{ marginBottom: '10px' }}>
+        <input
+          type="text"
+          value={newHabit}
+          onChange={(e) => setNewHabit(e.target.value)}
+          placeholder="Нова звичка (наприклад, Пити воду)"
+        />
+        <button onClick={addHabit}>➕ Додати</button>
+      </div>
 
-        return (
-          <div key={habit.id} style={{
-            background: '#fff',
-            padding: '15px',
-            marginBottom: '15px',
-            borderRadius: '8px',
-            boxShadow: '0 0 5px rgba(0,0,0,0.1)'
-          }}>
-            <h3>{habit.name}</h3>
-            <p>🔥 Стрік: {habit.streak} днів</p>
-            <p>⭐ Рівень: {level} (XP: {progress}/100)</p>
-            <button
-              onClick={() => handleComplete(habit.id)}
-              disabled={habit.lastCompleted === new Date().toDateString()}
-              style={{
-                backgroundColor: '#4e4eeb',
-                color: '#fff',
-                padding: '8px 16px',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: habit.lastCompleted === new Date().toDateString() ? 'not-allowed' : 'pointer'
-              }}
-            >
-              ✅ Виконано сьогодні
-            </button>
-          </div>
-        );
-      })}
+      <table>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left' }}>Звичка</th>
+            {last7Days.map(date => (
+              <th key={date}>{date.slice(5)}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {habits.map(habit => {
+            const progress = calculateProgress(habit.log);
+            const streak = calculateStreak(habit.log);
+
+            return (
+              <React.Fragment key={habit.id}>
+                <tr>
+                  <td><strong>{habit.name}</strong></td>
+                  {last7Days.map(date => (
+                    <td key={date}>
+                      <input
+                        type="checkbox"
+                        checked={habit.log[date] || false}
+                        onChange={() => toggleDay(habit.id, date)}
+                      />
+                    </td>
+                  ))}
+                </tr>
+                <tr>
+                  <td colSpan={8} style={{ textAlign: 'left', fontSize: '0.9em', padding: '6px 10px', color: '#888' }}>
+                    📊 Прогрес: {progress.count}/7 днів ({progress.percent}%) &nbsp;&nbsp;
+                    🔥 Стрік: {streak} днів поспіль
+                  </td>
+                </tr>
+              </React.Fragment>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 }
