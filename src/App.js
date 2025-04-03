@@ -58,7 +58,8 @@ function App() {
       text,
       category,
       createdAt: new Date().toLocaleString(),
-      file
+      file,
+      pinned: false // нова властивість
     };
 
     setNotes([newNote, ...notes]);
@@ -87,6 +88,13 @@ function App() {
     setEditNoteId(null);
   };
 
+  const togglePin = (id) => {
+    const updatedNotes = notes.map(note =>
+      note.id === id ? { ...note, pinned: !note.pinned } : note
+    );
+    setNotes(updatedNotes);
+  };
+
   const exportNotes = () => {
     const dataStr = JSON.stringify(notes, null, 2);
     const blob = new Blob([dataStr], { type: 'application/json' });
@@ -102,6 +110,12 @@ function App() {
   const filteredNotes = selectedCategory === 'Усі'
     ? notes
     : notes.filter(n => n.category === selectedCategory);
+
+  // Сортування: спочатку закріплені, потім інші
+  const sortedNotes = [...filteredNotes].sort((a, b) => {
+    if (a.pinned === b.pinned) return b.id - a.id; // новіші першими
+    return a.pinned ? -1 : 1;
+  });
 
   return (
     <div className={`layout ${darkMode ? 'dark-mode' : ''}`}>
@@ -161,12 +175,17 @@ function App() {
         </div>
 
         <div className="notes-list">
-          {filteredNotes.map(note => (
+          {sortedNotes.map(note => (
             <div
               key={note.id}
               className="note"
               style={{ backgroundColor: categoryColors[note.category] || '#fff' }}
             >
+              <div className="note-meta">
+                <span>{note.category}</span>
+                <span>{note.createdAt}</span>
+              </div>
+
               {editNoteId === note.id ? (
                 <>
                   <textarea
@@ -189,13 +208,8 @@ function App() {
                 </>
               ) : (
                 <>
-                  <div className="note-meta">
-                    <span>{note.category}</span>
-                    <span>{note.createdAt}</span>
-                  </div>
                   <p>{note.text}</p>
 
-                  {/* Файл, якщо є */}
                   {note.file && (
                     <div style={{ marginTop: '10px' }}>
                       {note.file.type.startsWith('image') ? (
@@ -212,13 +226,18 @@ function App() {
                     </div>
                   )}
 
-                  <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '8px' }}>
                     <button className="delete-btn" onClick={() => deleteNote(note.id)}>❌</button>
+                    <button className="edit-btn" onClick={() => startEditing(note)}>✏️ Редагувати</button>
                     <button
                       className="edit-btn"
-                      onClick={() => startEditing(note)}
+                      onClick={() => togglePin(note.id)}
+                      style={{
+                        backgroundColor: note.pinned ? '#ffce00' : '#bbb',
+                        color: '#000'
+                      }}
                     >
-                      ✏️ Редагувати
+                      {note.pinned ? '📌 Закріплено' : '📌 Закріпити'}
                     </button>
                   </div>
                 </>
