@@ -259,3 +259,35 @@ body.dark .habit-tracker th {
 body.dark .habit-tracker td {
   color: #fff;
 }
+
+
+.habit-progress-bar {
+  height: 10px;
+  background-color: #e0e0e0;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.habit-progress-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.habit-progress-fill.low {
+  background-color: #e57373; /* червоний */
+}
+
+.habit-progress-fill.medium {
+  background-color: #ffb74d; /* помаранчевий */
+}
+
+.habit-progress-fill.high {
+  background-color: #81c784; /* зелений */
+}
+
+body.dark .habit-progress-bar {
+  background-color: #444;
+}
+
+

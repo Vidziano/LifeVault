@@ -102,10 +102,25 @@ function HabitTracker() {
                   ))}
                 </tr>
                 <tr>
-                  <td colSpan={8} style={{ textAlign: 'left', fontSize: '0.9em', padding: '6px 10px', color: '#888' }}>
-                    📊 Прогрес: {progress.count}/7 днів ({progress.percent}%) &nbsp;&nbsp;
-                    🔥 Стрік: {streak} днів поспіль
-                  </td>
+                <td colSpan={8} style={{ padding: '8px 12px' }}>
+  <div style={{ marginBottom: '4px', fontSize: '0.9em', color: '#888' }}>
+    📊 Прогрес: {progress.count}/7 ({progress.percent}%) &nbsp;&nbsp;
+    🔥 Стрік: {streak} днів поспіль
+  </div>
+  <div className="habit-progress-bar">
+    <div
+      className={`habit-progress-fill ${
+        progress.percent < 40
+          ? 'low'
+          : progress.percent < 80
+          ? 'medium'
+          : 'high'
+      }`}
+      style={{ width: `${progress.percent}%` }}
+    ></div>
+  </div>
+</td>
+
                 </tr>
               </React.Fragment>
             );
