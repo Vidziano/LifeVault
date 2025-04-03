@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
-import HabitTracker from './HabitTracker';
-
-
 const categoryColors = {
   "Особисте": "#ffecec",
   "Навчання": "#e6f0ff",
@@ -43,14 +40,17 @@ function App() {
 
   const addNote = () => {
     if (text.trim() === '') return;
+
     const newNote = {
       id: Date.now(),
       text,
       category,
       createdAt: new Date().toLocaleString()
     };
+
     setNotes([newNote, ...notes]);
     setText('');
+    setCategory('Особисте'); // повертаємо категорію на дефолтну
   };
 
   const deleteNote = (id) => {
@@ -133,7 +133,10 @@ function App() {
             placeholder="Нова нотатка..."
           />
           <div className="note-controls">
-            <select value={category} onChange={(e) => setCategory(e.target.value)}>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
               {categories.filter(c => c !== "Усі").map(cat => (
                 <option key={cat} value={cat}>{cat}</option>
               ))}
@@ -158,7 +161,10 @@ function App() {
                     style={{ width: '100%', padding: '8px', borderRadius: '6px' }}
                   />
                   <div className="note-controls" style={{ marginTop: '10px' }}>
-                    <select value={editCategory} onChange={(e) => setEditCategory(e.target.value)}>
+                    <select
+                      value={editCategory}
+                      onChange={(e) => setEditCategory(e.target.value)}
+                    >
                       {categories.filter(c => c !== "Усі").map(cat => (
                         <option key={cat} value={cat}>{cat}</option>
                       ))}
@@ -177,14 +183,6 @@ function App() {
                     <button className="delete-btn" onClick={() => deleteNote(note.id)}>❌</button>
                     <button
                       className="edit-btn"
-                      style={{
-                        backgroundColor: '#4e4eeb',
-                        color: '#fff',
-                        border: 'none',
-                        borderRadius: '6px',
-                        padding: '5px 10px',
-                        cursor: 'pointer'
-                      }}
                       onClick={() => startEditing(note)}
                     >
                       ✏️ Редагувати
@@ -201,5 +199,3 @@ function App() {
 }
 
 export default App;
-<HabitTracker />
-

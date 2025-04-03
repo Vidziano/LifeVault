@@ -21,7 +21,7 @@ function HabitTracker() {
         if (habit.id !== id) return habit;
 
         const today = new Date().toDateString();
-        if (habit.lastCompleted === today) return habit; // вже відмічено
+        if (habit.lastCompleted === today) return habit;
 
         const isNextDay =
           new Date(habit.lastCompleted).toDateString() ===
