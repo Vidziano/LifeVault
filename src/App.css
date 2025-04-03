@@ -290,9 +290,44 @@ body.dark .habit-progress-bar {
   background-color: #444;
 }
 
+.styled-habit-table {
+  width: 100%;
+  border-collapse: collapse;
+}
 
+.styled-habit-table th,
+.styled-habit-table td {
+  text-align: center;
+  padding: 8px;
+}
 
+.circle {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  color: #ff6600;
+}
 
+.circle.checked {
+  border-color: #ff6600;
+  color: #ff6600;
+  font-weight: bold;
+}
+
+body.dark .circle {
+  border-color: #888;
+  color: #ffa726;
+}
+
+body.dark .circle.checked {
+  border-color: #ffa726;
+}
 
 
 
