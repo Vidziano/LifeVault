@@ -4,7 +4,7 @@ import 'react-calendar/dist/Calendar.css';
 import './App.css';
 
 const themeKeys = ['робота', 'навчання', 'особисте', 'інше'];
-
+ 
 function CalendarView() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [events, setEvents] = useState({});
