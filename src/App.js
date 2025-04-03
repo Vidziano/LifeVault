@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import HabitTracker from './HabitTracker';
+import CalendarView from './CalendarView';
+
 
 
 const categoryColors = {
@@ -291,6 +293,8 @@ function App() {
           ))}
         </div>
         <HabitTracker />
+        <CalendarView />
+
 
       </main>
     </div>
