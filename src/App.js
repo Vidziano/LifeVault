@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
+import HabitTracker from './HabitTracker';
+
+
 const categoryColors = {
   "Особисте": "#ffecec",
   "Навчання": "#e6f0ff",
@@ -198,3 +201,5 @@ function App() {
 }
 
 export default App;
+<HabitTracker />
+

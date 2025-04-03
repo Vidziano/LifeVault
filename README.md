@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="https://github.com/Vidziano/LifeVault/blob/main/images/IMG_7532.JPEG?raw=true?raw=true" alt="Лого" width="400"/>
+  <img src="https://github.com/Vidziano/LifeVault/blob/main/images/IMG_7532.JPEG?raw=true?raw=true" alt="Лого" width="100"/>
 </p>
 <div align="center">
     <h2>LifeVault</h2>
