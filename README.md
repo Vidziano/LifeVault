@@ -1,70 +1,85 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<p align="center">
+  <img src="C:\Users\альфа\lifevault\images\IMG_7532.JPEG?raw=true" alt="Лого" width="400"/>
+</p>
+<div align="center">
+    <h2>LifeVault</h2>
+</div>
 
-## Available Scripts
+## ✅ Сховище твого життя, думок і планів.
 
-In the project directory, you can run:
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 📌 Призначення
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+> **LifeVault** створений для тих, хто хоче структурувати своє життя, організувати щоденні справи, відстежувати прогрес у звичках та аналізувати власний настрій.  
+>  
+> Додаток є персональним цифровим помічником, який допомагає користувачам оптимізувати свій день, ефективно керувати завданнями та підтримувати баланс між роботою, навчанням та особистими цілями.  
+>  
+> **LifeVault** ідеально підходить для всіх, хто прагне організованості та продуктивності. Завдяки широкому набору інструментів (нотатник, розклад, трекер звичок та настрою, аналітика) додаток дозволяє не лише зберігати інформацію, але й аналізувати її, щоб покращити якість організації життя.
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## ✨ Головні функції додатку
 
-### `npm run build`
+### 🗒️ Нотатник
+- Текстовий редактор для заміток.
+- Категоризація за тегами та кольорами.
+- Додавання фото та файлів до нотаток.
+- Швидкі замітки (віджет на головному екрані).
+- Закріплення важливих нотаток нагорі списку.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 📅 Розклад і планування
+- Календар із можливістю додавання подій і дедлайнів.
+- Планувальник завдань (To-Do List).
+- Нагадування про події та дедлайни.
+- Автоматичний перенос невиконаних завдань на наступний день.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 🎯 Трекер звичок
+- Вибір звичок зі списку або додавання власних.
+- Відстеження виконання (галочка/повзунок прогресу).
+- Гейміфікація: система нагород за регулярне виконання.
+- Статистика у вигляді календаря або графіка.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 😊 Трекер настрою
+- Оцінка настрою від 1 до 10 щодня.
+- Додавання короткого коментаря до настрою.
+- Графік змін настрою.
+- Аналіз найкращих і найгірших днів.
 
-### `npm run eject`
+### 📊 Аналітика та звіти
+- Щотижневий звіт про виконані завдання та звички.
+- Візуалізація активності за допомогою діаграм.
+- Аналіз нотаток (наприклад, підрахунок кількості дедлайнів або пошук ключових слів).
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 🎁 Додаткові фішки
+- Мотиваційні цитати кожен день.
+- Персоналізовані нагадування (“Лесю, не забудь про перерву!”, “Вікторе, очі втомлюються — відведи погляд на 5 хвилин!”).
+- Темна/світла тема.
+- Захищені нотатки (пароль).
+- Список бажань (наприклад, книги, які хочеш прочитати, або місця, куди хочеш поїхати).
+- Дошка натхнення (можливість зберігати фото, цитати ідеї).
+- Міні-завдання – випадкові корисні справи на день (“Сьогодні спробуй 5-хвилинну медитацію”).
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 📷 Інтерфейс (у розробці)
+- 💡 Дизайн із легкими кольорами та інтуїтивною навігацією.
+- 🔐 Пріоритет безпеки та збереження даних.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## 🔧 Технічна реалізація
+- **Front-end:** React + TailwindCSS
+- **Back-end:** Node.js + MongoDB
+- **Інструменти:** Figma, Git, Postman
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🧪 У розробці
+Хочеш долучитися? Напиши нам!
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+> _“LifeVault — це не просто органайзер. Це помічник у твоїй подорожі до більш усвідомленого життя.”_
