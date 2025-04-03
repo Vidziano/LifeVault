@@ -20,6 +20,7 @@ function App() {
   const [editText, setEditText] = useState('');
   const [editCategory, setEditCategory] = useState('Особисте');
   const [darkMode, setDarkMode] = useState(false);
+  const [file, setFile] = useState(null);
 
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem('notes')) || [];
@@ -38,6 +39,17 @@ function App() {
     localStorage.setItem('theme', darkMode ? 'dark' : 'light');
   }, [darkMode]);
 
+  const handleFileChange = (e) => {
+    const selected = e.target.files[0];
+    if (selected) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFile({ name: selected.name, type: selected.type, url: reader.result });
+      };
+      reader.readAsDataURL(selected);
+    }
+  };
+
   const addNote = () => {
     if (text.trim() === '') return;
 
@@ -45,12 +57,14 @@ function App() {
       id: Date.now(),
       text,
       category,
-      createdAt: new Date().toLocaleString()
+      createdAt: new Date().toLocaleString(),
+      file
     };
 
     setNotes([newNote, ...notes]);
     setText('');
-    setCategory('Особисте'); // повертаємо категорію на дефолтну
+    setCategory('Особисте');
+    setFile(null);
   };
 
   const deleteNote = (id) => {
@@ -132,6 +146,7 @@ function App() {
             onChange={(e) => setText(e.target.value)}
             placeholder="Нова нотатка..."
           />
+          <input type="file" onChange={handleFileChange} style={{ marginTop: '10px' }} />
           <div className="note-controls">
             <select
               value={category}
@@ -179,6 +194,24 @@ function App() {
                     <span>{note.createdAt}</span>
                   </div>
                   <p>{note.text}</p>
+
+                  {/* Файл, якщо є */}
+                  {note.file && (
+                    <div style={{ marginTop: '10px' }}>
+                      {note.file.type.startsWith('image') ? (
+                        <img
+                          src={note.file.url}
+                          alt="фото"
+                          style={{ maxWidth: '100%', borderRadius: '8px' }}
+                        />
+                      ) : (
+                        <a href={note.file.url} download={note.file.name}>
+                          📎 {note.file.name}
+                        </a>
+                      )}
+                    </div>
+                  )}
+
                   <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
                     <button className="delete-btn" onClick={() => deleteNote(note.id)}>❌</button>
                     <button
