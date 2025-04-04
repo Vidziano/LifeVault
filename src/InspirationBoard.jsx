@@ -8,6 +8,9 @@ function InspirationBoard() {
   const [isDrawing, setIsDrawing] = useState(false);
   const [color, setColor] = useState('#000');
   const [tool, setTool] = useState('pen');
+  const [lineWidth, setLineWidth] = useState(2);
+  const [textInput, setTextInput] = useState('');
+  const [imageToDraw, setImageToDraw] = useState(null);
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
 
@@ -42,23 +45,38 @@ function InspirationBoard() {
     setItems(updated);
   };
 
+  const handleEditText = (index, newText) => {
+    const updated = [...items];
+    updated[index].text = newText;
+    setItems(updated);
+  };
+
   const startDrawing = ({ nativeEvent }) => {
     const { offsetX, offsetY } = nativeEvent;
-    contextRef.current.beginPath();
-    contextRef.current.moveTo(offsetX, offsetY);
-    setIsDrawing(true);
+    if (tool === 'text' && textInput) {
+      contextRef.current.fillStyle = color;
+      contextRef.current.font = `${lineWidth * 5}px sans-serif`;
+      contextRef.current.fillText(textInput, offsetX, offsetY);
+      setTextInput('');
+    } else if (tool === 'image' && imageToDraw) {
+      const img = new Image();
+      img.onload = () => {
+        contextRef.current.drawImage(img, offsetX, offsetY, 100, 100);
+        setImageToDraw(null);
+      };
+      img.src = URL.createObjectURL(imageToDraw);
+    } else {
+      contextRef.current.beginPath();
+      contextRef.current.moveTo(offsetX, offsetY);
+      setIsDrawing(true);
+    }
   };
 
   const draw = ({ nativeEvent }) => {
-    if (!isDrawing) return;
+    if (!isDrawing || tool !== 'pen' && tool !== 'eraser') return;
     const { offsetX, offsetY } = nativeEvent;
-    if (tool === 'pen') {
-      contextRef.current.strokeStyle = color;
-      contextRef.current.lineWidth = 2;
-    } else if (tool === 'eraser') {
-      contextRef.current.strokeStyle = '#fff';
-      contextRef.current.lineWidth = 10;
-    }
+    contextRef.current.strokeStyle = tool === 'pen' ? color : '#fff';
+    contextRef.current.lineWidth = tool === 'pen' ? lineWidth : 10;
     contextRef.current.lineTo(offsetX, offsetY);
     contextRef.current.stroke();
   };
@@ -68,16 +86,26 @@ function InspirationBoard() {
     setIsDrawing(false);
   };
 
+  const saveCanvasAsItem = () => {
+    const canvas = canvasRef.current;
+    const imgData = canvas.toDataURL('image/png');
+    setItems([...items, { img: imgData }]);
+    contextRef.current.clearRect(0, 0, canvas.width, canvas.height);
+  };
+
   useEffect(() => {
     const canvas = canvasRef.current;
-    canvas.width = 400;
-    canvas.height = 300;
     const context = canvas.getContext('2d');
     context.lineCap = 'round';
-    context.strokeStyle = color;
-    context.lineWidth = 2;
     contextRef.current = context;
-  }, [color]);
+  }, []);
+
+  useEffect(() => {
+    if (contextRef.current) {
+      contextRef.current.strokeStyle = tool === 'pen' ? color : '#fff';
+      contextRef.current.lineWidth = tool === 'pen' ? lineWidth : 10;
+    }
+  }, [color, lineWidth, tool]);
 
   return (
     <div className="inspo-board">
@@ -85,7 +113,7 @@ function InspirationBoard() {
 
       <div className="inspo-input">
         <textarea
-          placeholder="Твоя ідея або цитата..."
+          placeholder="Твоя ідея або цитата... (можна з емодзі 😊)"
           value={newText}
           onChange={(e) => setNewText(e.target.value)}
         ></textarea>
@@ -94,14 +122,16 @@ function InspirationBoard() {
       </div>
 
       <div className="drawing-tools">
-        <h4>🖌️ Малювання</h4>
+        <h4>🎨 Малювання</h4>
         <canvas
           ref={canvasRef}
           onMouseDown={startDrawing}
           onMouseMove={draw}
           onMouseUp={stopDrawing}
           onMouseLeave={stopDrawing}
-          style={{ border: '1px solid #ccc', borderRadius: '8px', background: '#fff' }}
+          style={{ border: '1px solid #ccc', borderRadius: '8px', background: '#fff', width: '100%', height: '500px' }}
+          width={1000}
+          height={500}
         />
         <div style={{ marginTop: '10px' }}>
           <label>Колір: </label>
@@ -110,7 +140,35 @@ function InspirationBoard() {
           <select value={tool} onChange={(e) => setTool(e.target.value)}>
             <option value="pen">Ручка</option>
             <option value="eraser">Резинка</option>
+            <option value="text">Текст ✍️</option>
+            <option value="image">Фото 🖼️</option>
           </select>
+          {tool === 'text' && (
+            <input
+              type="text"
+              placeholder="Введи текст або емодзі..."
+              value={textInput}
+              onChange={(e) => setTextInput(e.target.value)}
+              style={{ marginLeft: '10px' }}
+            />
+          )}
+          {tool === 'image' && (
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setImageToDraw(e.target.files[0])}
+              style={{ marginLeft: '10px' }}
+            />
+          )}
+          <label style={{ marginLeft: '20px' }}>Товщина: </label>
+          <input
+            type="range"
+            min="1"
+            max="20"
+            value={lineWidth}
+            onChange={(e) => setLineWidth(Number(e.target.value))}
+          />
+          <button style={{ marginLeft: '20px' }} onClick={saveCanvasAsItem}>💾 Зберегти малюнок</button>
         </div>
       </div>
 
@@ -118,7 +176,13 @@ function InspirationBoard() {
         {items.map((item, i) => (
           <div key={i} className="inspo-card">
             {item.img && <img src={item.img} alt="idea" />}
-            {item.text && <p>{item.text}</p>}
+            {item.text && (
+              <textarea
+                value={item.text}
+                onChange={(e) => handleEditText(i, e.target.value)}
+                style={{ width: '100%', resize: 'vertical' }}
+              ></textarea>
+            )}
             <button onClick={() => handleDelete(i)}>❌</button>
           </div>
         ))}
