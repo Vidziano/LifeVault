@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import HabitTracker from './HabitTracker';
 import CalendarView from './CalendarView';
+import InspirationBoard from './InspirationBoard';
+import MotivationalQuote from './MotivationalQuote';
 
 
 const categoryColors = {
@@ -293,6 +295,10 @@ function App() {
         </div>
         <HabitTracker />
         <CalendarView />
+        <InspirationBoard />
+        <MotivationalQuote />
+
+
 
       </main>
     </div>

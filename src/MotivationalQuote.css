@@ -1,0 +1,19 @@
+.motivational-quote {
+    margin: 20px auto;
+    max-width: 800px;
+    padding: 16px 24px;
+    background: linear-gradient(90deg, #f3f4f6, #e0f7fa);
+    border-left: 6px solid #4e4eeb;
+    border-radius: 8px;
+    font-style: italic;
+    font-size: 18px;
+    color: #333;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  
+  body.dark .motivational-quote {
+    background: linear-gradient(90deg, #2c2c2c, #3a3a3a);
+    color: #f1f1f1;
+    border-left-color: #81d4fa;
+  }
+  
