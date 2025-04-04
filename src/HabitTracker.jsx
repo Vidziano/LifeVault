@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './HabitTracker.css'; // окремий css
+import HabitChart from './HabitChart';
+
 
 const getToday = () => new Date().toISOString().split('T')[0];
 
@@ -162,10 +164,13 @@ function HabitTracker() {
                   </td>
                 </tr>
               </React.Fragment>
+              
             );
           })}
         </tbody>
       </table>
+      <HabitChart habits={habits} weekDates={weekDates} />
+
     </div>
   );
 }

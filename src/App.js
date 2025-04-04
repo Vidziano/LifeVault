@@ -295,7 +295,6 @@ function App() {
         <HabitTracker />
         <CalendarView />
 
-
       </main>
     </div>
   );
