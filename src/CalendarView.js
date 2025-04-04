@@ -4,7 +4,7 @@ import 'react-calendar/dist/Calendar.css';
 import './App.css';
 
 const themeKeys = ['робота', 'навчання', 'особисте', 'інше'];
- 
+
 function CalendarView() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [events, setEvents] = useState({});
@@ -16,11 +16,23 @@ function CalendarView() {
   const todayStr = new Date().toDateString();
 
   useEffect(() => {
+    const todayKey = new Date().toDateString();
     const stored = localStorage.getItem('calendarEvents');
     if (stored) {
-      setEvents(JSON.parse(stored));
+      const all = JSON.parse(stored);
+      const todayEvents = all[todayKey] || [];
+  
+      // Повідомлення якщо є незавершені події
+      const pending = todayEvents.filter(ev => !ev.done);
+      if (pending.length > 0) {
+        const texts = pending.map(ev => `📌 ${ev.text}`).join('\n');
+        setTimeout(() => {
+          alert(`🔔 Нагадування про події на сьогодні:\n\n${texts}`);
+        }, 500); // трохи відтерміновано, щоб не лякало
+      }
     }
   }, []);
+  
 
   useEffect(() => {
     localStorage.setItem('calendarEvents', JSON.stringify(events));
@@ -31,7 +43,7 @@ function CalendarView() {
     const dateKey = selectedDate.toDateString();
     const updated = {
       ...events,
-      [dateKey]: [...(events[dateKey] || []), { text: newEvent.trim(), theme }]
+      [dateKey]: [...(events[dateKey] || []), { text: newEvent.trim(), theme, done: false }]
     };
     setEvents(updated);
     setNewEvent('');
@@ -63,10 +75,7 @@ function CalendarView() {
       return (
         <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
           {events[dateKey].map((ev, idx) => (
-            <span
-              key={idx}
-              className={`dot ${ev.theme}`}
-            />
+            <span key={idx} className={`dot ${ev.theme}`} />
           ))}
         </div>
       );
@@ -79,7 +88,7 @@ function CalendarView() {
     return isToday ? 'calendar-today' : null;
   };
 
-  const todaysEvents = events[todayStr] || [];
+  const todaysEvents = (events[todayStr] || []).filter(e => !e.done);
 
   const allEvents = Object.entries(events).flatMap(([date, evList]) =>
     evList.map(ev => ({ ...ev, date }))
@@ -113,7 +122,17 @@ function CalendarView() {
         <h3>📌 Події на {selectedDate.toDateString()}:</h3>
         <ul>
           {(events[selectedDate.toDateString()] || []).map((ev, i) => (
-            <li key={i}>
+            <li key={i} style={{ textDecoration: ev.done ? 'line-through' : 'none' }}>
+              <input
+                type="checkbox"
+                checked={ev.done}
+                onChange={() => {
+                  const updated = { ...events };
+                  updated[selectedDate.toDateString()][i].done = !ev.done;
+                  setEvents(updated);
+                }}
+                style={{ marginRight: '8px' }}
+              />
               {editIndex === i ? (
                 <>
                   <input
