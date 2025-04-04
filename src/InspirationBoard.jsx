@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './InspirationBoard.css';
 
 function InspirationBoard() {
   const [items, setItems] = useState([]);
   const [newText, setNewText] = useState('');
   const [newImage, setNewImage] = useState(null);
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [color, setColor] = useState('#000');
+  const [tool, setTool] = useState('pen');
+  const canvasRef = useRef(null);
+  const contextRef = useRef(null);
 
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem('inspoItems')) || [];
@@ -37,6 +42,43 @@ function InspirationBoard() {
     setItems(updated);
   };
 
+  const startDrawing = ({ nativeEvent }) => {
+    const { offsetX, offsetY } = nativeEvent;
+    contextRef.current.beginPath();
+    contextRef.current.moveTo(offsetX, offsetY);
+    setIsDrawing(true);
+  };
+
+  const draw = ({ nativeEvent }) => {
+    if (!isDrawing) return;
+    const { offsetX, offsetY } = nativeEvent;
+    if (tool === 'pen') {
+      contextRef.current.strokeStyle = color;
+      contextRef.current.lineWidth = 2;
+    } else if (tool === 'eraser') {
+      contextRef.current.strokeStyle = '#fff';
+      contextRef.current.lineWidth = 10;
+    }
+    contextRef.current.lineTo(offsetX, offsetY);
+    contextRef.current.stroke();
+  };
+
+  const stopDrawing = () => {
+    contextRef.current.closePath();
+    setIsDrawing(false);
+  };
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    canvas.width = 400;
+    canvas.height = 300;
+    const context = canvas.getContext('2d');
+    context.lineCap = 'round';
+    context.strokeStyle = color;
+    context.lineWidth = 2;
+    contextRef.current = context;
+  }, [color]);
+
   return (
     <div className="inspo-board">
       <h2>🌟 Дошка натхнення</h2>
@@ -49,6 +91,27 @@ function InspirationBoard() {
         ></textarea>
         <input type="file" accept="image/*" onChange={(e) => setNewImage(e.target.files[0])} />
         <button onClick={handleAdd}>➕ Додати</button>
+      </div>
+
+      <div className="drawing-tools">
+        <h4>🖌️ Малювання</h4>
+        <canvas
+          ref={canvasRef}
+          onMouseDown={startDrawing}
+          onMouseMove={draw}
+          onMouseUp={stopDrawing}
+          onMouseLeave={stopDrawing}
+          style={{ border: '1px solid #ccc', borderRadius: '8px', background: '#fff' }}
+        />
+        <div style={{ marginTop: '10px' }}>
+          <label>Колір: </label>
+          <input type="color" value={color} onChange={(e) => setColor(e.target.value)} />
+          <label style={{ marginLeft: '20px' }}>Інструмент: </label>
+          <select value={tool} onChange={(e) => setTool(e.target.value)}>
+            <option value="pen">Ручка</option>
+            <option value="eraser">Резинка</option>
+          </select>
+        </div>
       </div>
 
       <div className="inspo-grid">
