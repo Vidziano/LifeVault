@@ -4,7 +4,6 @@ import HabitTracker from './HabitTracker';
 import CalendarView from './CalendarView';
 
 
-
 const categoryColors = {
   "Особисте": "#ffecec",
   "Навчання": "#e6f0ff",
