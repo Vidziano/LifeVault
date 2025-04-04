@@ -1,22 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import './HabitTracker.css';
+import './HabitTracker.css'; // окремий css
 
 const getToday = () => new Date().toISOString().split('T')[0];
-
-function getStartOfWeek(date = new Date()) {
-  const d = new Date(date);
-  const day = d.getDay();
-  const diff = d.getDate() - ((day + 6) % 7); // Пн як перший день
-  d.setDate(diff);
-  return d;
-}
 
 function HabitTracker() {
   const [habits, setHabits] = useState([]);
   const [newHabit, setNewHabit] = useState('');
-  const [editIndex, setEditIndex] = useState(null);
-  const [editText, setEditText] = useState('');
-  const [startOfWeek, setStartOfWeek] = useState(getStartOfWeek());
+  const [weekOffset, setWeekOffset] = useState(0);
 
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem('habits')) || [];
@@ -27,19 +17,39 @@ function HabitTracker() {
     localStorage.setItem('habits', JSON.stringify(habits));
   }, [habits]);
 
+  const getWeekDates = (offset = 0) => {
+    const today = new Date();
+    const start = new Date(today.setDate(today.getDate() - today.getDay() + 1 + offset * 7));
+    return [...Array(7)].map((_, i) => {
+      const d = new Date(start);
+      d.setDate(start.getDate() + i);
+      return d.toISOString().split('T')[0];
+    });
+  };
+
+  const weekDates = getWeekDates(weekOffset);
+
+  const getDayName = (dateStr) => {
+    const day = new Date(dateStr);
+    return day.toLocaleDateString('uk-UA', { weekday: 'short' }).toUpperCase();
+  };
+
+  const getWeekLabel = () => {
+    const first = new Date(weekDates[0]).toLocaleDateString('uk-UA', { day: 'numeric', month: 'long' });
+    const last = new Date(weekDates[6]).toLocaleDateString('uk-UA', { day: 'numeric', month: 'long' });
+    return `${first} – ${last}`;
+  };
+
   const addHabit = () => {
     if (!newHabit.trim()) return;
     const newItem = {
       id: Date.now(),
       name: newHabit.trim(),
       log: {},
+      editing: false
     };
     setHabits([...habits, newItem]);
     setNewHabit('');
-  };
-
-  const deleteHabit = (id) => {
-    setHabits(habits.filter(h => h.id !== id));
   };
 
   const toggleDay = (id, date) => {
@@ -50,38 +60,34 @@ function HabitTracker() {
     }));
   };
 
-  const saveEdit = (id) => {
-    setHabits(habits.map(h => h.id === id ? { ...h, name: editText } : h));
-    setEditIndex(null);
-    setEditText('');
+  const removeHabit = (id) => {
+    setHabits(habits.filter(h => h.id !== id));
   };
 
-  const handleWeekChange = (days) => {
-    const newDate = new Date(startOfWeek);
-    newDate.setDate(newDate.getDate() + days);
-    setStartOfWeek(newDate);
+  const toggleEdit = (id) => {
+    setHabits(habits.map(habit => habit.id === id ? { ...habit, editing: !habit.editing } : habit));
   };
 
-  const currentWeekDates = [...Array(7)].map((_, i) => {
-    const d = new Date(startOfWeek);
-    d.setDate(d.getDate() + i);
-    return d;
-  });
-
-  const getDayName = (date) => {
-    return date.toLocaleDateString('uk-UA', { weekday: 'short' }).toUpperCase();
+  const updateHabitName = (id, newName) => {
+    setHabits(habits.map(habit => habit.id === id ? { ...habit, name: newName, editing: false } : habit));
   };
-
-  const getDateKey = (date) => date.toISOString().split('T')[0];
 
   const calculateProgress = (log) => {
-    const checked = currentWeekDates.filter(d => log[getDateKey(d)]).length;
-    return Math.round((checked / 7) * 100);
+    const checked = weekDates.filter(date => log[date]).length;
+    const percent = Math.round((checked / 7) * 100);
+    let message = '';
+    if (percent === 100) message = '💪 Ідеально!';
+    else if (percent >= 80) message = '🔥 Молодець!';
+    else if (percent >= 50) message = '👏 Впевнено наближаєшся до мети';
+    else if (percent > 0) message = '🙂 Початок є!';
+    else message = '🔄 Почни цей тиждень з нової звички';
+    return { count: checked, percent, message };
   };
 
   return (
     <div className="habit-tracker">
       <h2>🎯 Трекер звичок</h2>
+
       <div className="habit-input">
         <input
           type="text"
@@ -92,77 +98,72 @@ function HabitTracker() {
         <button onClick={addHabit}>➕</button>
       </div>
 
-      <div className="week-range">
-        <button onClick={() => handleWeekChange(-7)}>◀</button>
-        <strong>
-          {currentWeekDates[0].toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })} -
-          {currentWeekDates[6].toLocaleDateString('uk-UA', { day: 'numeric', month: 'short' })}
-        </strong>
-        <button onClick={() => handleWeekChange(7)}>▶</button>
+      <div style={{ textAlign: 'center', marginBottom: '10px' }}>
+        <button onClick={() => setWeekOffset(weekOffset - 1)}>◀</button>
+        <strong style={{ margin: '0 10px' }}>{getWeekLabel()}</strong>
+        <button onClick={() => setWeekOffset(weekOffset + 1)}>▶</button>
       </div>
 
       <table className="habit-table">
         <thead>
           <tr>
             <th>Звичка</th>
-            {currentWeekDates.map(date => (
+            {weekDates.map(date => (
               <th key={date}>{getDayName(date)}</th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {habits.map(habit => (
-            <React.Fragment key={habit.id}>
-              <tr>
-                <td className="habit-name">
-                  {editIndex === habit.id ? (
-                    <>
+          {habits.map(habit => {
+            const progress = calculateProgress(habit.log);
+            return (
+              <React.Fragment key={habit.id}>
+                <tr>
+                  <td className="habit-name">
+                    {habit.editing ? (
                       <input
-                        value={editText}
-                        onChange={(e) => setEditText(e.target.value)}
+                        value={habit.name}
+                        onChange={(e) => updateHabitName(habit.id, e.target.value)}
+                        onBlur={() => toggleEdit(habit.id)}
+                        autoFocus
                       />
-                      <button onClick={() => saveEdit(habit.id)}>💾</button>
-                    </>
-                  ) : (
-                    <>
-                      <em>{habit.name}</em>
-                      <button onClick={() => { setEditIndex(habit.id); setEditText(habit.name); }}>✏️</button>
-                      <button onClick={() => deleteHabit(habit.id)}>❌</button>
-                    </>
-                  )}
-                </td>
-                {currentWeekDates.map(date => {
-                  const key = getDateKey(date);
-                  return (
-                    <td key={key}>
+                    ) : (
+                      <>
+                        {habit.name}
+                        <button onClick={() => toggleEdit(habit.id)} style={{ marginLeft: '8px' }}>✏️</button>
+                        <button onClick={() => removeHabit(habit.id)} style={{ marginLeft: '4px' }}>❌</button>
+                      </>
+                    )}
+                  </td>
+                  {weekDates.map(date => (
+                    <td key={date}>
                       <div
-                        className={`habit-circle ${habit.log[key] ? 'done' : ''}`}
-                        onClick={() => toggleDay(habit.id, key)}
+                        className={`habit-circle ${habit.log[date] ? 'done' : ''}`}
+                        onClick={() => toggleDay(habit.id, date)}
                       >
-                        {habit.log[key] ? '✔' : ''}
+                        {habit.log[date] ? '✔' : ''}
                       </div>
                     </td>
-                  );
-                })}
-              </tr>
-              <tr>
-                <td colSpan={8}>
-                  <div className="habit-progress-bar">
-                    <div
-                      className={`habit-progress-fill ${
-                        calculateProgress(habit.log) < 40
-                          ? 'low'
-                          : calculateProgress(habit.log) < 80
-                          ? 'medium'
-                          : 'high'
-                      }`}
-                      style={{ width: `${calculateProgress(habit.log)}%` }}
-                    ></div>
-                  </div>
-                </td>
-              </tr>
-            </React.Fragment>
-          ))}
+                  ))}
+                </tr>
+                <tr>
+                  <td colSpan={8}>
+                    <div style={{ fontSize: '0.9em', color: '#888', marginBottom: '4px' }}>
+                      📊 Прогрес: {progress.count}/7 ({progress.percent}%) — {progress.message}
+                    </div>
+                    <div className="habit-progress-bar">
+                      <div
+                        className={`habit-progress-fill ${
+                          progress.percent < 40 ? 'low' : progress.percent < 80 ? 'medium' : 'high'
+                        }`}
+                        style={{ width: `${progress.percent}%` }}
+                      ></div>
+                    </div>
+                  </td>
+                </tr>
+              </React.Fragment>
+            );
+          })}
         </tbody>
       </table>
     </div>
