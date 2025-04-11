@@ -1,83 +1,82 @@
 .inspo-board {
-    padding: 20px;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-  
-  .quote {
-    font-style: italic;
-    font-size: 18px;
-    background: #f0f8ff;
-    padding: 10px 16px;
-    border-left: 4px solid #4e4eeb;
-    border-radius: 6px;
-    margin-bottom: 20px;
-  }
-  
-  .inspo-input {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .inspo-input textarea {
-    resize: vertical;
-    min-height: 80px;
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-  }
-  
-  .inspo-input input[type="file"] {
-    padding: 6px;
-  }
-  
-  .inspo-input button {
-    background-color: #4e4eeb;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
-    width: fit-content;
-  }
-  
-  .inspo-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 16px;
-  }
-  
-  .inspo-card {
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    padding: 12px;
-    position: relative;
-    text-align: center;
-  }
-  
-  .inspo-card img {
-    max-width: 100%;
-    border-radius: 8px;
-    margin-bottom: 8px;
-  }
-  
-  .inspo-card p {
-    font-size: 14px;
-    color: #333;
-  }
-  
-  .inspo-card button {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    background-color: transparent;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.quote {
+  font-style: italic;
+  font-size: 18px;
+  background: #f0f8ff;
+  padding: 10px 16px;
+  border-left: 4px solid #4e4eeb;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.inspo-input {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.inspo-input textarea {
+  resize: vertical;
+  min-height: 80px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.inspo-input input[type="file"] {
+  padding: 6px;
+}
+
+.inspo-input button {
+  background-color: #4e4eeb;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  width: fit-content;
+}
+
+.inspo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.inspo-card {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 12px;
+  position: relative;
+  text-align: center;
+}
+
+.inspo-card img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.inspo-card p {
+  font-size: 14px;
+  color: #333;
+}
+
+.inspo-card button {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background-color: transparent;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}

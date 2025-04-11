@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './HabitTracker.css';
 import HabitChart from './HabitChart';
 
+
 const getToday = () => new Date().toISOString().split('T')[0];
 
 function HabitTracker() {

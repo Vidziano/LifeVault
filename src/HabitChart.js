@@ -1,67 +1,35 @@
-import React, { useState } from 'react';
-import { Bar } from 'react-chartjs-2';
-import 'chart.js/auto';
+import React from 'react';
+import {
+  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell,
+} from 'recharts';
 
 function HabitChart({ habits, weekDates }) {
-  const [selectedHabitId, setSelectedHabitId] = useState(habits[0]?.id || null);
+  const data = habits.map((habit) => {
+    const completedDays = weekDates.filter(date => habit.log[date]).length;
+    const percent = Math.round((completedDays / 7) * 100);
+    return {
+      name: habit.name,
+      progress: percent
+    };
+  });
 
-  const selectedHabit = habits.find(h => h.id === selectedHabitId);
-
-  const data = {
-    labels: weekDates.map(date => new Date(date).toLocaleDateString('uk-UA', { weekday: 'short' })),
-    datasets: [
-      {
-        label: selectedHabit?.name || '',
-        data: weekDates.map(date => selectedHabit?.log[date] ? 1 : 0),
-        backgroundColor: '#4e4eeb',
-        borderRadius: 6,
-      }
-    ]
-  };
-
-  const options = {
-    scales: {
-      y: {
-        min: 0,
-        max: 1,
-        ticks: {
-          callback: (value) => (value === 1 ? '✔️' : '')
-        },
-        grid: {
-          display: false
-        }
-      },
-      x: {
-        grid: {
-          display: false
-        }
-      }
-    },
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        callbacks: {
-          label: (ctx) => ctx.raw === 1 ? 'Виконано' : 'Пропущено'
-        }
-      }
-    }
-  };
+  const colors = ['#ffb74d', '#81c784', '#4fc3f7', '#ba68c8', '#f48fb1', '#ffd54f'];
 
   return (
     <div style={{ marginTop: '40px' }}>
-      <h3>📈 Графік виконання звички</h3>
-
-      <select
-        value={selectedHabitId || ''}
-        onChange={(e) => setSelectedHabitId(Number(e.target.value))}
-        style={{ padding: '8px', borderRadius: '6px', marginBottom: '20px' }}
-      >
-        {habits.map(h => (
-          <option key={h.id} value={h.id}>{h.name}</option>
-        ))}
-      </select>
-
-      {selectedHabit && <Bar data={data} options={options} />}
+      <h3 style={{ textAlign: 'center' }}>📈 Прогрес за тиждень</h3>
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart data={data} layout="vertical" margin={{ left: 40, right: 20 }}>
+          <XAxis type="number" domain={[0, 100]} tickFormatter={(t) => `${t}%`} />
+          <YAxis dataKey="name" type="category" width={120} />
+          <Tooltip formatter={(value) => `${value}%`} />
+          <Bar dataKey="progress" radius={[0, 8, 8, 0]}>
+            {data.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
     </div>
   );
 }

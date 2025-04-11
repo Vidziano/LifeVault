@@ -21,9 +21,7 @@ function Notes() {
   }, []);
 
   useEffect(() => {
-    if (notes.length > 0) {
-      localStorage.setItem('notes', JSON.stringify(notes));
-    }
+    localStorage.setItem('notes', JSON.stringify(notes));
   }, [notes]);
 
   const addOrUpdateNote = () => {
@@ -82,47 +80,50 @@ function Notes() {
   return (
     <div className="notes-wrapper">
       <h2>📝 Нотатки</h2>
-      <div className="note-input">
-        <textarea
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Введіть нотатку..."
-        />
-        <select value={category} onChange={(e) => setCategory(e.target.value)}>
-          {Object.keys(categoryColors).map(cat => (
-            <option key={cat} value={cat}>{cat}</option>
-          ))}
-        </select>
-        <input type="file" onChange={(e) => setFile(e.target.files[0])} />
-        <button onClick={addOrUpdateNote}>{editId ? '💾 Зберегти' : '➕ Додати'}</button>
-      </div>
+      <div className="notes-layout">
+        <div className="note-input">
+          <textarea
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Введіть нотатку..."
+          />
+          <select value={category} onChange={(e) => setCategory(e.target.value)}>
+            {Object.keys(categoryColors).map(cat => (
+              <option key={cat} value={cat}>{cat}</option>
+            ))}
+          </select>
+          <label className="file-upload">
+            📎
+            <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+          </label>
+          <button className="add-btn" onClick={addOrUpdateNote}>✔</button>
+        </div>
 
-      <div className="notes-list">
-        {[...pinnedNotes, ...otherNotes].map(note => (
-          <div
-          key={note.id}
-          className={`note ${note.pinned ? 'pinned' : ''} ${note.category}`}
-          data-category={note.category}
-          >
-            <div className="note-header">
-              <span className="note-date">{note.created}</span>
-              <span className="note-category">{note.category}</span>
-            </div>
-            {note.fileUrl && (
-              <div style={{ marginBottom: '10px' }}>
-                <img src={note.fileUrl} alt="attachment" style={{ maxWidth: '100%' }} />
+        <div className="notes-list">
+          {[...pinnedNotes, ...otherNotes].map(note => (
+            <div
+              key={note.id}
+              className={`note ${note.pinned ? 'pinned' : ''}`}
+              style={{ backgroundColor: categoryColors[note.category] || '#fff' }}
+            >
+              <div className="note-meta">
+                <span className="note-category">{note.category}</span>
+                <span className="note-date">{note.created}</span>
               </div>
-            )}
-            <p>{note.text}</p>
-            <div className="note-actions">
-              <button className="pin-btn" onClick={() => togglePin(note.id)}> 
-                {note.pinned ? '📌 Відкріпити' : '📌 Закріпити'}
-              </button>
-              <button onClick={() => startEdit(note)}>✏️ Редагувати</button>
-              <button className="delete-btn" onClick={() => deleteNote(note.id)}>🗑️ Видалити</button>
+              {note.fileUrl && (
+                <div style={{ marginBottom: '10px' }}>
+                  <img src={note.fileUrl} alt="attachment" style={{ maxWidth: '100%' }} />
+                </div>
+              )}
+              <p>{note.text}</p>
+              <div className="note-actions">
+                <button onClick={() => togglePin(note.id)}>{note.pinned ? '📌 Відкріпити' : '📌 Закріпити'}</button>
+                <button onClick={() => startEdit(note)}>✏️</button>
+                <button className="delete-btn" onClick={() => deleteNote(note.id)}>🗑️</button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
