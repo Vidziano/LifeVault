@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import './App.css';
+import './Calendarview.css';
 
 const themeKeys = ['робота', 'навчання', 'особисте', 'інше'];
 
@@ -16,26 +16,16 @@ function CalendarView() {
   const todayStr = new Date().toDateString();
 
   useEffect(() => {
-    const todayKey = new Date().toDateString();
     const stored = localStorage.getItem('calendarEvents');
     if (stored) {
-      const all = JSON.parse(stored);
-      const todayEvents = all[todayKey] || [];
-  
-      // Повідомлення якщо є незавершені події
-      const pending = todayEvents.filter(ev => !ev.done);
-      if (pending.length > 0) {
-        const texts = pending.map(ev => `📌 ${ev.text}`).join('\n');
-        setTimeout(() => {
-          alert(`🔔 Нагадування про події на сьогодні:\n\n${texts}`);
-        }, 500); // трохи відтерміновано, щоб не лякало
-      }
+      setEvents(JSON.parse(stored));
     }
   }, []);
-  
 
   useEffect(() => {
-    localStorage.setItem('calendarEvents', JSON.stringify(events));
+    if (Object.keys(events).length > 0) {
+      localStorage.setItem('calendarEvents', JSON.stringify(events));
+    }
   }, [events]);
 
   const handleAddEvent = () => {
@@ -43,7 +33,7 @@ function CalendarView() {
     const dateKey = selectedDate.toDateString();
     const updated = {
       ...events,
-      [dateKey]: [...(events[dateKey] || []), { text: newEvent.trim(), theme, done: false }]
+      [dateKey]: [...(events[dateKey] || []), { text: newEvent.trim(), theme }]
     };
     setEvents(updated);
     setNewEvent('');
@@ -88,7 +78,7 @@ function CalendarView() {
     return isToday ? 'calendar-today' : null;
   };
 
-  const todaysEvents = (events[todayStr] || []).filter(e => !e.done);
+  const todaysEvents = events[todayStr] || [];
 
   const allEvents = Object.entries(events).flatMap(([date, evList]) =>
     evList.map(ev => ({ ...ev, date }))
@@ -122,17 +112,7 @@ function CalendarView() {
         <h3>📌 Події на {selectedDate.toDateString()}:</h3>
         <ul>
           {(events[selectedDate.toDateString()] || []).map((ev, i) => (
-            <li key={i} style={{ textDecoration: ev.done ? 'line-through' : 'none' }}>
-              <input
-                type="checkbox"
-                checked={ev.done}
-                onChange={() => {
-                  const updated = { ...events };
-                  updated[selectedDate.toDateString()][i].done = !ev.done;
-                  setEvents(updated);
-                }}
-                style={{ marginRight: '8px' }}
-              />
+            <li key={i}>
               {editIndex === i ? (
                 <>
                   <input

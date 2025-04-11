@@ -2,7 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import './InspirationBoard.css';
 
 function InspirationBoard() {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(() => {
+    const stored = localStorage.getItem('inspoItems');
+    return stored ? JSON.parse(stored) : [];
+  });
+
   const [newText, setNewText] = useState('');
   const [newImage, setNewImage] = useState(null);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -15,26 +19,24 @@ function InspirationBoard() {
   const contextRef = useRef(null);
 
   useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem('inspoItems')) || [];
-    setItems(stored);
-  }, []);
-
-  useEffect(() => {
     localStorage.setItem('inspoItems', JSON.stringify(items));
   }, [items]);
 
   const handleAdd = () => {
     if (!newText && !newImage) return;
-    const reader = new FileReader();
+
     if (newImage) {
+      const reader = new FileReader();
       reader.onload = () => {
-        setItems([...items, { text: newText, img: reader.result }]);
+        const updated = [...items, { text: newText, img: reader.result }];
+        setItems(updated);
         setNewText('');
         setNewImage(null);
       };
       reader.readAsDataURL(newImage);
     } else {
-      setItems([...items, { text: newText }]);
+      const updated = [...items, { text: newText }];
+      setItems(updated);
       setNewText('');
     }
   };
@@ -73,7 +75,7 @@ function InspirationBoard() {
   };
 
   const draw = ({ nativeEvent }) => {
-    if (!isDrawing || tool !== 'pen' && tool !== 'eraser') return;
+    if (!isDrawing || (tool !== 'pen' && tool !== 'eraser')) return;
     const { offsetX, offsetY } = nativeEvent;
     contextRef.current.strokeStyle = tool === 'pen' ? color : '#fff';
     contextRef.current.lineWidth = tool === 'pen' ? lineWidth : 10;
@@ -89,7 +91,8 @@ function InspirationBoard() {
   const saveCanvasAsItem = () => {
     const canvas = canvasRef.current;
     const imgData = canvas.toDataURL('image/png');
-    setItems([...items, { img: imgData }]);
+    const updated = [...items, { img: imgData }];
+    setItems(updated);
     contextRef.current.clearRect(0, 0, canvas.width, canvas.height);
   };
 

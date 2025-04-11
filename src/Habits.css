@@ -1,0 +1,126 @@
+/* habits.css */
+.habit-tracker {
+    margin-top: 40px;
+  }
+  
+  .habit-tracker h2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+  
+  .habit-tracker input[type="text"] {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    width: 250px;
+    margin-right: 10px;
+  }
+  
+  .habit-tracker button {
+    padding: 8px 12px;
+    background-color: #4e4eeb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .habit-tracker table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .habit-tracker th,
+  .habit-tracker td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .habit-tracker th {
+    background-color: #f0f0f0;
+  }
+  
+  body.dark .habit-tracker th {
+    background-color: #2c2c2c;
+    color: #fff;
+  }
+  
+  .habit-tracker td input[type="checkbox"] {
+    transform: scale(1.4);
+    cursor: pointer;
+  }
+  
+  body.dark .habit-tracker td {
+    color: #fff;
+  }
+  
+  .habit-progress-bar {
+    height: 10px;
+    background-color: #e0e0e0;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 4px;
+  }
+  
+  .habit-progress-fill {
+    height: 100%;
+    transition: width 0.3s ease;
+  }
+  
+  .habit-progress-fill.low {
+    background-color: #e57373;
+  }
+  
+  .habit-progress-fill.medium {
+    background-color: #ffb74d;
+  }
+  
+  .habit-progress-fill.high {
+    background-color: #81c784;
+  }
+  
+  body.dark .habit-progress-bar {
+    background-color: #444;
+  }
+  
+  .styled-habit-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .styled-habit-table th,
+  .styled-habit-table td {
+    text-align: center;
+    padding: 8px;
+  }
+  
+  .circle {
+    width: 24px;
+    height: 24px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    color: #ff6600;
+  }
+  
+  .circle.checked {
+    border-color: #ff6600;
+    color: #ff6600;
+    font-weight: bold;
+  }
+  
+  body.dark .circle {
+    border-color: #888;
+    color: #ffa726;
+  }
+  
+  body.dark .circle.checked {
+    border-color: #ffa726;
+  }
+  

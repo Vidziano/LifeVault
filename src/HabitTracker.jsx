@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './HabitTracker.css'; // окремий css
+import './HabitTracker.css';
 import HabitChart from './HabitChart';
-
 
 const getToday = () => new Date().toISOString().split('T')[0];
 
@@ -16,7 +15,9 @@ function HabitTracker() {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('habits', JSON.stringify(habits));
+    if (habits.length > 0) {
+      localStorage.setItem('habits', JSON.stringify(habits));
+    }
   }, [habits]);
 
   const getWeekDates = (offset = 0) => {
@@ -164,13 +165,11 @@ function HabitTracker() {
                   </td>
                 </tr>
               </React.Fragment>
-              
             );
           })}
         </tbody>
       </table>
       <HabitChart habits={habits} weekDates={weekDates} />
-
     </div>
   );
 }

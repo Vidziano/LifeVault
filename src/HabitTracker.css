@@ -1,97 +1,78 @@
-.habit-tracker {
-    margin: 40px auto;
-    max-width: 800px;
-    font-family: 'Segoe UI', sans-serif;
-  }
-  
-  .habit-tracker h2 {
-    text-align: left;
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
-  
-  .habit-input {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .habit-input input {
-    padding: 8px;
-    flex-grow: 1;
-    font-size: 16px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-  }
-  
-  .habit-input button {
-    background-color: #f98d0d;
-    color: white;
-    padding: 8px 16px;
-    font-size: 18px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  
-  .habit-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: center;
-  }
-  
-  .habit-table th,
-  .habit-table td {
-    padding: 10px;
-  }
-  
-  .habit-table th {
-    font-weight: bold;
-    font-size: 16px;
-    color: #f98d0d;
-  }
-  
-  .habit-name {
-    font-style: italic;
-    text-align: left;
-    color: #f98d0d;
-    font-weight: 500;
-  }
-  
-  .habit-circle {
-    width: 26px;
-    height: 26px;
-    border: 2px solid #f98d0d;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: #f98d0d;
-    font-size: 16px;
-    font-weight: bold;
-  }
-  
-  .habit-circle.done {
-    background-color: #fff2e5;
-    color: #f98d0d;
-    border: 2px solid #f98d0d;
-  }
-  
-  body.dark .habit-circle {
-    border-color: #ffa726;
-    color: #ffa726;
-  }
-  
-  body.dark .habit-circle.done {
-    background-color: #4e3c1f;
-    color: #ffa726;
-  }
+/* HabitTracker.css */
+.habit-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
 
-  hr.habit-divider {
-    border: none;
-    border-top: 1px dashed #666;
-    margin: 30px 0 20px;
-  }
-  
-  
+.habit-table th,
+.habit-table td {
+  padding: 10px;
+}
+
+.habit-table th {
+  font-weight: bold;
+  font-size: 16px;
+  color: #f98d0d;
+}
+
+.habit-name {
+  font-style: italic;
+  text-align: left;
+  color: #f98d0d;
+  font-weight: 500;
+}
+
+.habit-circle {
+  width: 26px;
+  height: 26px;
+  border: 2px solid #f98d0d;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #f98d0d;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.habit-circle.done {
+  background-color: #fff2e5;
+  color: #f98d0d;
+  border: 2px solid #f98d0d;
+}
+
+body.dark .habit-circle {
+  border-color: #ffa726;
+  color: #ffa726;
+}
+
+body.dark .habit-circle.done {
+  background-color: #4e3c1f;
+  color: #ffa726;
+}
+
+.habit-input {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.habit-input input {
+  padding: 8px;
+  flex-grow: 1;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.habit-input button {
+  background-color: #f98d0d;
+  color: white;
+  padding: 8px 16px;
+  font-size: 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
