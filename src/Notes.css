@@ -53,6 +53,7 @@
     transition: box-shadow 0.2s;
   }
   
+  
   .note.pinned {
     border: 2px solid #4e4eeb;
     box-shadow: 0 0 10px rgba(78, 78, 235, 0.4);
@@ -111,7 +112,7 @@
   
   body.dark .note {
     background-color: #2a2a2a;
-    border-color: #555;
+    color: #f0f0f0;
   }
   
   body.dark .note.pinned {
@@ -144,3 +145,56 @@
     color: white;
   }
   
+body.dark .note.робота { background-color: #3b2b2b; }
+body.dark .note.навчання { background-color: #2a3642; }
+body.dark .note.особисте { background-color: #2c3b2d; }
+body.dark .note.натхнення { background-color: #3a2c3f; }
+
+.note-actions button {
+  background-color: #dddddd;
+  color: #000000;
+}
+
+body.dark .note-actions button {
+  background-color: #444;
+  color: #ffffff;
+}
+
+.note-actions .delete-btn {
+  background-color: #e57373;
+  color: white;
+}
+
+body.dark .note-actions .delete-btn {
+  background-color: #c62828;
+  color: white;
+}
+
+.note-actions .edit-btn {
+  background-color: #4e4eeb;
+  color: white;
+}
+
+body.dark .note-actions .edit-btn {
+  background-color: #3949ab;
+  color: white;
+}
+
+.note-actions .pin-btn {
+  background-color: #f5d9b0;
+  color: #000;
+}
+
+body.dark .note-actions .pin-btn {
+  background-color: #ffa726;
+  color: #000;
+}
+
+.note-actions button:hover {
+  filter: brightness(1.1);
+}
+
+body.dark .note-actions button:hover {
+  filter: brightness(1.25);
+}
+

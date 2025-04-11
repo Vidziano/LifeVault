@@ -100,10 +100,9 @@ function Notes() {
       <div className="notes-list">
         {[...pinnedNotes, ...otherNotes].map(note => (
           <div
-            key={note.id}
-            className={`note ${note.pinned ? 'pinned' : ''}`}
-            style={{ backgroundColor: categoryColors[note.category] || '#fff' }}
-            data-category={note.category}
+          key={note.id}
+          className={`note ${note.pinned ? 'pinned' : ''} ${note.category}`}
+          data-category={note.category}
           >
             <div className="note-header">
               <span className="note-date">{note.created}</span>
@@ -116,7 +115,7 @@ function Notes() {
             )}
             <p>{note.text}</p>
             <div className="note-actions">
-              <button onClick={() => togglePin(note.id)}>
+              <button className="pin-btn" onClick={() => togglePin(note.id)}> 
                 {note.pinned ? '📌 Відкріпити' : '📌 Закріпити'}
               </button>
               <button onClick={() => startEdit(note)}>✏️ Редагувати</button>
