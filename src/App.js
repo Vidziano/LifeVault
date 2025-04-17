@@ -5,18 +5,22 @@ import {
   Route,
   NavLink
 } from 'react-router-dom';
+
 import './App.css';
 import './Sidebar.css';
 import './Calendarview.css';
 import './Habits.css';
 import './HabitTracker.css';
 import './Notes.css';
+import './MoodTracker.css'; 
+import './InspirationBoard.css';
 
 import MotivationalQuote from './MotivationalQuote';
 import InspirationBoard from './InspirationBoard';
 import HabitTracker from './HabitTracker';
 import CalendarView from './CalendarView';
 import Notes from './Notes';
+import MoodTracker from './MoodTracker'; 
 
 function Sidebar({ darkMode, setDarkMode }) {
   return (
@@ -31,6 +35,9 @@ function Sidebar({ darkMode, setDarkMode }) {
         </li>
         <li>
           <NavLink to="/habits" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>🎯 Трекер звичок</NavLink>
+        </li>
+        <li>
+          <NavLink to="/mood" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>😊 Настрій</NavLink>
         </li>
         <li>
           <NavLink to="/inspo" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>🌟 Натхнення</NavLink>
@@ -62,6 +69,7 @@ function AppWrapper() {
             <Route path="/notes" element={<Notes />} />
             <Route path="/calendar" element={<CalendarView />} />
             <Route path="/habits" element={<HabitTracker />} />
+            <Route path="/mood" element={<MoodTracker />} /> {/* ДОДАНО */}
             <Route path="/inspo" element={<InspirationBoard />} />
             <Route path="*" element={<Notes />} />
           </Routes>
