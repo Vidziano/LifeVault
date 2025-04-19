@@ -14,25 +14,33 @@ function Notes() {
   const [category, setCategory] = useState('особисте');
   const [file, setFile] = useState(null);
   const [editId, setEditId] = useState(null);
+  const [showCategorySelect, setShowCategorySelect] = useState(false);
 
+  // Зчитування при завантаженні
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem('notes')) || [];
     setNotes(saved);
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem('notes', JSON.stringify(notes));
-  }, [notes]);
+  // Запис у localStorage вручну після змін
+  const saveNotes = (updated) => {
+    setNotes(updated);
+    localStorage.setItem('notes', JSON.stringify(updated));
+  };
 
   const addOrUpdateNote = () => {
     if (!text.trim()) return;
+
     const reader = new FileReader();
+
     const createOrUpdate = (fileUrl = null) => {
+      let updated;
       if (editId) {
-        const updated = notes.map(n =>
-          n.id === editId ? { ...n, text, category, fileUrl } : n
+        updated = notes.map(n =>
+          n.id === editId
+            ? { ...n, text, category, fileUrl: fileUrl ?? n.fileUrl }
+            : n
         );
-        setNotes(updated);
         setEditId(null);
       } else {
         const newNote = {
@@ -43,8 +51,10 @@ function Notes() {
           pinned: false,
           fileUrl
         };
-        setNotes([newNote, ...notes]);
+        updated = [newNote, ...notes];
       }
+
+      saveNotes(updated);
       setText('');
       setFile(null);
     };
@@ -58,20 +68,22 @@ function Notes() {
   };
 
   const deleteNote = (id) => {
-    setNotes(notes.filter(n => n.id !== id));
+    const updated = notes.filter(n => n.id !== id);
+    saveNotes(updated);
   };
 
   const togglePin = (id) => {
-    setNotes(prev => {
-      return [...prev.map(n => n.id === id ? { ...n, pinned: !n.pinned } : n)]
-        .sort((a, b) => b.pinned - a.pinned);
-    });
+    const updated = [...notes.map(n =>
+      n.id === id ? { ...n, pinned: !n.pinned } : n
+    )].sort((a, b) => b.pinned - a.pinned);
+    saveNotes(updated);
   };
 
   const startEdit = (note) => {
     setEditId(note.id);
     setText(note.text);
     setCategory(note.category);
+    setShowCategorySelect(false);
   };
 
   const pinnedNotes = notes.filter(note => note.pinned);
@@ -82,21 +94,45 @@ function Notes() {
       <h2>📝 Нотатки</h2>
       <div className="notes-layout">
         <div className="note-input">
-          <textarea
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="Введіть нотатку..."
-          />
-          <select value={category} onChange={(e) => setCategory(e.target.value)}>
-            {Object.keys(categoryColors).map(cat => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
-          </select>
-          <label className="file-upload">
-            📎
-            <input type="file" onChange={(e) => setFile(e.target.files[0])} />
-          </label>
-          <button className="add-btn" onClick={addOrUpdateNote}>✔</button>
+          <div className="note-input-top">
+            <textarea
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              placeholder="Введіть нотатку..."
+              rows={4}
+              style={{ resize: 'vertical' }}
+            />
+            <div className="note-input-controls">
+              <label className="file-upload big-clip">
+                📎
+                <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+              </label>
+
+              <div className="category-dropdown">
+                <button className="category-btn" onClick={() => setShowCategorySelect(!showCategorySelect)}>
+                  {category}
+                </button>
+                {showCategorySelect && (
+                  <div className="category-options">
+                    {Object.keys(categoryColors).map(cat => (
+                      <div
+                        key={cat}
+                        className="category-option"
+                        onClick={() => {
+                          setCategory(cat);
+                          setShowCategorySelect(false);
+                        }}
+                      >
+                        {cat}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <button className="add-btn" onClick={addOrUpdateNote}>✔</button>
+            </div>
+          </div>
         </div>
 
         <div className="notes-list">
@@ -117,7 +153,7 @@ function Notes() {
               )}
               <p>{note.text}</p>
               <div className="note-actions">
-                <button onClick={() => togglePin(note.id)}>{note.pinned ? '📌 Відкріпити' : '📌 Закріпити'}</button>
+                <button onClick={() => togglePin(note.id)}>📌</button>
                 <button onClick={() => startEdit(note)}>✏️</button>
                 <button className="delete-btn" onClick={() => deleteNote(note.id)}>🗑️</button>
               </div>

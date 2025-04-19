@@ -1,163 +1,163 @@
-/* Notes.css */
 .notes-wrapper {
-    max-width: 800px;
-    margin: 0 auto;
-  }
-  
-  .note-input {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .note-input textarea {
-    width: 100%;
-    height: 80px;
-    font-size: 16px;
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    resize: none;
-    box-sizing: border-box;
-  }
-  
-  .note-input select,
-  .note-input input[type="file"],
-  .note-input button {
-    font-size: 14px;
-    padding: 8px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-  }
-  
-  .note-input button {
-    background-color: #4e4eeb;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .notes-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .note {
-    padding: 15px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    position: relative;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    transition: box-shadow 0.2s;
-  }
-  
-  
-  .note.pinned {
-    border: 2px solid #4e4eeb;
-    box-shadow: 0 0 10px rgba(78, 78, 235, 0.4);
-  }
-  
-  .note-header {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    color: #666;
-    margin-bottom: 10px;
-  }
-  
-  .note-category {
-    font-weight: bold;
-    text-transform: capitalize;
-  }
-  
-  .note-actions {
-    margin-top: 10px;
-    display: flex;
-    gap: 8px;
-  }
-  
-  .note-actions button {
-    border: none;
-    border-radius: 6px;
-    padding: 6px 10px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  
-  .note-actions .delete-btn {
-    background-color: #e57373;
-    color: white;
-  }
-  
-  .note-actions .edit-btn {
-    background-color: #4e4eeb;
-    color: white;
-  }
-  
-  .note img {
-    max-width: 100%;
-    border-radius: 6px;
-    margin-bottom: 10px;
-  }
-  
-  .note .note-date {
-    position: absolute;
-    bottom: 10px;
-    right: 15px;
-    font-size: 11px;
-    color: #999;
-  }
-  
-  body.dark .note {
-    background-color: #2a2a2a;
-    color: #f0f0f0;
-  }
-  
-  body.dark .note.pinned {
-    border-color: #4e4eeb;
-    box-shadow: 0 0 10px rgba(78, 78, 235, 0.6);
-  }
-  
-  body.dark .note-header {
-    color: #aaa;
-  }
-  
-  body.dark .note-date {
-    color: #ccc;
-  }
-  
-  body.dark .note-input textarea,
-  body.dark .note-input select,
-  body.dark .note-input input[type="file"] {
-    background-color: #333;
-    color: white;
-    border: 1px solid #555;
-  }
-  
-  body.dark .note-input button {
-    background-color: #4e4eeb;
-    color: white;
-  }
-  
-  body.dark .note-actions button {
-    color: white;
-  }
-  
-body.dark .note.робота { background-color: #3b2b2b; }
-body.dark .note.навчання { background-color: #2a3642; }
-body.dark .note.особисте { background-color: #2c3b2d; }
-body.dark .note.натхнення { background-color: #3a2c3f; }
-
-.note-actions button {
-  background-color: #dddddd;
-  color: #000000;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-body.dark .note-actions button {
-  background-color: #444;
-  color: #ffffff;
+.note-input {
+  margin-bottom: 30px;
+}
+
+.note-input-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.note-input-top textarea {
+  flex-grow: 1;
+  resize: vertical;
+  font-size: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  min-height: 100px;
+}
+
+.note-input-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.big-clip {
+  font-size: 30px;
+  cursor: pointer;
+  position: relative;
+}
+
+.big-clip input[type="file"] {
+  display: none;
+}
+
+.category-dropdown {
+  position: relative;
+}
+
+.category-btn {
+  font-size: 14px;
+  padding: 6px 10px;
+  background-color: #ededed;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.category-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 10;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  margin-top: 4px;
+  overflow: hidden;
+}
+
+.category-option {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.category-option:hover {
+  background-color: #f5f5f5;
+}
+
+.add-btn {
+  font-size: 20px;
+  padding: 6px 12px;
+  background-color: #4e4eeb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.notes-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: flex-start;
+}
+
+.note {
+  flex: 0 1 calc(20% - 16px);
+  box-sizing: border-box;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+  animation: fadeInScale 0.4s ease;
+  opacity: 1;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.note:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+
+
+.note.pinned {
+  border: 2px solid #4e4eeb;
+  box-shadow: 0 0 10px rgba(78, 78, 235, 0.4);
+}
+
+.note-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.note-category {
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.note-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+}
+
+.note-actions button {
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 14px;
 }
 
 .note-actions .delete-btn {
@@ -165,36 +165,62 @@ body.dark .note-actions button {
   color: white;
 }
 
+body.dark .note {
+  background-color: #2a2a2a;
+  color: #f0f0f0;
+}
+
+body.dark .note.pinned {
+  border-color: #4e4eeb;
+  box-shadow: 0 0 10px rgba(78, 78, 235, 0.6);
+}
+
+body.dark .note-meta {
+  color: #aaa;
+}
+
+body.dark .note-category {
+  color: #ddd;
+}
+
+body.dark .note-input-top textarea {
+  background-color: #333;
+  color: white;
+  border: 1px solid #555;
+}
+
+body.dark .category-btn {
+  background-color: #555;
+  color: white;
+  border: 1px solid #666;
+}
+
+body.dark .category-options {
+  background-color: #333;
+  border: 1px solid #666;
+}
+
+body.dark .category-option {
+  color: white;
+}
+
+body.dark .category-option:hover {
+  background-color: #444;
+}
+
+body.dark .add-btn {
+  background-color: #4e4eeb;
+}
+
+body.dark .note-actions button {
+  background-color: #444;
+  color: white;
+}
+
 body.dark .note-actions .delete-btn {
   background-color: #c62828;
-  color: white;
-}
-
-.note-actions .edit-btn {
-  background-color: #4e4eeb;
-  color: white;
-}
-
-body.dark .note-actions .edit-btn {
-  background-color: #3949ab;
-  color: white;
-}
-
-.note-actions .pin-btn {
-  background-color: #f5d9b0;
-  color: #000;
-}
-
-body.dark .note-actions .pin-btn {
-  background-color: #ffa726;
-  color: #000;
-}
-
-.note-actions button:hover {
-  filter: brightness(1.1);
 }
 
 body.dark .note-actions button:hover {
   filter: brightness(1.25);
 }
-
