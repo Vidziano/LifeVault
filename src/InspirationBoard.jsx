@@ -25,19 +25,19 @@ function InspirationBoard() {
   const handleAdd = () => {
     if (!newText && !newImage) return;
 
-    if (newImage) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const updated = [...items, { text: newText, img: reader.result }];
-        setItems(updated);
-        setNewText('');
-        setNewImage(null);
-      };
-      reader.readAsDataURL(newImage);
-    } else {
-      const updated = [...items, { text: newText }];
+    const addItem = (imgUrl = null) => {
+      const updated = [...items, { text: newText, img: imgUrl }];
       setItems(updated);
       setNewText('');
+      setNewImage(null);
+    };
+
+    if (newImage) {
+      const reader = new FileReader();
+      reader.onload = () => addItem(reader.result);
+      reader.readAsDataURL(newImage);
+    } else {
+      addItem();
     }
   };
 
@@ -114,14 +114,21 @@ function InspirationBoard() {
     <div className="inspo-board">
       <h2>🌟 Дошка натхнення</h2>
 
-      <div className="inspo-input">
+      <div className="inspo-input-row">
         <textarea
           placeholder="Твоя ідея або цитата... (можна з емодзі 😊)"
           value={newText}
           onChange={(e) => setNewText(e.target.value)}
+          rows={4}
         ></textarea>
-        <input type="file" accept="image/*" onChange={(e) => setNewImage(e.target.files[0])} />
-        <button onClick={handleAdd}>➕ Додати</button>
+
+        <div className="inspo-input-actions">
+          <label className="big-clip">
+            📎
+            <input type="file" accept="image/*" onChange={(e) => setNewImage(e.target.files[0])} />
+          </label>
+          <button className="add-btn" onClick={handleAdd}>✔</button>
+        </div>
       </div>
 
       <div className="drawing-tools">
