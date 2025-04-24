@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './WishList.css';
 import TravelWishList from './TravelWishList';
+import TravelWishMap from './TravelWishMap';
+
 
 const categories = [
   {
@@ -34,9 +36,23 @@ function WishList() {
   const [activeCategory, setActiveCategory] = useState(null);
 
   const renderCategoryContent = () => {
-    if (activeCategory === 'travel') {
-      return <TravelWishList onBack={() => setActiveCategory(null)} />;
+    if (activeCategory) {
+      const category = categories.find(cat => cat.key === activeCategory);
+    
+      return (
+        <div className="wish-subpage">
+          <button className="back-btn" onClick={() => setActiveCategory(null)}>← Назад</button>
+          <h2>{category.name}</h2>
+    
+          {activeCategory === 'travel' ? (
+            <TravelWishMap />
+          ) : (
+            <p>Тут буде контент для: {activeCategory}</p>
+          )}
+        </div>
+      );
     }
+    
 
     const current = categories.find(cat => cat.key === activeCategory);
     return (
