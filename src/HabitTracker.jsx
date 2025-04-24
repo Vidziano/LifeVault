@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './HabitTracker.css';
 import HabitChart from './HabitChart';
 
-
 const getToday = () => new Date().toISOString().split('T')[0];
 
 function HabitTracker() {
@@ -69,11 +68,19 @@ function HabitTracker() {
   };
 
   const toggleEdit = (id) => {
-    setHabits(habits.map(habit => habit.id === id ? { ...habit, editing: !habit.editing } : habit));
+    setHabits(habits.map(habit => habit.id === id ? { ...habit, editing: true } : habit));
   };
 
   const updateHabitName = (id, newName) => {
-    setHabits(habits.map(habit => habit.id === id ? { ...habit, name: newName, editing: false } : habit));
+    setHabits(habits.map(habit =>
+      habit.id === id ? { ...habit, name: newName } : habit
+    ));
+  };
+
+  const finishEditing = (id) => {
+    setHabits(habits.map(habit =>
+      habit.id === id ? { ...habit, editing: false } : habit
+    ));
   };
 
   const calculateProgress = (log) => {
@@ -128,7 +135,10 @@ function HabitTracker() {
                       <input
                         value={habit.name}
                         onChange={(e) => updateHabitName(habit.id, e.target.value)}
-                        onBlur={() => toggleEdit(habit.id)}
+                        onBlur={() => finishEditing(habit.id)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') finishEditing(habit.id);
+                        }}
                         autoFocus
                       />
                     ) : (
