@@ -16,6 +16,8 @@ import './MoodTracker.css';
 import './InspirationBoard.css';
 import './QuickNotesWidget';
 import './PersonalizedReminder';
+import './WishList';
+
 
 import MotivationalQuote from './MotivationalQuote';
 import InspirationBoard from './InspirationBoard';
@@ -25,6 +27,8 @@ import Notes from './Notes';
 import MoodTracker from './MoodTracker'; 
 import QuickNotesWidget from './QuickNotesWidget';
 import PersonalizedReminder from './PersonalizedReminder';
+import WishList from './WishList';
+
 
 
 function Sidebar({ darkMode, setDarkMode }) {
@@ -47,6 +51,9 @@ function Sidebar({ darkMode, setDarkMode }) {
         <li>
           <NavLink to="/inspo" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>🌟 Натхнення</NavLink>
         </li>
+        <li>
+          <NavLink to="/wishlist" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>💖 Бажання</NavLink>
+        </li>
       </ul>
       <div className="theme-toggle">
         <button onClick={() => setDarkMode(!darkMode)}>
@@ -56,6 +63,7 @@ function Sidebar({ darkMode, setDarkMode }) {
     </div>
   );
 }
+
 
 function AppWrapper() {
   const [darkMode, setDarkMode] = useState(false);
@@ -79,6 +87,8 @@ function AppWrapper() {
             <Route path="/mood" element={<MoodTracker />} /> {/* ДОДАНО */}
             <Route path="/inspo" element={<InspirationBoard />} />
             <Route path="*" element={<Notes />} />
+            <Route path="/wishlist" element={<WishList />} />
+
           </Routes>
         </main>
       </div>
