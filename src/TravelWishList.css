@@ -1,0 +1,52 @@
+.travel-wishlist {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .travel-input {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .travel-input input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  
+  .travel-input button {
+    background-color: #4e4eeb;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .travel-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .travel-list li {
+    background: #f8f8f8;
+    margin-bottom: 10px;
+    padding: 12px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+
+  .travel-map-container {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .travel-map-container h2 {
+    margin-bottom: 10px;
+  }
+  

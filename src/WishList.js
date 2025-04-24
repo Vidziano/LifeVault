@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './WishList.css';
+import TravelWishList from './TravelWishList';
 
 const categories = [
   {
@@ -32,34 +33,45 @@ const categories = [
 function WishList() {
   const [activeCategory, setActiveCategory] = useState(null);
 
-  if (activeCategory) {
+  const renderCategoryContent = () => {
+    if (activeCategory === 'travel') {
+      return <TravelWishList onBack={() => setActiveCategory(null)} />;
+    }
+
+    const current = categories.find(cat => cat.key === activeCategory);
     return (
       <div className="wish-subpage">
         <button className="back-btn" onClick={() => setActiveCategory(null)}>← Назад</button>
-        <h2>{categories.find(cat => cat.key === activeCategory).name}</h2>
+        <h2>{current.name}</h2>
         <p>Тут буде контент для: {activeCategory}</p>
       </div>
     );
-  }
+  };
 
   return (
     <div className="wish-list">
-      <h2>💖 Список бажань</h2>
-      <div className="category-grid">
-        {categories.map(cat => (
-          <div key={cat.key} className="category-tile" onClick={() => setActiveCategory(cat.key)}>
-            {cat.video ? (
-              <video className="category-icon" autoPlay loop muted playsInline>
-                <source src={cat.video} type="video/mp4" />
-                Ваш браузер не підтримує відео.
-              </video>
-            ) : (
-              <img src={cat.icon} alt={cat.name} className="category-icon" />
-            )}
-            <span>{cat.name}</span>
+      {activeCategory ? (
+        renderCategoryContent()
+      ) : (
+        <>
+          <h2>💖 Список бажань</h2>
+          <div className="category-grid">
+            {categories.map(cat => (
+              <div key={cat.key} className="category-tile" onClick={() => setActiveCategory(cat.key)}>
+                {cat.video ? (
+                  <video className="category-icon" autoPlay loop muted playsInline>
+                    <source src={cat.video} type="video/mp4" />
+                    Ваш браузер не підтримує відео.
+                  </video>
+                ) : (
+                  <img src={cat.icon} alt={cat.name} className="category-icon" />
+                )}
+                <span>{cat.name}</span>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </>
+      )}
     </div>
   );
 }
