@@ -193,6 +193,30 @@ function CalendarView() {
 )}
 
 
+<div className="reminder-buttons">
+  <button onClick={() => {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yKey = yesterday.toDateString();
+    const uncompleted = (tasks[yKey] || []).filter(t => !t.done);
+    if (uncompleted.length > 0) {
+      const updated = {
+        ...tasks,
+        [todayStr]: [...(tasks[todayStr] || []), ...uncompleted],
+      };
+      delete updated[yKey];
+      saveTasks(updated);
+      alert('Невиконані завдання з учора перенесено на сьогодні!');
+    } else {
+      alert('Немає завдань для переносу з учора.');
+    }
+  }}>
+    🔄 Перенести невиконані завдання з учора
+  </button>
+</div>
+
+
+
       <h2>📅 Календар подій і завдань</h2>
 
       <Calendar

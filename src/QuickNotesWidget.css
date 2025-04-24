@@ -1,0 +1,35 @@
+.quick-notes-widget {
+    background: #f5f5f5;
+    border-radius: 8px;
+    padding: 12px;
+    width: 100%;
+    max-width: 300px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .quick-notes-widget h4 {
+    margin-top: 0;
+    font-size: 16px;
+  }
+  
+  .quick-note {
+    background: white;
+    border-left: 4px solid #4e4eeb;
+    padding: 8px;
+    margin-top: 10px;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  
+  .quick-date {
+    display: block;
+    font-size: 10px;
+    color: #888;
+    margin-top: 4px;
+  }
+  
+  .no-notes {
+    font-style: italic;
+    color: #777;
+  }
+  

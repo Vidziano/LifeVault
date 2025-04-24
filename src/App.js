@@ -14,6 +14,7 @@ import './HabitTracker.css';
 import './Notes.css';
 import './MoodTracker.css'; 
 import './InspirationBoard.css';
+import './QuickNotesWidget';
 
 import MotivationalQuote from './MotivationalQuote';
 import InspirationBoard from './InspirationBoard';
@@ -21,6 +22,8 @@ import HabitTracker from './HabitTracker';
 import CalendarView from './CalendarView';
 import Notes from './Notes';
 import MoodTracker from './MoodTracker'; 
+import QuickNotesWidget from './QuickNotesWidget';
+
 
 function Sidebar({ darkMode, setDarkMode }) {
   return (
@@ -65,6 +68,7 @@ function AppWrapper() {
         <Sidebar darkMode={darkMode} setDarkMode={setDarkMode} />
         <main className="main">
           <MotivationalQuote />
+          <QuickNotesWidget />
           <Routes>
             <Route path="/notes" element={<Notes />} />
             <Route path="/calendar" element={<CalendarView />} />
