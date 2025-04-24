@@ -76,3 +76,33 @@ body.dark .habit-circle.done {
   border-radius: 6px;
   cursor: pointer;
 }
+
+
+.suggestions-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.habit-suggestions {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 8px;
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+  width: 250px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.habit-suggestion {
+  padding: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.habit-suggestion:hover {
+  background-color: #f0f0f0;
+}

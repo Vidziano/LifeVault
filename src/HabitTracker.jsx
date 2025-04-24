@@ -4,9 +4,23 @@ import HabitChart from './HabitChart';
 
 const getToday = () => new Date().toISOString().split('T')[0];
 
+const recommendedHabits = [
+  'Пити воду',
+  'Ранкова зарядка',
+  'Читати книгу',
+  'Медитація',
+  'Прогулянка',
+  'Лягати до 23:00',
+  'Писати щоденник',
+  'Вивчати англійську',
+  'Жодного цукру',
+  'Фокус 25 хв'
+];
+
 function HabitTracker() {
   const [habits, setHabits] = useState([]);
   const [newHabit, setNewHabit] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const [weekOffset, setWeekOffset] = useState(0);
 
   useEffect(() => {
@@ -53,6 +67,12 @@ function HabitTracker() {
     };
     setHabits([...habits, newItem]);
     setNewHabit('');
+    setShowSuggestions(false);
+  };
+
+  const addRecommendedHabit = (habitText) => {
+    setNewHabit(habitText);
+    setShowSuggestions(false);
   };
 
   const toggleDay = (id, date) => {
@@ -100,14 +120,31 @@ function HabitTracker() {
       <h2>🎯 Трекер звичок</h2>
 
       <div className="habit-input">
-        <input
-          type="text"
-          value={newHabit}
-          onChange={(e) => setNewHabit(e.target.value)}
-          placeholder="Нова звичка"
-        />
-        <button onClick={addHabit}>➕</button>
+  <input
+    type="text"
+    value={newHabit}
+    onChange={(e) => setNewHabit(e.target.value)}
+    placeholder="Нова звичка"
+  />
+  <button onClick={addHabit}>➕</button>
+
+  {/* 👇 Обгортаємо кнопку і список у wrapper */}
+  <div className="suggestions-wrapper">
+    <button onClick={() => setShowSuggestions(!showSuggestions)} style={{ marginLeft: '5px' }}>
+      📋
+    </button>
+    {showSuggestions && (
+      <div className="habit-suggestions">
+        {recommendedHabits.map((habit, idx) => (
+          <div key={idx} className="habit-suggestion" onClick={() => addRecommendedHabit(habit)}>
+            {habit}
+          </div>
+        ))}
       </div>
+    )}
+  </div>
+</div>
+
 
       <div style={{ textAlign: 'center', marginBottom: '10px' }}>
         <button onClick={() => setWeekOffset(weekOffset - 1)}>◀</button>
@@ -180,6 +217,7 @@ function HabitTracker() {
           })}
         </tbody>
       </table>
+
       <HabitChart habits={habits} weekDates={weekDates} />
     </div>
   );
