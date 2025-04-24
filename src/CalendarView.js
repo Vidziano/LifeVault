@@ -157,15 +157,41 @@ function CalendarView() {
 
   return (
     <div className="calendar-wrapper">
-      {showModal && (
-        <div className="modal-overlay">
-          <div className="modal-window">
-            <h3>🔔 Нагадування</h3>
-            <p>Перевір події та завдання на сьогодні, щоб нічого не пропустити!</p>
-            <button onClick={() => setShowModal(false)}>Закрити</button>
-          </div>
-        </div>
+{showModal && (
+  <div className="modal-overlay">
+    <div className="modal-window">
+      <h3>🔔 Нагадування</h3>
+      {(events[todayStr]?.length || tasks[todayStr]?.filter(t => !t.done).length) ? (
+        <>
+          {!!events[todayStr]?.length && (
+            <>
+              <h4>📌 Події:</h4>
+              <ul>
+                {events[todayStr].map((e, i) => (
+                  <li key={i}><span className={`badge ${e.theme}`}>{e.text}</span></li>
+                ))}
+              </ul>
+            </>
+          )}
+          {!!tasks[todayStr]?.filter(t => !t.done).length && (
+            <>
+              <h4>📝 Завдання:</h4>
+              <ul>
+                {tasks[todayStr].filter(t => !t.done).map((t, i) => (
+                  <li key={i}><span className="badge особисте">{t.text}</span></li>
+                ))}
+              </ul>
+            </>
+          )}
+        </>
+      ) : (
+        <p>😌 Сьогодні немає подій або дедлайнів. Можна трохи розслабитися!</p>
       )}
+      <button onClick={() => setShowModal(false)}>Закрити</button>
+    </div>
+  </div>
+)}
+
 
       <h2>📅 Календар подій і завдань</h2>
 
