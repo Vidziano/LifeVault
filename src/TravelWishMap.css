@@ -1,30 +1,155 @@
+.hover-tooltip {
+  position: fixed;
+  background: white;
+  color: #222;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 2px solid #444;
+  font-size: 20px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+  z-index: 1000;
+  white-space: nowrap;
+}
+
+
+
 .travel-map-wrapper {
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  .map-container {
-    max-width: 900px;
-    margin: 0 auto;
-    height: auto;
-  }
-  
-  .map-mode-buttons {
-    margin-bottom: 20px;
-  }
-  
-  .map-mode-buttons button {
-    margin: 0 10px;
-    padding: 10px 16px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    background-color: #e0e0e0;
-    font-weight: bold;
-  }
-  
-  .map-mode-buttons .active {
-    background-color: #5f5df8;
-    color: white;
-  }
-  
+  text-align: center;
+  margin-top: 30px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.map-mode-buttons {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 16px;
+}
+
+.map-mode-buttons button {
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: 2px solid #5f5df8;
+  background-color: white;
+  color: #5f5df8;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.map-mode-buttons button:hover {
+  background-color: #f0f0ff;
+}
+
+.map-mode-buttons .active {
+  background-color: #5f5df8;
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.map-container {
+  width: 100%;
+  max-width: 1100px;
+  height: auto;
+  margin: 0 auto;
+  border: 2px solid #ddd;
+  border-radius: 16px;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+
+.map-and-panel {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 40px;
+  gap: 40px;
+  width: 100%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.map-container {
+  flex: 1;
+  min-width: 800px;
+  min-height: 600px;
+  border: 2px solid #ddd;
+  border-radius: 16px;
+  background-color: white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.info-panel {
+  width: 350px;
+  max-height: 650px;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  border: 1px solid #ddd;
+}
+
+
+.country-block {
+  margin-bottom: 20px;
+}
+
+.country-row {
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.country-row input,
+.country-row textarea {
+  width: 100%;
+  margin-top: 8px;
+  margin-bottom: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  padding: 6px 8px;
+  font-size: 14px;
+}
+
+.country-row textarea {
+  height: 60px;
+  resize: vertical;
+}
+
+.small-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.small-buttons button {
+  font-size: 12px;
+  padding: 4px 10px;
+  background: #eee;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.small-buttons button:hover {
+  background: #ddd;
+}
+
+.geography:focus {
+  outline: none !important;
+}

@@ -1,32 +1,33 @@
-.travel-wishlist {
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .travel-controls {
-    margin-bottom: 20px;
-  }
-  
-  .travel-controls button {
-    margin: 0 10px;
-    padding: 8px 16px;
-    border: none;
-    background-color: #e0e0e0;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-  
-  .travel-controls button.active {
-    background-color: #4e4eeb;
-    color: white;
-  }
-  
+.map-and-panel {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  margin-top: 40px;
+  flex-wrap: nowrap;
+}
 
-  .travel-map-container {
-    height: 600px;
-    margin-top: 20px;
-    border-radius: 12px;
-    overflow: hidden;
-  }
-  
+.map-container {
+  width: 65%;
+  max-width: 1000px;
+  min-height: 550px;
+  border: 2px solid #ddd;
+  border-radius: 16px;
+  background-color: white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.horizontal-layout {
+  display: flex;
+}
+
+.info-panel {
+  width: 300px;
+  max-height: 650px;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  border: 1px solid #ddd;
+}
