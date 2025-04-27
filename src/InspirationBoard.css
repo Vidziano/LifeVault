@@ -1,113 +1,113 @@
 .inspo-board {
   padding: 20px;
-  max-width: 1000px;
-  margin: 0 auto;
+  font-family: 'Arial', sans-serif;
+  text-align: center;
 }
 
-.quote {
-  font-style: italic;
-  font-size: 18px;
-  background: #f0f8ff;
-  padding: 10px 16px;
-  border-left: 4px solid #4e4eeb;
-  border-radius: 6px;
-  margin-bottom: 20px;
-}
-
-/* 🔧 Основна форма */
-.inspo-input-row {
+.toolbar {
   display: flex;
-  align-items: flex-start;
-  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
   margin-bottom: 20px;
 }
 
-.inspo-input-row textarea {
-  flex: 1;
-  min-height: 120px;
-  padding: 12px;
+.toolbar button, .toolbar label {
+  padding: 12px 20px;
   font-size: 16px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  resize: vertical;
-  box-sizing: border-box;
-}
-
-/* 📎 та ✔ */
-.inspo-input-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
-  justify-content: flex-start;
-  margin-top: 4px;
-}
-
-/* Велика скріпка */
-.big-clip {
-  font-size: 34px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  position: relative;
-  display: inline-block;
-  line-height: 1;
+  transition: background 0.3s;
 }
 
-.big-clip input[type="file"] {
+.toolbar button:hover, .toolbar label:hover {
+  background-color: #0056b3;
+}
+
+.toolbar input[type="file"] {
   display: none;
 }
 
-/* ✔ кнопка */
-.add-btn {
-  font-size: 20px;
-  padding: 10px 18px;
-  background-color: #4e4eeb;
+.settings {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  align-items: center;
+}
+
+.board-area {
+  position: relative;
+  width: 1000px;
+  height: 600px;
+  overflow: hidden;
+  margin: 0 auto;
+  background: #fff;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+}
+
+.saved-gallery {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.saved-card {
+  background: #ffffff;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  width: 200px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.saved-image {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.timestamp {
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.saved-buttons {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.saved-buttons button {
+  padding: 6px 10px;
+  font-size: 12px;
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  transition: background 0.3s;
 }
 
-.add-btn:hover {
-  filter: brightness(1.1);
+.saved-buttons button:hover {
+  background-color: #0056b3;
 }
 
-/* 📦 Сітка */
-.inspo-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 16px;
-}
-
-.inspo-card {
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  padding: 12px;
-  position: relative;
-  text-align: center;
-}
-
-.inspo-card img {
-  max-width: 100%;
-  border-radius: 8px;
-  margin-bottom: 8px;
-}
-
-.inspo-card textarea {
-  width: 100%;
-  resize: vertical;
-  padding: 8px;
-  font-size: 14px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-.inspo-card button {
+.resize-handle {
+  width: 12px;
+  height: 12px;
+  background: blue;
   position: absolute;
-  top: 6px;
-  right: 6px;
-  background-color: transparent;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
+  bottom: 0;
+  right: 0;
+  cursor: se-resize;
 }
+
