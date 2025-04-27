@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import './WishList.css';
-import TravelWishList from './TravelWishList';
 import TravelWishMap from './TravelWishMap';
-
+import BooksWishList from './BooksWishList'; // Додано імпорт BooksWishList
 
 const categories = [
   {
@@ -36,30 +35,20 @@ function WishList() {
   const [activeCategory, setActiveCategory] = useState(null);
 
   const renderCategoryContent = () => {
-    if (activeCategory) {
-      const category = categories.find(cat => cat.key === activeCategory);
-    
-      return (
-        <div className="wish-subpage">
-          <button className="back-btn" onClick={() => setActiveCategory(null)}>← Назад</button>
-          <h2>{category.name}</h2>
-    
-          {activeCategory === 'travel' ? (
-            <TravelWishMap />
-          ) : (
-            <p>Тут буде контент для: {activeCategory}</p>
-          )}
-        </div>
-      );
-    }
-    
+    if (!activeCategory) return null;
 
-    const current = categories.find(cat => cat.key === activeCategory);
+    const category = categories.find(cat => cat.key === activeCategory);
+
     return (
       <div className="wish-subpage">
         <button className="back-btn" onClick={() => setActiveCategory(null)}>← Назад</button>
-        <h2>{current.name}</h2>
-        <p>Тут буде контент для: {activeCategory}</p>
+        <h2>{category.name}</h2>
+
+        {activeCategory === 'travel' && <TravelWishMap />}
+        {activeCategory === 'books' && <BooksWishList />}
+        {activeCategory !== 'travel' && activeCategory !== 'books' && (
+          <p>Тут буде контент для: {activeCategory}</p>
+        )}
       </div>
     );
   };
