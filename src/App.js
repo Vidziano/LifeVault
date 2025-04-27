@@ -5,6 +5,9 @@ import {
   Route,
   NavLink
 } from 'react-router-dom';
+import { AchievementProvider } from './AchievementContext';
+import AchievementMonitor from './AchievementMonitor';
+import Achievements from './Achievements';
 
 import './App.css';
 import './Sidebar.css';
@@ -54,6 +57,9 @@ function Sidebar({ darkMode, setDarkMode }) {
         <li>
           <NavLink to="/wishlist" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>💖 Бажання</NavLink>
         </li>
+        <li>
+          <NavLink to="/achievements" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>🏆 Нагороди</NavLink>
+        </li>
       </ul>
       <div className="theme-toggle">
         <button onClick={() => setDarkMode(!darkMode)}>
@@ -73,26 +79,29 @@ function AppWrapper() {
   }, [darkMode]);
 
   return (
-    <Router>
-      <div className="layout">
-        <Sidebar darkMode={darkMode} setDarkMode={setDarkMode} />
-        <main className="main">
-          <MotivationalQuote />
-          <QuickNotesWidget />
-          <PersonalizedReminder/>
-          <Routes>
-            <Route path="/notes" element={<Notes />} />
-            <Route path="/calendar" element={<CalendarView />} />
-            <Route path="/habits" element={<HabitTracker />} />
-            <Route path="/mood" element={<MoodTracker />} /> {/* ДОДАНО */}
-            <Route path="/inspo" element={<InspirationBoard />} />
-            <Route path="*" element={<Notes />} />
-            <Route path="/wishlist" element={<WishList />} />
-
-          </Routes>
-        </main>
-      </div>
-    </Router>
+    <AchievementProvider> {/* Огортаємо весь додаток */}
+      <Router>
+        <div className="layout">
+          <Sidebar darkMode={darkMode} setDarkMode={setDarkMode} />
+          <main className="main">
+            <AchievementMonitor /> {/* Тут підключається монітор */}
+            <MotivationalQuote />
+            <QuickNotesWidget />
+            <PersonalizedReminder />
+            <Routes>
+              <Route path="/notes" element={<Notes />} />
+              <Route path="/calendar" element={<CalendarView />} />
+              <Route path="/habits" element={<HabitTracker />} />
+              <Route path="/mood" element={<MoodTracker />} />
+              <Route path="/inspo" element={<InspirationBoard />} />
+              <Route path="/wishlist" element={<WishList />} />
+              <Route path="/achievements" element={<Achievements />} />
+              <Route path="*" element={<Notes />} />
+            </Routes>
+          </main>
+        </div>
+      </Router>
+    </AchievementProvider>
   );
 }
 
