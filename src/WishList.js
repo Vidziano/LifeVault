@@ -2,12 +2,9 @@ import React, { useState } from 'react';
 import './WishList.css';
 import TravelWishMap from './TravelWishMap';
 import BooksWishList from './BooksWishList'; 
-<<<<<<< HEAD
 import ShoppingWishList from './ShoppingWishList'; 
-=======
 import MoviesWishList from './MoviesWishList';
 
->>>>>>> ae6471e8b7daea372de0d6eb242d05e409cc4756
 
 const categories = [
   {
