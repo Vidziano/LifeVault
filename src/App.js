@@ -20,7 +20,7 @@ import './InspirationBoard.css';
 import './QuickNotesWidget';
 import './PersonalizedReminder';
 import './WishList';
-
+import UserProfile from './UserProfile';
 
 import MotivationalQuote from './MotivationalQuote';
 import InspirationBoard from './InspirationBoard';
@@ -39,6 +39,9 @@ function Sidebar({ darkMode, setDarkMode }) {
     <div className="sidebar">
       <h1 className="sidebar-title">📘 LifeVault</h1>
       <ul>
+        <li>
+        <NavLink to="/profile" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>👤 Профіль</NavLink>
+        </li>
         <li>
           <NavLink to="/notes" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>📝 Нотатки</NavLink>
         </li>
@@ -89,6 +92,7 @@ function AppWrapper() {
             <QuickNotesWidget />
             <PersonalizedReminder />
             <Routes>
+              <Route path="/profile" element={<UserProfile />} />
               <Route path="/notes" element={<Notes />} />
               <Route path="/calendar" element={<CalendarView />} />
               <Route path="/habits" element={<HabitTracker />} />
