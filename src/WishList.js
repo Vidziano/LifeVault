@@ -52,15 +52,13 @@ function WishList() {
     
         {activeCategory === 'travel' && <TravelWishMap />}
         {activeCategory === 'books' && <BooksWishList />}
-<<<<<<< HEAD
         {activeCategory === 'shopping' && <ShoppingWishList />}
-        {activeCategory !== 'travel' && activeCategory !== 'books' && activeCategory !== 'shopping' && (
-=======
         {activeCategory === 'movies' && <MoviesWishList />}
-        {activeCategory !== 'travel' && activeCategory !== 'books' && activeCategory !== 'movies' && (
->>>>>>> ae6471e8b7daea372de0d6eb242d05e409cc4756
-          <p>Тут буде контент для: {activeCategory}</p>
+        {!['travel', 'books', 'shopping', 'movies'].includes(activeCategory) && (
+        <p>Тут буде контент для: {activeCategory}</p>
         )}
+
+
       </div>
     );
     
