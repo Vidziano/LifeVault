@@ -62,3 +62,10 @@
     border-color: #4e4eeb;
   }
   
+
+  body.dark .user-profile {
+    background-color: #2a2a2a;
+    color: white;
+    border-color: #444;
+  }
+  

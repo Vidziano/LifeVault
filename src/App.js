@@ -75,19 +75,28 @@ function Sidebar({ darkMode, setDarkMode }) {
 
 
 function AppWrapper() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem('theme');
+    return saved === 'dark';
+  });
 
   useEffect(() => {
-    document.body.className = darkMode ? 'dark' : '';
+    if (darkMode) {
+      document.body.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.body.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
   }, [darkMode]);
 
   return (
-    <AchievementProvider> {/* Огортаємо весь додаток */}
+    <AchievementProvider>
       <Router>
         <div className="layout">
           <Sidebar darkMode={darkMode} setDarkMode={setDarkMode} />
           <main className="main">
-            <AchievementMonitor /> {/* Тут підключається монітор */}
+            <AchievementMonitor />
             <MotivationalQuote />
             <QuickNotesWidget />
             <PersonalizedReminder />

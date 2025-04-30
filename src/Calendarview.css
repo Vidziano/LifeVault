@@ -186,3 +186,10 @@ body.dark .modal-window {
   cursor: pointer;
   font-size: 14px;
 }
+
+
+body.dark .calendar-wrapper button {
+  background-color: #333;
+  color: white;
+  border: 1px solid #666;
+}

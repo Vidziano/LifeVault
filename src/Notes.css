@@ -125,9 +125,6 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-
-
-
 .note.pinned {
   border: 2px solid #4e4eeb;
   box-shadow: 0 0 10px rgba(78, 78, 235, 0.4);
@@ -165,9 +162,11 @@
   color: white;
 }
 
+/* 🌙 Темна тема */
 body.dark .note {
   background-color: #2a2a2a;
   color: #f0f0f0;
+  border: 1px solid #444;
 }
 
 body.dark .note.pinned {
@@ -176,11 +175,11 @@ body.dark .note.pinned {
 }
 
 body.dark .note-meta {
-  color: #aaa;
+  color: #bbb;
 }
 
 body.dark .note-category {
-  color: #ddd;
+  color: #81d4fa;
 }
 
 body.dark .note-input-top textarea {
@@ -224,3 +223,17 @@ body.dark .note-actions .delete-btn {
 body.dark .note-actions button:hover {
   filter: brightness(1.25);
 }
+
+body.dark .note-actions button:hover {
+  filter: brightness(1.25);
+}
+
+.робота     { background-color: #e3f2fd; }
+.навчання   { background-color: #e8f5e9; }
+.особисте   { background-color: #ffebee; }
+.натхнення  { background-color: #f3e5f5; } 
+
+body.dark .робота     { background-color: #1e2a3c; }
+body.dark .навчання   { background-color: #1e3c2a; }
+body.dark .особисте   { background-color: #3c1e1e; }
+body.dark .натхнення  { background-color: #3a1e3c; }

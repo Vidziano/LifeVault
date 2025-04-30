@@ -11,3 +11,39 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+body.dark {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+
+body.dark input,
+body.dark textarea,
+body.dark select {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+  border: 1px solid #555;
+}
+
+body.dark a {
+  color: #9dc1ff;
+}
+
+body.dark button {
+  background-color: #333;
+  color: #fff;
+}
+
+body.dark .shopping-card,
+body.dark .book-card,
+body.dark .movie-card,
+body.dark .note,
+body.dark .country-row,
+body.dark .info-panel,
+body.dark .board-area,
+body.dark .saved-card {
+  background-color: #1f1f1f;
+  color: #f0f0f0;
+  border-color: #444;
+}

@@ -34,3 +34,19 @@
   }
   
 
+  body.dark .quick-notes-widget {
+    background: #2a2a2a;
+    color: #f0f0f0;
+  }
+  
+  body.dark .quick-note {
+    background: #1e1e1e;
+    border-left-color: #4e4eeb;
+    color: #f0f0f0;
+  }
+  
+  body.dark .quick-date,
+  body.dark .no-notes {
+    color: #bbb;
+  }
+  

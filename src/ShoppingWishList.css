@@ -71,3 +71,15 @@
     cursor: pointer;
   }
   
+
+  body.dark .shopping-card {
+    background: #1e1e1e;
+    color: #f0f0f0;
+    border-color: #444;
+  }
+  
+  body.dark .shopping-info a
+    {
+    color: #9dc1ff;
+    }
+   

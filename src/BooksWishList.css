@@ -239,3 +239,12 @@
     color: #ff9800;
   }
   
+body.dark .book-card {
+  background: #1e1e1e;
+  color: #f0f0f0;
+  border-color: #444;
+}
+
+body.dark .book-info a{
+  color: #9dc1ff;
+}

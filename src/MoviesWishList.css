@@ -234,3 +234,36 @@
     cursor: pointer;
   }
   
+
+body.dark .movie-card {
+  background: #1e1e1e;
+  color: #f0f0f0;
+  border-color: #444;
+}
+
+
+body.dark .movie-info a {
+  color: #9dc1ff;
+}
+
+body.dark .search-item {
+  background: #2a2a2a;
+  color: #f0f0f0;
+  border-color: #555;
+}
+
+body.dark .search-item button {
+  background-color: #4caf50;
+  color: white;
+}
+
+body.dark .search-item button:hover {
+  filter: brightness(1.1);
+}
+
+body.dark .search-bar input {
+  background-color: #333;
+  color: white;
+  border-color: #5f5df8;
+}
+

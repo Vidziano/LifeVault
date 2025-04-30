@@ -138,9 +138,8 @@ function Notes() {
         <div className="notes-list">
           {[...pinnedNotes, ...otherNotes].map(note => (
             <div
-              key={note.id}
-              className={`note ${note.pinned ? 'pinned' : ''}`}
-              style={{ backgroundColor: categoryColors[note.category] || '#fff' }}
+            key={note.id}
+            className={`note ${note.pinned ? 'pinned' : ''} ${note.category}`}
             >
               <div className="note-meta">
                 <span className="note-category">{note.category}</span>
