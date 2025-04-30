@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import './WishList.css';
 import TravelWishMap from './TravelWishMap';
-import BooksWishList from './BooksWishList'; // Додано імпорт BooksWishList
+import BooksWishList from './BooksWishList'; 
+import MoviesWishList from './MoviesWishList';
+
 
 const categories = [
   {
@@ -43,14 +45,16 @@ function WishList() {
       <div className="wish-subpage">
         <button className="back-btn" onClick={() => setActiveCategory(null)}>← Назад</button>
         <h2>{category.name}</h2>
-
+    
         {activeCategory === 'travel' && <TravelWishMap />}
         {activeCategory === 'books' && <BooksWishList />}
-        {activeCategory !== 'travel' && activeCategory !== 'books' && (
+        {activeCategory === 'movies' && <MoviesWishList />}
+        {activeCategory !== 'travel' && activeCategory !== 'books' && activeCategory !== 'movies' && (
           <p>Тут буде контент для: {activeCategory}</p>
         )}
       </div>
     );
+    
   };
 
   return (
