@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import './WishList.css';
 import TravelWishMap from './TravelWishMap';
 import BooksWishList from './BooksWishList'; 
+<<<<<<< HEAD
 import ShoppingWishList from './ShoppingWishList'; 
+=======
+import MoviesWishList from './MoviesWishList';
+
+>>>>>>> ae6471e8b7daea372de0d6eb242d05e409cc4756
 
 const categories = [
   {
@@ -44,15 +49,21 @@ function WishList() {
       <div className="wish-subpage">
         <button className="back-btn" onClick={() => setActiveCategory(null)}>← Назад</button>
         <h2>{category.name}</h2>
-
+    
         {activeCategory === 'travel' && <TravelWishMap />}
         {activeCategory === 'books' && <BooksWishList />}
+<<<<<<< HEAD
         {activeCategory === 'shopping' && <ShoppingWishList />}
         {activeCategory !== 'travel' && activeCategory !== 'books' && activeCategory !== 'shopping' && (
+=======
+        {activeCategory === 'movies' && <MoviesWishList />}
+        {activeCategory !== 'travel' && activeCategory !== 'books' && activeCategory !== 'movies' && (
+>>>>>>> ae6471e8b7daea372de0d6eb242d05e409cc4756
           <p>Тут буде контент для: {activeCategory}</p>
         )}
       </div>
     );
+    
   };
 
   return (

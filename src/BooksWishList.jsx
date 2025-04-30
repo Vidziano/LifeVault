@@ -7,10 +7,18 @@ function BooksWishList() {
   const [savedBooks, setSavedBooks] = useState(
     JSON.parse(localStorage.getItem('savedBooks')) || []
   );
+  const [goal, setGoal] = useState(
+    parseInt(localStorage.getItem('bookGoal')) || 20
+  );
+  const [newGoal, setNewGoal] = useState(goal);
 
   useEffect(() => {
     localStorage.setItem('savedBooks', JSON.stringify(savedBooks));
   }, [savedBooks]);
+
+  useEffect(() => {
+    localStorage.setItem('bookGoal', goal.toString());
+  }, [goal]);
 
   const searchBooks = async () => {
     if (!query.trim()) return;
@@ -30,7 +38,7 @@ function BooksWishList() {
 
   const addBook = (book) => {
     if (!savedBooks.find(b => b.id === book.id)) {
-      setSavedBooks(prev => [...prev, { ...book, status: 'wantToRead', note: '', rating: 0 }]);
+      setSavedBooks(prev => [...prev, { ...book, status: 'wantToRead', note: '', rating: 0, readDate: null }]);
     }
   };
 
@@ -39,12 +47,17 @@ function BooksWishList() {
   };
 
   const changeStatus = (id) => {
-    setSavedBooks(prev => prev.map(book =>
-      book.id === id ? {
-        ...book,
-        status: book.status === 'wantToRead' ? 'reading' : book.status === 'reading' ? 'read' : 'wantToRead'
-      } : book
-    ));
+    setSavedBooks(prev => prev.map(book => {
+      if (book.id === id) {
+        const newStatus = book.status === 'wantToRead' ? 'reading' : book.status === 'reading' ? 'read' : 'wantToRead';
+        return {
+          ...book,
+          status: newStatus,
+          readDate: newStatus === 'read' ? new Date().toISOString() : null
+        };
+      }
+      return book;
+    }));
   };
 
   const changeNote = (id, note) => {
@@ -59,9 +72,47 @@ function BooksWishList() {
     ));
   };
 
+  const updateGoal = () => {
+    if (newGoal > 0) {
+      setGoal(newGoal);
+    }
+  };
+
+  const currentYear = new Date().getFullYear();
+  const booksReadThisYear = savedBooks.filter(book => 
+    book.status === 'read' && 
+    book.readDate && 
+    new Date(book.readDate).getFullYear() === currentYear
+  ).length;
+
+  const getBadge = (count) => {
+    if (count >= 20) return "🥇 Майстер читання!";
+    if (count >= 10) return "🥈 Справжній книголюб!";
+    if (count >= 5) return "🥉 Перший рекорд!";
+    return null;
+  };
+
   return (
     <div className="books-wrapper">
       <h2>📚 Книги</h2>
+
+      <div className="goal-statistics">
+        <div>🎯 Мета на {currentYear}: {goal} книг</div>
+        <div>📈 Прочитано: {booksReadThisYear}/{goal} ({Math.round((booksReadThisYear/goal)*100)}%)</div>
+        {getBadge(booksReadThisYear) && (
+          <div className="badge">{getBadge(booksReadThisYear)}</div>
+        )}
+
+        <div className="goal-update">
+          <input
+            type="number"
+            value={newGoal}
+            onChange={(e) => setNewGoal(Number(e.target.value))}
+            min="1"
+          />
+          <button onClick={updateGoal}>Оновити ціль ✏️</button>
+        </div>
+      </div>
 
       <div className="search-bar">
         <input
