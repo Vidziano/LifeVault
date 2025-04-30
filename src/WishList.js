@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import './WishList.css';
 import TravelWishMap from './TravelWishMap';
-import BooksWishList from './BooksWishList'; // Додано імпорт BooksWishList
+import BooksWishList from './BooksWishList'; 
+import ShoppingWishList from './ShoppingWishList'; 
 
 const categories = [
   {
@@ -46,7 +47,8 @@ function WishList() {
 
         {activeCategory === 'travel' && <TravelWishMap />}
         {activeCategory === 'books' && <BooksWishList />}
-        {activeCategory !== 'travel' && activeCategory !== 'books' && (
+        {activeCategory === 'shopping' && <ShoppingWishList />}
+        {activeCategory !== 'travel' && activeCategory !== 'books' && activeCategory !== 'shopping' && (
           <p>Тут буде контент для: {activeCategory}</p>
         )}
       </div>
