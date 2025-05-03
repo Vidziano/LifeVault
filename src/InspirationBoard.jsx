@@ -27,7 +27,38 @@ function InspirationBoard() {
   const [redoStack, setRedoStack] = useState([]);
 
   const [imageFile, setImageFile] = useState(null);
+  const [hasLoadedStorage, setHasLoadedStorage] = useState(false);
 
+  useEffect(() => {
+    const stored = localStorage.getItem('inspo-savedItems');
+    console.log('Loaded from localStorage:', stored);
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) {
+          setSavedItems(parsed);
+        }
+      } catch (err) {
+        console.error('Помилка при зчитуванні з localStorage:', err);
+      }
+    }
+    setHasLoadedStorage(true); // ← додали це
+  }, []);
+  
+  
+  useEffect(() => {
+    if (!hasLoadedStorage) return; // ← не зберігаємо, поки не завантажено
+    try {
+      localStorage.setItem('inspo-savedItems', JSON.stringify(savedItems));
+      console.log('Saved to localStorage:', savedItems);
+    } catch (err) {
+      console.error('Помилка при збереженні в localStorage:', err);
+    }
+  }, [savedItems, hasLoadedStorage]);
+  
+  
+
+  
   useEffect(() => {
     const canvas = canvasRef.current;
     canvas.width = 1000;
@@ -129,6 +160,10 @@ function InspirationBoard() {
   };
 
   const handleBoardClick = (e) => {
+    if (tool === 'select') {
+      setSelectedObjectId(null);
+      return;
+    }
     if (tool === 'text') {
       const rect = boardRef.current.getBoundingClientRect();
       const x = e.clientX - rect.left;
@@ -151,19 +186,27 @@ function InspirationBoard() {
       const rect = boardRef.current.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      saveHistory();
-      const newImage = {
-        id: Date.now(),
-        type: 'image',
-        x,
-        y,
-        width: 150,
-        height: 150,
-        src: URL.createObjectURL(imageFile),
+    
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64Image = reader.result;
+    
+        const newImage = {
+          id: Date.now(),
+          type: 'image',
+          x,
+          y,
+          width: 150,
+          height: 150,
+          src: base64Image, 
+        };
+    
+        saveHistory();
+        setObjects(prev => [...prev, newImage]);
+        setImageFile(null);
+        setTool('move');
       };
-      setObjects(prev => [...prev, newImage]);
-      setImageFile(null);
-      setTool('move');
+      reader.readAsDataURL(imageFile);
     }
   };
 
@@ -200,71 +243,111 @@ function InspirationBoard() {
   
     setResizingObjectId(id);
     setStartPos({ x: e.clientX, y: e.clientY });
-    setStartSize({ width: obj.width, height: obj.height, fontSize: obj.fontSize || 16 });
+  
+    setStartSize({
+      width: obj.width,
+      height: obj.height,
+      fontSize: obj.fontSize || 16,
+    });
+  
     setSelectedObjectId(id);
-  };
+  };  
   
 
   const handleMouseMove = (e) => {
-    if (draggingObjectId) {
+    if (draggingObjectId !== null) {
       const dx = e.clientX - startPos.x;
       const dy = e.clientY - startPos.y;
       setStartPos({ x: e.clientX, y: e.clientY });
+  
       setObjects(prev =>
-        prev.map(obj => obj.id === draggingObjectId ? { ...obj, x: obj.x + dx, y: obj.y + dy } : obj)
+        prev.map(obj =>
+          obj.id === draggingObjectId
+            ? { ...obj, x: obj.x + dx, y: obj.y + dy }
+            : obj
+        )
       );
-    } else if (resizingObjectId) {
+    }
+  
+    if (resizingObjectId !== null) {
       const dx = e.clientX - startPos.x;
       const dy = e.clientY - startPos.y;
       setStartPos({ x: e.clientX, y: e.clientY });
   
-      setObjects(prev => {
-        const updated = [...prev];
-        const index = updated.findIndex(obj => obj.id === resizingObjectId);
-        if (index !== -1) {
-          const obj = updated[index];
+      setObjects(prev =>
+        prev.map(obj => {
+          if (obj.id !== resizingObjectId) return obj;
   
-          const newWidth = Math.max(30, obj.width + dx);
+          const newWidth = Math.max(50, obj.width + dx);
           const newHeight = Math.max(30, obj.height + dy);
   
           let newFontSize = obj.fontSize;
-          if (obj.type === 'text' && startSize.width) {
+          if (obj.type === 'text' && startSize.width && startSize.fontSize) {
             const scale = newWidth / startSize.width;
-            newFontSize = Math.max(8, Math.min(72, startSize.fontSize * scale));
+            newFontSize = Math.max(8, Math.min(72, Math.round(startSize.fontSize * scale)));
           }
   
-          updated[index] = {
+          return {
             ...obj,
             width: newWidth,
             height: newHeight,
             ...(obj.type === 'text' ? { fontSize: newFontSize } : {}),
           };
-        }
-        return updated;
-      });
+        })
+      );
     }
   };
+  
+  
     
 
   const handleMouseUp = () => {
+    if (tool === 'pen' || tool === 'eraser') {
+      const canvas = canvasRef.current;
+      const imageData = canvas.toDataURL('image/png');
+  
+      const newDrawing = {
+        id: Date.now(),
+        type: 'drawing',
+        x: 0,
+        y: 0,
+        width: canvas.width,
+        height: canvas.height,
+        src: imageData,
+      };
+  
+      saveHistory();
+      setObjects(prev => [...prev, newDrawing]);
+  
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  
     setDraggingObjectId(null);
     setResizingObjectId(null);
-    stopDrawing();
+    setIsDrawing(false);
   };
+  
 
   const handleSaveCanvas = async () => {
-    const canvas = canvasRef.current;
-    const imgData = canvas.toDataURL('image/png');
+    if (!boardRef.current) return;
+  
+    const canvasImage = await html2canvas(boardRef.current, {
+      useCORS: true,
+      backgroundColor: '#ffffff',
+    });
+  
+    const imgData = canvasImage.toDataURL('image/png');
     const timestamp = new Date().toLocaleString();
-    
+  
     const savedState = {
-      canvasImage: imgData,     // малюнок ручкою
-      objects: [...objects],    // тексти + фото
+      canvasImage: imgData,
       timestamp,
+      objects: [...objects],
     };
   
-    setSavedItems(prev => [...prev, savedState]);
-  };
+    setSavedItems(prev => [...prev, savedState]); // ⬅️ це запускає збереження
+  };  
   
   
 
@@ -274,6 +357,11 @@ function InspirationBoard() {
     link.download = 'saved-image.png';
     link.click();
   };
+
+  const handleDeleteSaved = (index) => {
+    setSavedItems(prev => prev.filter((_, i) => i !== index));
+  };
+  
 
   const handleClearBoard = () => {
     const ctx = canvasRef.current.getContext('2d');
@@ -286,23 +374,17 @@ function InspirationBoard() {
   
 
   const handleEdit = (savedState) => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvasRef.current.getContext('2d');
+    ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+    if (savedState.objects) {
+      setObjects(savedState.objects);
+    } else {
+      setObjects([]);
+    }
   
-    // Очистити попередній малюнок
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
-    // Намалювати збережений малюнок ручкою
-    const img = new Image();
-    img.onload = () => {
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    };
-    img.src = savedState.canvasImage;
-  
-    // Відновити об'єкти
-    setObjects(savedState.objects || []);
     setSelectedObjectId(null);
   };
+  
   
 
   return (
@@ -369,9 +451,9 @@ function InspirationBoard() {
           style={{ background: '#fff', border: '2px solid #ccc' }}
         />
 
-{objects.map(obj => (
-  obj.type === 'text' ? (
-    <textarea
+{objects.map(obj =>
+  obj.type === 'drawing' ? (
+    <div
       key={obj.id}
       style={{
         position: 'absolute',
@@ -379,16 +461,17 @@ function InspirationBoard() {
         top: obj.y,
         width: obj.width,
         height: obj.height,
-        resize: 'both',
-        fontSize: `${obj.fontSize || 16}px`, 
-        color: obj.color,
-        background: 'transparent',
-        border: obj.id === selectedObjectId ? '2px solid blue' : 'none',
+        pointerEvents: 'none',
+        zIndex: 0,
       }}
-      onMouseDown={(e) => startDragging(e, obj.id)}
-      onClick={(e) => e.stopPropagation()}
-    />
-  ) : (
+    >
+      <img
+        src={obj.src}
+        alt="drawing"
+        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+      />
+    </div>
+  ) : obj.type === 'text' ? (
     <div
       key={obj.id}
       style={{
@@ -398,7 +481,53 @@ function InspirationBoard() {
         width: obj.width,
         height: obj.height,
         border: obj.id === selectedObjectId ? '2px solid blue' : 'none',
-        background: 'transparent'
+        background: 'transparent',
+      }}
+      onMouseDown={(e) => startDragging(e, obj.id)}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <textarea
+        value={obj.value}
+        onChange={(e) => handleTextChange(e, obj.id)}
+        style={{
+          width: '100%',
+          height: '100%',
+          fontSize: `${obj.fontSize || 16}px`,
+          color: obj.color,
+          background: 'transparent',
+          border: 'none',
+          resize: 'none',
+          padding: '4px',
+        }}
+      />
+      {obj.id === selectedObjectId && (
+        <div
+          className="resize-handle"
+          style={{
+            position: 'absolute',
+            width: '12px',
+            height: '12px',
+            right: 0,
+            bottom: 0,
+            cursor: 'nwse-resize',
+            backgroundColor: 'blue',
+            border: obj.id === selectedObjectId ? '2px solid blue' : 'none',
+          }}
+          onMouseDown={(e) => startResizing(e, obj.id)}
+        />
+      )}
+    </div>
+  ) : obj.type === 'image' ? (
+    <div
+      key={obj.id}
+      style={{
+        position: 'absolute',
+        left: obj.x,
+        top: obj.y,
+        width: obj.width,
+        height: obj.height,
+        border: obj.id === selectedObjectId ? '2px solid blue' : 'none',
+        background: 'transparent',
       }}
       onMouseDown={(e) => startDragging(e, obj.id)}
       onClick={(e) => e.stopPropagation()}
@@ -411,7 +540,7 @@ function InspirationBoard() {
           height: '100%',
           objectFit: 'cover',
           pointerEvents: 'none',
-          userSelect: 'none'
+          userSelect: 'none',
         }}
       />
       {obj.id === selectedObjectId && (
@@ -421,8 +550,9 @@ function InspirationBoard() {
         />
       )}
     </div>
-  )
-))}
+  ) : null
+)}
+
 
       </div>
 
@@ -445,7 +575,8 @@ function InspirationBoard() {
       <p className="timestamp" style={{ fontSize: '14px', color: '#555' }}>{item.timestamp}</p>
       <div className="saved-buttons">
         <button onClick={() => handleEdit(item)}>✏️ Редагувати</button>
-        <button onClick={() => handleDownload(item.img)}>⬇️ Завантажити</button>
+        <button onClick={() => handleDownload(item.canvasImage)}>⬇️ Завантажити</button>
+        <button onClick={() => handleDeleteSaved(index)} style={{ color: 'red' }}>🗑️ Видалити</button>
       </div>
     </div>
   ))}

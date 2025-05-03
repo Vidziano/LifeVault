@@ -59,12 +59,15 @@
 }
 
 .saved-card {
-  background: #ffffff;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  width: 200px;
-  padding: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  width: 260px; /* або більше, якщо хочеш — 280, 300 */
+  padding: 12px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .saved-image {
@@ -82,9 +85,12 @@
 
 .saved-buttons {
   display: flex;
-  gap: 6px;
+  flex-wrap: wrap;
   justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
 }
+
 
 .saved-buttons button {
   padding: 6px 10px;
@@ -104,12 +110,14 @@
 .resize-handle {
   width: 12px;
   height: 12px;
-  background: blue;
   position: absolute;
-  bottom: 0;
   right: 0;
-  cursor: se-resize;
+  bottom: 0;
+  background-color: blue;
+  cursor: nwse-resize;
+  z-index: 10;
 }
+
 
 body.dark .board-area {
   background: #2a2a2a;
@@ -120,4 +128,12 @@ body.dark .saved-card {
   background: #1e1e1e;
   border-color: #444;
   color: #f0f0f0;
+}
+
+textarea:focus {
+  outline: none;
+}
+
+textarea {
+  border-radius: 8px;
 }
