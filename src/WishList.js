@@ -4,6 +4,7 @@ import TravelWishMap from './TravelWishMap';
 import BooksWishList from './BooksWishList'; 
 import ShoppingWishList from './ShoppingWishList'; 
 import MoviesWishList from './MoviesWishList';
+import Dreams from './Dreams';
 
 
 const categories = [
@@ -51,10 +52,7 @@ function WishList() {
         {activeCategory === 'books' && <BooksWishList />}
         {activeCategory === 'shopping' && <ShoppingWishList />}
         {activeCategory === 'movies' && <MoviesWishList />}
-        {!['travel', 'books', 'shopping', 'movies'].includes(activeCategory) && (
-        <p>Тут буде контент для: {activeCategory}</p>
-        )}
-
+        {activeCategory === 'dreams' && <Dreams />}
 
       </div>
     );
