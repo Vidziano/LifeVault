@@ -29,16 +29,18 @@ function PersonalizedReminder({ intervalMinutes = 5 }) {
     }
   ];
 
-const [message, setMessage] = useState('');
-const [gif, setGif] = useState('');
-const [show, setShow] = useState(false);
+  const [message, setMessage] = useState('');
+  const [gif, setGif] = useState('');
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
+      const notifAllowed = localStorage.getItem('notifications') !== 'false';
+      if (!notifAllowed) return;
+
       const random = Math.floor(Math.random() * reminders.length);
       const { text, gif } = reminders[random];
       const fullMessage = name ? `${name},${text}` : text;
-
 
       setMessage(fullMessage);
       setGif(gif);
@@ -52,7 +54,7 @@ const [show, setShow] = useState(false);
         new Notification('🔔 Нагадування', { body: fullMessage });
       }
 
-      setTimeout(() => setShow(false), 10000); // 10 сек
+      setTimeout(() => setShow(false), 10000);
     }, intervalMinutes * 60 * 1000);
 
     return () => clearInterval(interval);

@@ -31,12 +31,17 @@ function UserProfile() {
     };
   });
 
+  const [notifications, setNotifications] = useState(() => {
+    return localStorage.getItem('notifications') !== 'false';
+  });
+
   const [editing, setEditing] = useState(false);
   const [avatarFile, setAvatarFile] = useState(null);
 
   useEffect(() => {
     localStorage.setItem('userProfile', JSON.stringify(profile));
-  }, [profile]);
+    localStorage.setItem('notifications', notifications);
+  }, [profile, notifications]);
 
   const handleChange = (field, value) => {
     setProfile(prev => ({ ...prev, [field]: value }));
@@ -107,6 +112,17 @@ function UserProfile() {
             </div>
           </div>
 
+          <div className="form-row">
+            <label>
+              <input
+                type="checkbox"
+                checked={notifications}
+                onChange={() => setNotifications(!notifications)}
+              />
+              🔔 Увімкнути персоналізовані сповіщення
+            </label>
+          </div>
+
           <button onClick={() => setEditing(false)}>💾 Зберегти</button>
         </>
       ) : (
@@ -114,6 +130,7 @@ function UserProfile() {
           <p><strong>Ім’я:</strong> {profile.name || 'не вказано'}</p>
           <p><strong>Статус:</strong> {profile.status || 'не вказано'}</p>
           <p><strong>День народження:</strong> {profile.birthday || 'не вказано'}</p>
+          <p><strong>🔔 Сповіщення:</strong> {notifications ? 'увімкнено' : 'вимкнено'}</p>
           <button onClick={() => setEditing(true)}>✏️ Редагувати</button>
         </>
       )}
