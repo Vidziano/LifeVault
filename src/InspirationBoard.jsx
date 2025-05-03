@@ -373,8 +373,6 @@ function InspirationBoard() {
   obj.type === 'text' ? (
     <textarea
       key={obj.id}
-      value={obj.value}
-      onChange={(e) => handleTextChange(e, obj.id)}
       style={{
         position: 'absolute',
         left: obj.x,
