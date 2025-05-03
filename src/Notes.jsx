@@ -16,16 +16,15 @@ function Notes() {
   const [editId, setEditId] = useState(null);
   const [showCategorySelect, setShowCategorySelect] = useState(false);
 
-  // Зчитування при завантаженні
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem('notes')) || [];
     setNotes(saved);
   }, []);
 
-  // Запис у localStorage вручну після змін
   const saveNotes = (updated) => {
     setNotes(updated);
     localStorage.setItem('notes', JSON.stringify(updated));
+    window.dispatchEvent(new Event('storage'));
   };
 
   const addOrUpdateNote = () => {
@@ -49,6 +48,7 @@ function Notes() {
           category,
           created: new Date().toLocaleString(),
           pinned: false,
+          favorite: false,
           fileUrl
         };
         updated = [newNote, ...notes];
@@ -76,6 +76,13 @@ function Notes() {
     const updated = [...notes.map(n =>
       n.id === id ? { ...n, pinned: !n.pinned } : n
     )].sort((a, b) => b.pinned - a.pinned);
+    saveNotes(updated);
+  };
+
+  const toggleFavorite = (id) => {
+    const updated = notes.map(n =>
+      n.id === id ? { ...n, favorite: !n.favorite } : n
+    );
     saveNotes(updated);
   };
 
@@ -138,8 +145,8 @@ function Notes() {
         <div className="notes-list">
           {[...pinnedNotes, ...otherNotes].map(note => (
             <div
-            key={note.id}
-            className={`note ${note.pinned ? 'pinned' : ''} ${note.category}`}
+              key={note.id}
+              className={`note ${note.pinned ? 'pinned' : ''} ${note.category}`}
             >
               <div className="note-meta">
                 <span className="note-category">{note.category}</span>
@@ -152,6 +159,7 @@ function Notes() {
               )}
               <p>{note.text}</p>
               <div className="note-actions">
+                <button onClick={() => toggleFavorite(note.id)}>{note.favorite ? '⭐' : '☆'}</button>
                 <button onClick={() => togglePin(note.id)}>📌</button>
                 <button onClick={() => startEdit(note)}>✏️</button>
                 <button className="delete-btn" onClick={() => deleteNote(note.id)}>🗑️</button>
