@@ -60,3 +60,26 @@
     color: #3f3f3f;
   }
   
+  .motivational-quote .refresh-button {
+    background: white;
+    color: #4e4eeb;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+  }
+  
+  .motivational-quote .refresh-button:hover {
+    background: #f0f0f0;
+  }
+  
+  body.dark .motivational-quote .refresh-button {
+    background: #2c2c2c;
+    color: #e0f7fa;
+  }
+  
+  body.dark .motivational-quote .refresh-button:hover {
+    background: #3a3a3a;
+  }
+  
