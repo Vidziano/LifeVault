@@ -130,7 +130,7 @@ const QUOTES = [
   "126. Кожного разу, коли жмукаєш, класифікуй їх як урок.",
   "127. Розвивайся — це шлях до щасливого життя.",
   "128. Займайся тим, що приносить тобі радість.",
-  "129. Ніщо не варте більше, ніж твоє здоров’я та щастя.",
+  "129. Ніщо не варте більше, твого здоров’я та щастя.",
   "130. Важливі не лише великі досягнення, але і маленькі кроки.",
   "131. Ти сам можеш створити своє щастя.",
   "132. Будьте готовими зміни до життя — вперше сміливо.",
@@ -371,26 +371,33 @@ const QUOTES = [
   "366. Завзяття і наполегливість роблять невидиме видимим."
   ];
 
-function MotivationalQuote() {
-  const [quote, setQuote] = useState('');
-
-  useEffect(() => {
-    const now = new Date();
-    const start = new Date(now.getFullYear(), 0, 0);
-    const diff = now - start + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
-    const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const index = dayOfYear % QUOTES.length;
-    setQuote(QUOTES[index]);
-  }, []);
+  function MotivationalQuote() {
+    const [quote, setQuote] = useState('');
   
-
-  return (
-    <div className="motivational-quote">
-      <p>💬 {quote}</p>
-    </div>
-  );
-}
-
-
-
-export default MotivationalQuote;
+    const getQuoteOfTheDay = () => {
+      const now = new Date();
+      const start = new Date(now.getFullYear(), 0, 0);
+      const diff = now - start + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
+      const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const index = dayOfYear % QUOTES.length;
+      return QUOTES[index];
+    };
+  
+    useEffect(() => {
+      setQuote(getQuoteOfTheDay());
+    }, []);
+  
+    const getRandomQuote = () => {
+      const randomIndex = Math.floor(Math.random() * QUOTES.length);
+      setQuote(QUOTES[randomIndex]);
+    };
+  
+    return (
+      <div className="motivational-quote enhanced">
+        <p>💬 {quote}</p>
+        <button className="refresh-button" onClick={getRandomQuote}>🔁 Оновити цитату</button>
+      </div>
+    );
+  }
+  
+  export default MotivationalQuote;

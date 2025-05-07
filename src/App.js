@@ -97,7 +97,6 @@ function AppWrapper() {
           <Sidebar darkMode={darkMode} setDarkMode={setDarkMode} />
           <main className="main">
             <AchievementMonitor />
-            <MotivationalQuote />
             <QuickNotesWidget />
             <PersonalizedReminder />
             <Routes>
@@ -111,6 +110,7 @@ function AppWrapper() {
               <Route path="/achievements" element={<Achievements />} />
               <Route path="*" element={<Notes />} />
             </Routes>
+            <MotivationalQuote />
           </main>
         </div>
       </Router>
