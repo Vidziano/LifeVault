@@ -36,7 +36,6 @@ function UserProfile() {
   });
 
   const [editing, setEditing] = useState(false);
-  const [avatarFile, setAvatarFile] = useState(null);
 
   useEffect(() => {
     localStorage.setItem('userProfile', JSON.stringify(profile));
@@ -70,6 +69,7 @@ function UserProfile() {
           <div className="form-row">
             <label>Ім’я:</label>
             <input
+              type="text"
               value={profile.name}
               onChange={(e) => handleChange('name', e.target.value)}
             />
@@ -78,6 +78,7 @@ function UserProfile() {
           <div className="form-row">
             <label>Статус:</label>
             <input
+              type="text"
               value={profile.status}
               onChange={(e) => handleChange('status', e.target.value)}
             />
@@ -94,7 +95,10 @@ function UserProfile() {
 
           <div className="form-row">
             <label>Завантажити своє фото:</label>
-            <input type="file" accept="image/*" onChange={handleAvatarFile} />
+            <label className="upload-label">
+              📎 Обрати файл
+              <input type="file" accept="image/*" onChange={handleAvatarFile} />
+            </label>
           </div>
 
           <div className="form-row">
