@@ -13,10 +13,12 @@ function ShoppingWishList() {
     imageFile: null,
     imageUrl: '',
     imageData: '',
-    price: ''
+    price: '',
+    currency: '₴'
   });
 
   const [editingId, setEditingId] = useState(null);
+  const [linkError, setLinkError] = useState('');
 
   useEffect(() => {
     localStorage.setItem('shoppingList', JSON.stringify(savedItems));
@@ -24,6 +26,14 @@ function ShoppingWishList() {
 
   const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+
+    if (field === 'link') {
+      if (value && !isValidURL(value)) {
+        setLinkError('❗ Некоректне посилання');
+      } else {
+        setLinkError('');
+      }
+    }
   };
 
   const handleFileChange = (e) => {
@@ -35,20 +45,35 @@ function ShoppingWishList() {
       setFormData(prev => ({
         ...prev,
         imageData: reader.result,
-        imageFile: file
+        imageFile: file,
+        imageUrl: file.name // автоматично підставити назву в поле
       }));
     };
     reader.readAsDataURL(file);
   };
 
+  const isValidURL = (str) => {
+    try {
+      new URL(str);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  };
+
   const addOrUpdateItem = () => {
     if (!formData.title.trim()) return;
+
+    if (formData.link && !isValidURL(formData.link)) {
+      setLinkError('❗ Некоректне посилання');
+      return;
+    }
 
     const newItem = {
       id: editingId ?? Date.now(),
       title: formData.title,
       link: formData.link,
-      price: formData.price,
+      price: formData.price ? `${formData.price} ${formData.currency}` : '',
       imageUrl: formData.imageUrl,
       imageData: formData.imageData
     };
@@ -58,7 +83,16 @@ function ShoppingWishList() {
       : [newItem, ...savedItems];
 
     setSavedItems(updatedItems);
-    setFormData({ title: '', link: '', imageFile: null, imageUrl: '', imageData: '', price: '' });
+    setFormData({
+      title: '',
+      link: '',
+      imageFile: null,
+      imageUrl: '',
+      imageData: '',
+      price: '',
+      currency: '₴'
+    });
+    setLinkError('');
     setEditingId(null);
   };
 
@@ -67,10 +101,12 @@ function ShoppingWishList() {
   };
 
   const startEdit = (item) => {
+    const [priceValue, currency = '₴'] = item.price?.split(' ') || ['', '₴'];
     setFormData({
       title: item.title,
       link: item.link,
-      price: item.price,
+      price: priceValue,
+      currency: currency,
       imageUrl: item.imageUrl,
       imageData: item.imageData,
       imageFile: null
@@ -113,25 +149,37 @@ function ShoppingWishList() {
           onChange={(e) => handleChange('link', e.target.value)}
           placeholder="Посилання на товар"
         />
+        {linkError && <div className="field-error">{linkError}</div>}
 
-        <input
-          type="text"
-          value={formData.imageUrl}
-          onChange={(e) => handleChange('imageUrl', e.target.value)}
-          placeholder="Посилання на зображення (або вибери файл)"
-        />
+        <div className="input-with-attachment">
+          <input
+            type="text"
+            value={formData.imageUrl}
+            onChange={(e) => handleChange('imageUrl', e.target.value)}
+            placeholder="Посилання на зображення"
+          />
+          <label className="file-upload">
+            📎
+            <input type="file" onChange={handleFileChange} />
+          </label>
+        </div>
 
-        <input
-          type="file"
-          onChange={handleFileChange}
-        />
-
-        <input
-          type="text"
-          value={formData.price}
-          onChange={(e) => handleChange('price', e.target.value)}
-          placeholder="Ціна"
-        />
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <input
+            type="number"
+            value={formData.price}
+            onChange={(e) => handleChange('price', e.target.value)}
+            placeholder="Ціна"
+          />
+          <select
+            value={formData.currency}
+            onChange={(e) => handleChange('currency', e.target.value)}
+          >
+            <option value="₴">₴</option>
+            <option value="$">$</option>
+            <option value="€">€</option>
+          </select>
+        </div>
 
         <button onClick={addOrUpdateItem}>
           {editingId ? '💾 Зберегти' : '➕ Додати'}
@@ -142,21 +190,27 @@ function ShoppingWishList() {
 
       <div className="shopping-list">
         {savedItems.map(item => (
-          <div key={item.id} className="shopping-card">
-            <button className="delete-button" onClick={() => removeItem(item.id)}>🗑️</button>
-            <button className="edit-button" onClick={() => startEdit(item)}>✏️</button>
-            {item.imageData && <img src={item.imageData} alt={item.title} />}
-            {!item.imageData && item.imageUrl && <img src={item.imageUrl} alt={item.title} />}
-            <div className="shopping-info">
-              <h4>{item.title}</h4>
-              {item.price && <p>💸 {item.price}</p>}
-              {item.link && (
-                <a href={item.link} target="_blank" rel="noopener noreferrer">
-                  🔗 Перейти
-                </a>
-              )}
+          <div className="shopping-card">
+          <div className="card-header">
+            <div className="card-actions">
+              <button className="edit-button" onClick={() => startEdit(item)}>✏️</button>
+              <button className="delete-button" onClick={() => removeItem(item.id)}>🗑️</button>
             </div>
           </div>
+        
+          {item.imageData && <img src={item.imageData} alt={item.title} />}
+          {!item.imageData && item.imageUrl && <img src={item.imageUrl} alt={item.title} />}
+        
+          <div className="shopping-info">
+            <h4>{item.title}</h4>
+            {item.price && <p>💸 {item.price}</p>}
+            {item.link && (
+              <a href={item.link} target="_blank" rel="noopener noreferrer">
+                🔗 Перейти
+              </a>
+            )}
+          </div>
+        </div>        
         ))}
       </div>
     </div>
