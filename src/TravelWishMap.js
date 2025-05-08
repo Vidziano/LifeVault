@@ -68,8 +68,8 @@ function TravelWishMap() {
         <div key={id} className="country-row">
           <span>{name}</span>
           <div className="small-buttons">
-            <button onClick={() => handleFieldToggle(countries, setList, id, 'showCity')}>🏙 Додати місто</button>
-            <button onClick={() => handleFieldToggle(countries, setList, id, 'showComment')}>📝 Коментар</button>
+            <button onClick={() => handleFieldToggle(countries, setList, id, 'showCity')}>🏙 </button>
+            <button onClick={() => handleFieldToggle(countries, setList, id, 'showComment')}>📝</button>
           </div>
           {showCity && (
             <input
@@ -151,10 +151,15 @@ function TravelWishMap() {
           </ComposableMap>
         </div>
 
-        <div className="info-panel">
-          {renderList("✅ Відвідані", visitedCountries, setVisitedCountries)}
-          {renderList("🌐 Мрії", dreamCountries, setDreamCountries)}
-        </div>
+        <div className="info-columns">
+  <div className="info-panel">
+    {renderList("✅ Відвідані", visitedCountries, setVisitedCountries)}
+  </div>
+  <div className="info-panel">
+    {renderList("🌐 Мрії", dreamCountries, setDreamCountries)}
+  </div>
+</div>
+
       </div>
     </div>
   );

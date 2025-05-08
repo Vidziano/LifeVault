@@ -13,8 +13,6 @@
   white-space: nowrap;
 }
 
-
-
 .travel-map-wrapper {
   text-align: center;
   margin-top: 30px;
@@ -28,6 +26,7 @@
   margin-bottom: 20px;
   display: flex;
   gap: 16px;
+  justify-content: center;
 }
 
 .map-mode-buttons button {
@@ -52,19 +51,6 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.map-container {
-  width: 100%;
-  max-width: 1100px;
-  height: auto;
-  margin: 0 auto;
-  border: 2px solid #ddd;
-  border-radius: 16px;
-  overflow: hidden;
-  background-color: white;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-}
-
-
 .map-and-panel {
   display: flex;
   justify-content: flex-start;
@@ -72,11 +58,10 @@
   margin-top: 40px;
   gap: 40px;
   width: 100%;
-  max-width: 1400px;
-  margin-left: auto;
+  max-width: 1600px;
+  margin-left: 40px;
   margin-right: auto;
 }
-
 
 .map-container {
   flex: 1;
@@ -88,22 +73,22 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
-
-
 .info-panel {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  flex-wrap: nowrap;
+}
+
+.country-block {
   width: 350px;
-  max-height: 650px;
-  overflow-y: auto;
+  min-height: 400px;
   background-color: #f9f9f9;
   padding: 16px;
   border-radius: 16px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
   border: 1px solid #ddd;
-}
-
-
-.country-block {
-  margin-bottom: 20px;
+  flex-shrink: 0;
 }
 
 .country-row {
@@ -154,14 +139,14 @@
   outline: none !important;
 }
 
-
 body.dark .map-container {
   background-color: #1e1e1e;
   border-color: #444;
   box-shadow: 0 8px 20px rgba(255, 255, 255, 0.05);
 }
 
-body.dark .info-panel {
+body.dark .info-panel,
+body.dark .country-block {
   background-color: #2a2a2a;
   border-color: #444;
   color: #f0f0f0;
