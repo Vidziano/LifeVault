@@ -1,0 +1,143 @@
+.note-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .note-modal {
+    background: #fefefe;
+    color: #333;
+    padding: 24px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 480px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    animation: fadeIn 0.3s ease;
+  }
+  
+  .note-modal h3 {
+    margin-top: 0;
+    color: #4e4eeb;
+  }
+  
+  .note-modal textarea {
+    width: 100%;
+    min-height: 120px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 1rem;
+    resize: vertical;
+  }
+  
+  .note-modal-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .note-modal select {
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #bbb;
+    background: #f3f3f3;
+  }
+  
+  .file-upload {
+    position: relative;
+    font-size: 0.9rem;
+    background: #e0e0e0;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .file-upload input[type="file"] {
+    display: none;
+  }
+  
+  .note-modal-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  .note-modal-buttons button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  
+  .note-modal-buttons .save {
+    background: linear-gradient(135deg, #b388ff, #80deea);
+    color: white;
+  }
+  
+  .note-modal-buttons button:hover {
+    opacity: 0.9;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  
+  /* 🌙 Темна тема */
+  body.dark .note-modal {
+    background: #2b2b2b;
+    color: #f0f0f0;
+  }
+  
+  body.dark .note-modal textarea {
+    background: #3a3a3a;
+    color: white;
+    border: 1px solid #555;
+  }
+  
+  body.dark .note-modal select {
+    background: #444;
+    color: #f0f0f0;
+    border: 1px solid #666;
+  }
+  
+  body.dark .file-upload {
+    background: #444;
+    color: white;
+  }
+  
+  body.dark .note-modal-buttons button {
+    background: #444;
+    color: #f0f0f0;
+  }
+  
+  body.dark .note-modal-buttons .save {
+    background: linear-gradient(135deg, #6c63ff, #00bcd4);
+  }
+  
+  .note-title-input {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1rem;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background: #f9f9f9;
+    margin-bottom: 12px;
+  }
+  
+  body.dark .note-title-input {
+    background-color: #3a3a3a;
+    border: 1px solid #555;
+    color: #f0f0f0;
+  }
+  

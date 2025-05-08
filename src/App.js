@@ -97,7 +97,8 @@ function AppWrapper() {
           <Sidebar darkMode={darkMode} setDarkMode={setDarkMode} />
           <main className="main">
             <AchievementMonitor />
-            <QuickNotesWidget />
+            <div style={{ position: 'absolute', right: '20px', top: '80px', zIndex: 1000 }}>
+            </div>
             <PersonalizedReminder />
             <Routes>
               <Route path="/profile" element={<UserProfile />} />
@@ -110,6 +111,7 @@ function AppWrapper() {
               <Route path="/achievements" element={<Achievements />} />
               <Route path="*" element={<Notes />} />
             </Routes>
+            <QuickNotesWidget />
             <MotivationalQuote />
           </main>
         </div>
