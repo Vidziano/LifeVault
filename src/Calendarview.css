@@ -1,8 +1,191 @@
+/* ==== Головне компонування сторінки ==== */
+.calendar-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: flex-start;
+  margin-top: 40px;
+}
+
+/* ==== Права панель з подіями і завданнями ==== */
+.calendar-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 300px;
+}
+
+/* ==== Ліва колонка з календарем ==== */
+.calendar-box {
+  display: flex;
+  justify-content: center;
+  transform: scale(1.5); /* Збільшення розміру */
+  transform-origin: top center;
+}
+
+/* ==== Стилі самого календаря ==== */
+.react-calendar {
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  background-color: var(--bg);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  color: #222;
+}
+
+body.dark .react-calendar {
+  background-color: #2c2c2c;
+  color: #fff;
+}
+
+.react-calendar__navigation {
+  font-size: 18px;
+  margin-bottom: 12px;
+  font-weight: 600;
+  color: inherit;
+}
+
+.react-calendar__navigation button {
+  background: none;
+  color: inherit;
+  font-weight: bold;
+}
+
+/* ==== Клітинки ==== */
+.react-calendar__tile {
+  padding: 18px 0;
+  border-radius: 8px;
+}
+
+.react-calendar__tile--active {
+  background: #4e4eeb !important;
+  color: white !important;
+}
+
+.react-calendar__tile:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+body.dark .react-calendar__tile:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ==== Дні місяця + крапки подій ==== */
+.react-calendar__month-view__days__day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 4px;
+  height: auto !important;
+}
+
+.event-dots {
+  display: grid;
+  grid-template-columns: repeat(3, 6px);
+  gap: 2px 3px;
+  margin-top: 4px;
+  justify-content: center;
+}
+
+.calendar-today {
+  border: 2px solid #81c784 !important;
+  border-radius: 8px !important;
+}
+
+/* ==== Назви днів тижня ==== */
+.react-calendar__month-view__weekdays abbr {
+  all: unset;
+  display: block;
+  font-weight: 700;
+  font-size: 16px;
+  color: #222;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+body.dark .react-calendar__month-view__weekdays abbr {
+  color: #fff;
+}
+
+/* ==== Тема (світла/темна) ==== */
+:root {
+  --color-робота: #ffab91;
+  --color-навчання: #81d4fa;
+  --color-особисте: #a5d6a7;
+  --color-інше: #ce93d8;
+  --dot-opacity: 0.9;
+  --badge-text: #000;
+  --bg: #fff;
+}
+
+body.dark {
+  --color-робота: #f48fb1;
+  --color-навчання: #4fc3f7;
+  --color-особисте: #66bb6a;
+  --color-інше: #ba68c8;
+  --dot-opacity: 1;
+  --badge-text: #fff;
+  --bg: #2c2c2c;
+}
+
+/* ==== Крапки для індикаторів подій ==== */
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  opacity: var(--dot-opacity);
+}
+
+.dot.робота { background-color: var(--color-робота); }
+.dot.навчання { background-color: var(--color-навчання); }
+.dot.особисте { background-color: var(--color-особисте); }
+.dot.інше { background-color: var(--color-інше); }
+
+/* ==== Бейджі подій/завдань ==== */
+.badge {
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--badge-text);
+  margin-left: 6px;
+  font-weight: 500;
+}
+
+.badge.робота { background-color: var(--color-робота); }
+.badge.навчання { background-color: var(--color-навчання); }
+.badge.особисте { background-color: var(--color-особисте); }
+.badge.інше { background-color: var(--color-інше); }
+
+/* ==== Якщо badge використовується в input ==== */
+input.badge {
+  background-color: inherit;
+  color: var(--badge-text);
+  font-weight: 500;
+  border: 1px solid #ccc;
+  padding: 4px 6px;
+  border-radius: 6px;
+}
+
+body.dark input.badge {
+  background-color: #444;
+  color: white;
+  border: 1px solid #666;
+}
+
+/* ==== Вся обгортка ==== */
 .calendar-wrapper {
   margin-top: 40px;
   padding: 20px;
+  color: #222;
 }
 
+body.dark .calendar-wrapper {
+  color: #fff;
+}
+
+/* ==== Інпути ==== */
 .calendar-wrapper input[type="text"] {
   padding: 8px;
   margin-right: 8px;
@@ -16,6 +199,7 @@ body.dark .calendar-wrapper input[type="text"] {
   border: 1px solid #666;
 }
 
+/* ==== Кнопки ==== */
 .calendar-wrapper button {
   padding: 8px 12px;
   background-color: #4e4eeb;
@@ -24,128 +208,79 @@ body.dark .calendar-wrapper input[type="text"] {
   border-radius: 6px;
   cursor: pointer;
   margin-left: 4px;
+  transition: background-color 0.2s ease;
 }
 
-.react-calendar {
-  width: 100%;
-  max-width: 1100px;
-  font-family: inherit;
-  font-size: 16px;
-  background-color: var(--bg);
-  border-radius: 12px;
-  padding: 20px;
-  margin: 20px auto;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+.calendar-wrapper button:hover {
+  background-color: #3b3bd6;
 }
 
-body.dark .react-calendar {
-  background-color: #2c2c2c;
-  color: #fff;
+body.dark .calendar-wrapper button {
+  background-color: #333;
+  color: white;
+  border: 1px solid #666;
 }
 
-.react-calendar__navigation {
-  font-size: 18px;
-  margin-bottom: 12px;
-  color: inherit;
-}
-
-.react-calendar__navigation button {
-  background: none;
-  color: #333;
-  font-weight: bold;
-}
-
-body.dark .react-calendar__navigation button {
-  color: #fff;
-}
-
-.react-calendar__tile--active {
-  background: #4e4eeb !important;
-  color: white !important;
-  border-radius: 8px;
-}
-
-.react-calendar__tile:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-  border-radius: 8px;
-}
-
-body.dark .react-calendar__tile:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.calendar-today {
-  border: 2px solid #81c784 !important;
-  border-radius: 8px !important;
-}
-
-.large-calendar {
-  transform: none;
-  margin-top: 10px;
-}
-
-:root {
-  --color-робота: #ffab91;
-  --color-навчання: #81d4fa;
-  --color-особисте: #a5d6a7;
-  --color-інше: #ce93d8;
-  --dot-opacity: 0.9;
-  --badge-text: #000;
-}
-
-body.dark {
-  --color-робота: #f48fb1;
-  --color-навчання: #4fc3f7;
-  --color-особисте: #66bb6a;
-  --color-інше: #ba68c8;
-  --dot-opacity: 1;
-  --badge-text: #fff;
-}
-
-.event-dots {
-  display: flex;
-  justify-content: center;
-  margin-top: 4px;
-}
-
-.dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  margin: 0 1px;
-  opacity: var(--dot-opacity);
-}
-
-.dot.робота { background-color: var(--color-робота); }
-.dot.навчання { background-color: var(--color-навчання); }
-.dot.особисте { background-color: var(--color-особисте); }
-.dot.інше { background-color: var(--color-інше); }
-
-.badge {
-  padding: 2px 6px;
-  border-radius: 4px;
-  color: var(--badge-text);
-  margin-left: 6px;
-}
-
-.badge.робота { background-color: var(--color-робота); }
-.badge.навчання { background-color: var(--color-навчання); }
-.badge.особисте { background-color: var(--color-особисте); }
-.badge.інше { background-color: var(--color-інше); }
-
-ul {
-  padding-left: 20px;
-}
-
-ul li {
-  margin-bottom: 8px;
-}
-
+/* ==== Чекбокси ==== */
 input[type="checkbox"] {
   transform: scale(1.2);
   margin-right: 8px;
   cursor: pointer;
 }
+
+/* ==== Кнопка переносу ==== */
+.transfer-button-icon {
+  background-color: #4e4eeb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  position: relative;
+  align-self: flex-start;
+}
+
+.transfer-button-icon:hover::after {
+  content: "Перенести невиконані завдання з учора";
+  position: absolute;
+  left: 110%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #444;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  font-size: 14px;
+  z-index: 100;
+}
+
+/* ==== Нижній блок списків ==== */
+.calendar-lists {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  margin-top: 40px;
+  padding: 0 40px;
+  flex-wrap: wrap;
+}
+
+.calendar-lists > div {
+  flex: 1;
+  min-width: 300px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+body.dark .calendar-lists > div {
+  background: #2e2e2e;
+  color: white;
+}
+
+/* ==== Модалка ==== */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -172,24 +307,11 @@ body.dark .modal-window {
   color: white;
 }
 
-
-
-.reminder-buttons {
-  margin-bottom: 15px;
-}
-.reminder-buttons button {
-  padding: 8px 12px;
-  background-color: #4e4eeb;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-
-body.dark .calendar-wrapper button {
-  background-color: #333;
-  color: white;
-  border: 1px solid #666;
+/* ==== Група інпутів ==== */
+.add-form-group {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  align-items: center;
+  flex-wrap: wrap;
 }

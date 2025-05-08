@@ -17,7 +17,26 @@ function CalendarView() {
 
   const todayStr = new Date().toDateString();
 
-  // --- Модальне вікно при вході в календар
+
+  
+  const handleTransfer = () => {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yKey = yesterday.toDateString();
+    const uncompleted = (tasks[yKey] || []).filter(t => !t.done);
+    if (uncompleted.length > 0) {
+      const updated = {
+        ...tasks,
+        [todayStr]: [...(tasks[todayStr] || []), ...uncompleted],
+      };
+      delete updated[yKey];
+      saveTasks(updated);
+      alert('Невиконані завдання з учора перенесено на сьогодні!');
+    } else {
+      alert('Немає завдань для переносу з учора.');
+    }
+  };
+
   useEffect(() => {
     if (!sessionStorage.getItem('calendarVisited')) {
       setShowModal(true);
@@ -25,7 +44,6 @@ function CalendarView() {
     }
   }, []);
 
-  // --- Ініціалізація
   useEffect(() => {
     try {
       const storedEvents = JSON.parse(localStorage.getItem('calendarEvents')) || {};
@@ -37,18 +55,6 @@ function CalendarView() {
     }
   }, []);
 
-  // --- Збереження
-  const saveEvents = (updated) => {
-    setEvents(updated);
-    localStorage.setItem('calendarEvents', JSON.stringify(updated));
-  };
-
-  const saveTasks = (updated) => {
-    setTasks(updated);
-    localStorage.setItem('calendarTasks', JSON.stringify(updated));
-  };
-
-  // --- Переносимо незавершені задачі з вчора
   useEffect(() => {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
@@ -64,7 +70,16 @@ function CalendarView() {
     }
   }, []);
 
-  // --- Додавання
+  const saveEvents = (updated) => {
+    setEvents(updated);
+    localStorage.setItem('calendarEvents', JSON.stringify(updated));
+  };
+
+  const saveTasks = (updated) => {
+    setTasks(updated);
+    localStorage.setItem('calendarTasks', JSON.stringify(updated));
+  };
+
   const addEvent = () => {
     if (!newEvent.trim()) return;
     const key = selectedDate.toDateString();
@@ -87,7 +102,6 @@ function CalendarView() {
     setNewTask('');
   };
 
-  // --- Редагування
   const handleEditChange = (e, date, i, type) => {
     const val = e.target.value;
     if (type === 'event') {
@@ -101,7 +115,6 @@ function CalendarView() {
     }
   };
 
-  // --- Видалення
   const deleteEvent = (date, i) => {
     const updated = { ...events };
     updated[date].splice(i, 1);
@@ -122,7 +135,6 @@ function CalendarView() {
     saveTasks(updated);
   };
 
-  // --- Відображення у календарі
   const tileContent = ({ date, view }) => {
     const key = date.toDateString();
     if (view === 'month') {
@@ -155,168 +167,165 @@ function CalendarView() {
 
   const filteredEvents = filter === 'усі' ? allEvents : allEvents.filter(ev => ev.theme === filter);
 
+
+  
   return (
     <div className="calendar-wrapper">
-{showModal && (
-  <div className="modal-overlay">
-    <div className="modal-window">
-      <h3>🔔 Нагадування</h3>
-      {(events[todayStr]?.length || tasks[todayStr]?.filter(t => !t.done).length) ? (
-        <>
-          {!!events[todayStr]?.length && (
-            <>
-              <h4>📌 Події:</h4>
-              <ul>
-                {events[todayStr].map((e, i) => (
-                  <li key={i}><span className={`badge ${e.theme}`}>{e.text}</span></li>
-                ))}
-              </ul>
-            </>
-          )}
-          {!!tasks[todayStr]?.filter(t => !t.done).length && (
-            <>
-              <h4>📝 Завдання:</h4>
-              <ul>
-                {tasks[todayStr].filter(t => !t.done).map((t, i) => (
-                  <li key={i}><span className="badge особисте">{t.text}</span></li>
-                ))}
-              </ul>
-            </>
-          )}
-        </>
-      ) : (
-        <p>😌 Сьогодні немає подій або дедлайнів. Можна трохи розслабитися!</p>
+  
+      {/* Заголовок розділу */}
+      <h2 className="calendar-title">📅 Календар подій і завдань</h2>
+  
+      {/* Модальне вікно */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-window">
+            <h3>🔔 Нагадування</h3>
+            {(events[todayStr]?.length || tasks[todayStr]?.filter(t => !t.done).length) ? (
+              <>
+                {!!events[todayStr]?.length && (
+                  <>
+                    <h4>📌 Події:</h4>
+                    <ul>{events[todayStr].map((e, i) => (
+                      <li key={i}><span className={`badge ${e.theme}`}>{e.text}</span></li>
+                    ))}</ul>
+                  </>
+                )}
+                {!!tasks[todayStr]?.filter(t => !t.done).length && (
+                  <>
+                    <h4>📝 Завдання:</h4>
+                    <ul>{tasks[todayStr].filter(t => !t.done).map((t, i) => (
+                      <li key={i}><span className="badge особисте">{t.text}</span></li>
+                    ))}</ul>
+                  </>
+                )}
+              </>
+            ) : (
+              <p>😌 Сьогодні немає подій або дедлайнів. Можна трохи розслабитися!</p>
+            )}
+            <button onClick={() => setShowModal(false)}>Закрити</button>
+          </div>
+        </div>
       )}
-      <button onClick={() => setShowModal(false)}>Закрити</button>
-    </div>
-  </div>
-)}
-
-
-<div className="reminder-buttons">
-  <button onClick={() => {
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    const yKey = yesterday.toDateString();
-    const uncompleted = (tasks[yKey] || []).filter(t => !t.done);
-    if (uncompleted.length > 0) {
-      const updated = {
-        ...tasks,
-        [todayStr]: [...(tasks[todayStr] || []), ...uncompleted],
-      };
-      delete updated[yKey];
-      saveTasks(updated);
-      alert('Невиконані завдання з учора перенесено на сьогодні!');
-    } else {
-      alert('Немає завдань для переносу з учора.');
-    }
-  }}>
-    🔄 Перенести невиконані завдання з учора
-  </button>
-</div>
-
-
-
-      <h2>📅 Календар подій і завдань</h2>
-
-      <Calendar
-        onChange={setSelectedDate}
-        value={selectedDate}
-        tileContent={tileContent}
-        tileClassName={tileClassName}
-        className="react-calendar large-calendar"
-        locale="uk-UA"
-      />
-
-      <div className="today-reminder">
-        <h4>🔔 Події на сьогодні:</h4>
-        <ul>
-          {(events[todayStr] || []).map((e, i) => (
-            <li key={i}><span className={`badge ${e.theme}`}>{e.text}</span></li>
-          ))}
-        </ul>
-        <h4>✅ Завдання на сьогодні:</h4>
-        <ul>
-          {(tasks[todayStr] || []).filter(t => !t.done).map((t, i) => (
-            <li key={i}><span className="badge особисте">{t.text}</span></li>
-          ))}
-        </ul>
-      </div>
-
-      <div style={{ marginTop: '20px' }}>
-        <h3>📌 Події на {selectedDate.toDateString()}:</h3>
-        <ul>
-          {(events[selectedDate.toDateString()] || []).map((ev, i) => (
-            <li key={i}>
+  
+      {/* Верхня частина — Календар і панель */}
+      <div className="calendar-container">
+        <div className="calendar-box">
+          <Calendar
+            onChange={setSelectedDate}
+            value={selectedDate}
+            tileContent={tileContent}
+            tileClassName={tileClassName}
+            className="react-calendar large-calendar"
+            locale="uk-UA"
+          />
+        </div>
+  
+        <div className="calendar-panel">
+          <button
+            className="transfer-button-icon"
+            title="Перенести невиконані завдання з учора"
+            onClick={handleTransfer}
+          >
+            🔄
+          </button>
+  
+          <div className="today-reminder">
+            <h4>🔔 Події на сьогодні:</h4>
+            <ul>
+              {(events[todayStr] || []).map((e, i) => (
+                <li key={i}><span className={`badge ${e.theme}`}>{e.text}</span></li>
+              ))}
+            </ul>
+            <h4>✅ Завдання на сьогодні:</h4>
+            <ul>
+              {(tasks[todayStr] || []).filter(t => !t.done).map((t, i) => (
+                <li key={i}><span className="badge особисте">{t.text}</span></li>
+              ))}
+            </ul>
+          </div>
+  
+          <div>
+            <h3>📌 Події на {selectedDate.toDateString()}:</h3>
+            <ul>
+              {(events[selectedDate.toDateString()] || []).map((ev, i) => (
+                <li key={i}>
+                  <input
+                    value={ev.text}
+                    className={`badge ${ev.theme}`}
+                    onChange={(e) => handleEditChange(e, selectedDate.toDateString(), i, 'event')}
+                  />
+                  <button onClick={() => deleteEvent(selectedDate.toDateString(), i)}>❌</button>
+                </li>
+              ))}
+            </ul>
+            <div className="add-form-group">
               <input
-                value={ev.text}
-                className={`badge ${ev.theme}`}
-                onChange={(e) => handleEditChange(e, selectedDate.toDateString(), i, 'event')}
+                type="text"
+                value={newEvent}
+                onChange={(e) => setNewEvent(e.target.value)}
+                placeholder="Нова подія або дедлайн"
               />
-              <button onClick={() => deleteEvent(selectedDate.toDateString(), i)}>❌</button>
-            </li>
-          ))}
-        </ul>
-        <input
-          type="text"
-          value={newEvent}
-          onChange={(e) => setNewEvent(e.target.value)}
-          placeholder="Нова подія або дедлайн"
-        />
-        <select value={theme} onChange={(e) => setTheme(e.target.value)}>
-          {themeKeys.map(t => <option key={t} value={t}>{t}</option>)}
-        </select>
-        <button onClick={addEvent}>➕</button>
-      </div>
-
-      <div style={{ marginTop: '20px' }}>
-        <h3>📝 Завдання на {selectedDate.toDateString()}:</h3>
-        <ul>
-          {(tasks[selectedDate.toDateString()] || []).map((t, i) => (
-            <li key={i}>
+              <select value={theme} onChange={(e) => setTheme(e.target.value)}>
+                {themeKeys.map(t => <option key={t} value={t}>{t}</option>)}
+              </select>
+              <button onClick={addEvent}>➕</button>
+            </div>
+          </div>
+  
+          <div>
+            <h3>📝 Завдання на {selectedDate.toDateString()}:</h3>
+            <ul>
+              {(tasks[selectedDate.toDateString()] || []).map((t, i) => (
+                <li key={i}>
+                  <input
+                    type="checkbox"
+                    checked={t.done}
+                    onChange={() => toggleTask(selectedDate.toDateString(), i)}
+                  />
+                  <input
+                    className="badge особисте"
+                    style={{ textDecoration: t.done ? 'line-through' : '' }}
+                    value={t.text}
+                    onChange={(e) => handleEditChange(e, selectedDate.toDateString(), i, 'task')}
+                  />
+                  <button onClick={() => deleteTask(selectedDate.toDateString(), i)}>❌</button>
+                </li>
+              ))}
+            </ul>
+            <div className="add-form-group">
               <input
-                type="checkbox"
-                checked={t.done}
-                onChange={() => toggleTask(selectedDate.toDateString(), i)}
+                type="text"
+                value={newTask}
+                onChange={(e) => setNewTask(e.target.value)}
+                placeholder="Нове завдання"
               />
-              <input
-                className="badge особисте"
-                style={{ textDecoration: t.done ? 'line-through' : '' }}
-                value={t.text}
-                onChange={(e) => handleEditChange(e, selectedDate.toDateString(), i, 'task')}
-              />
-              <button onClick={() => deleteTask(selectedDate.toDateString(), i)}>❌</button>
-            </li>
-          ))}
-        </ul>
-        <input
-          type="text"
-          value={newTask}
-          onChange={(e) => setNewTask(e.target.value)}
-          placeholder="Нове завдання"
-        />
-        <button onClick={addTask}>➕</button>
+              <button onClick={addTask}>➕</button>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div style={{ marginTop: '30px', display: 'flex', gap: '40px' }}>
-        <div style={{ flex: 1 }}>
+  
+      {/* Нижня частина */}
+      <div className="calendar-lists">
+        <div>
           <h3>📂 Усі події</h3>
           <label>Фільтр: </label>
           <select value={filter} onChange={(e) => setFilter(e.target.value)}>
             <option value="усі">усі</option>
             {themeKeys.map(t => <option key={t} value={t}>{t}</option>)}
           </select>
-          <ul style={{ marginTop: '10px' }}>
+          <ul>
             {filteredEvents.map((ev, i) => (
               <li key={i}>
-                <strong>{ev.date}:</strong> <span className={`badge ${ev.theme}`}>{ev.text}</span>
+                <strong>{ev.date}:</strong>{' '}
+                <span className={`badge ${ev.theme}`}>{ev.text}</span>
               </li>
             ))}
           </ul>
         </div>
-        <div style={{ flex: 1 }}>
+        <div>
           <h3>🗂 Усі завдання</h3>
-          <ul style={{ marginTop: '10px' }}>
+          <ul>
             {allTasks.map((task, i) => (
               <li key={i}>
                 <strong>{task.date}:</strong>{' '}
@@ -330,6 +339,9 @@ function CalendarView() {
       </div>
     </div>
   );
+  
+  
+  
 }
 
 export default CalendarView;
