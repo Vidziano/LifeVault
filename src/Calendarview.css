@@ -102,17 +102,28 @@ body.dark {
   --badge-text: #fff;
 }
 
-.event-dots {
+.react-calendar__month-view__days__day {
   display: flex;
-  justify-content: center;
-  margin-top: 4px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 4px;
+  height: auto !important;
 }
+
+.event-dots {
+  display: grid;
+  grid-template-columns: repeat(3, 6px); 
+  gap: 2px 3px;
+  margin-top: 4px;
+  justify-content: center;
+}
+
 
 .dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  margin: 0 1px;
   opacity: var(--dot-opacity);
 }
 
@@ -120,6 +131,7 @@ body.dark {
 .dot.навчання { background-color: var(--color-навчання); }
 .dot.особисте { background-color: var(--color-особисте); }
 .dot.інше { background-color: var(--color-інше); }
+
 
 .badge {
   padding: 2px 6px;
@@ -193,3 +205,4 @@ body.dark .calendar-wrapper button {
   color: white;
   border: 1px solid #666;
 }
+
