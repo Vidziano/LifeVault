@@ -68,7 +68,7 @@ function TravelWishMap() {
         <div key={id} className="country-row">
           <span>{name}</span>
           <div className="small-buttons">
-            <button onClick={() => handleFieldToggle(countries, setList, id, 'showCity')}>🏙 Додати місто</button>
+            <button onClick={() => handleFieldToggle(countries, setList, id, 'showCity')}>🏰 Додати місто</button>
             <button onClick={() => handleFieldToggle(countries, setList, id, 'showComment')}>📝 Коментар</button>
           </div>
           {showCity && (
