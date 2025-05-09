@@ -1,0 +1,112 @@
+.dream-details {
+    background: var(--bg-color, #f9f9ff);
+    padding: 32px;
+    border-radius: 16px;
+    max-width: 700px;
+    margin: 0 auto;
+    font-family: 'Comfortaa', sans-serif;
+  }
+  
+  .dream-title {
+    color: var(--accent-color, #6a4fc3);
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .back-button {
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #b388ff, #80deea);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    margin-bottom: 20px;
+  }
+  
+  .back-button:hover {
+    opacity: 0.9;
+  }
+  
+  .file-upload {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 8px;
+    background-color: #e0e0ff;
+    color: #4e4eeb;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid #bbb;
+    margin: 20px 0;
+  }
+  
+  .file-upload input[type="file"] {
+    display: none;
+  }
+  
+  .dream-section {
+    text-align: left;
+    margin-top: 30px;
+  }
+  
+  .dream-section h4 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: var(--accent-color, #6a4fc3);
+  }
+  
+  textarea {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    font-family: inherit;
+    resize: vertical;
+    margin-bottom: 14px;
+  }
+  
+  .progress-bar {
+    height: 10px;
+    background: #ddd;
+    border-radius: 6px;
+    margin-top: 10px;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    background: #4e4eeb;
+    border-radius: 6px;
+  }
+  
+  /* Темна тема */
+  body.dark .dream-details {
+    background: #1f1f2a;
+    color: #f0f0f0;
+  }
+  
+  body.dark .file-upload {
+    background-color: #3a3a4a;
+    color: #9faaff;
+    border: 1px solid #555;
+  }
+  
+  body.dark .dream-section h4 {
+    color: #9faaff;
+  }
+  
+  body.dark .progress-bar {
+    background: #333;
+  }
+  
+  body.dark .progress-fill {
+    background: #b388ff;
+  }
+  
+  body.dark textarea {
+    background: #2c2c3c;
+    border: 1px solid #555;
+    color: white;
+  }
+  

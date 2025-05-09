@@ -28,6 +28,7 @@ function InspirationBoard() {
 
   const [imageFile, setImageFile] = useState(null);
   const [hasLoadedStorage, setHasLoadedStorage] = useState(false);
+  const [toolSize, setToolSize] = useState(16);
 
   useEffect(() => {
     const stored = localStorage.getItem('inspo-savedItems');
@@ -73,7 +74,7 @@ function InspirationBoard() {
     if (tool === 'pen' || tool === 'eraser') {
       const ctx = canvasRef.current.getContext('2d');
       ctx.strokeStyle = tool === 'pen' ? color : '#ffffff';
-      ctx.lineWidth = tool === 'pen' ? lineWidth : 20;
+      ctx.lineWidth = lineWidth;
     }
   }, [tool, color, lineWidth]);
 
@@ -576,7 +577,7 @@ function InspirationBoard() {
       <div className="saved-buttons">
         <button onClick={() => handleEdit(item)}>✏️ Редагувати</button>
         <button onClick={() => handleDownload(item.canvasImage)}>⬇️ Завантажити</button>
-        <button onClick={() => handleDeleteSaved(index)} style={{ color: 'red' }}>🗑️ Видалити</button>
+        <button onClick={() => handleDeleteSaved(index)}>🗑️ Видалити</button>
       </div>
     </div>
   ))}

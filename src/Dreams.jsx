@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './Dreams.css';
 import DreamChart from './DreamChart';
 import DreamReflections from './DreamReflections';
@@ -17,42 +17,70 @@ function Dreams() {
     futureVision: '',
     reason: ''
   });
+  const [editingId, setEditingId] = useState(null);
   const [selectedDream, setSelectedDream] = useState(null);
   const [stepWarning, setStepWarning] = useState(false);
+  const formRef = useRef(null);
 
   useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem('dreams')) || [];
-    setDreams(stored);
+    const stored = JSON.parse(localStorage.getItem('dreams'));
+    if (stored && Array.isArray(stored)) {
+      setDreams(stored);
+    }
   }, []);
 
-  useEffect(() => {
-    if (dreams.length > 0) {
-      localStorage.setItem('dreams', JSON.stringify(dreams));
+  const scrollToForm = () => {
+    if (formRef.current) {
+      formRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [dreams]);
+  };
 
-  const addDream = () => {
+  const addOrUpdateDream = () => {
     const filteredSteps = newDream.steps.filter(s => s.trim() !== '');
     if (!newDream.title.trim() || filteredSteps.length === 0) {
       setStepWarning(true);
       return;
     }
-    const dream = {
+
+    const updatedDream = {
       ...newDream,
       steps: filteredSteps,
-      id: Date.now(),
-      completed: false,
-      reflections: null,
-      image: null
+      id: editingId || Date.now(),
+      completed: dreams.find(d => d.id === editingId)?.completed || false,
+      reflections: dreams.find(d => d.id === editingId)?.reflections || null,
+      image: dreams.find(d => d.id === editingId)?.image || null
     };
-    const updated = [dream, ...dreams];
+
+    const updated = editingId
+      ? dreams.map(d => d.id === editingId ? updatedDream : d)
+      : [updatedDream, ...dreams];
+
     setDreams(updated);
     localStorage.setItem('dreams', JSON.stringify(updated));
     setNewDream({
-      title: '', sphere: 'особисте', plan: '', steps: [''],
-      story: '', futureVision: '', reason: ''
+      title: '',
+      sphere: 'особисте',
+      plan: '',
+      steps: [''],
+      story: '',
+      futureVision: '',
+      reason: ''
     });
+    setEditingId(null);
     setStepWarning(false);
+  };
+
+  const editDream = (dream) => {
+    setNewDream({ ...dream });
+    setEditingId(dream.id);
+    scrollToForm();
+  };
+
+  const deleteDream = (id) => {
+    const updated = dreams.filter(d => d.id !== id);
+    setDreams(updated);
+    localStorage.setItem('dreams', JSON.stringify(updated));
+    setSelectedDream(null);
   };
 
   const updateStep = (index, value) => {
@@ -66,17 +94,12 @@ function Dreams() {
   };
 
   const toggleComplete = (id) => {
-    const updated = dreams.map(d => {
-      if (d.id === id && !d.completed) {
-        return { ...d, completed: true };
-      }
-      return d;
-    });
+    const updated = dreams.map(d =>
+      d.id === id ? { ...d, completed: !d.completed } : d
+    );
     setDreams(updated);
     localStorage.setItem('dreams', JSON.stringify(updated));
   };
-
-  const handleBack = () => setSelectedDream(null);
 
   const handleUpdateDream = (updatedDream) => {
     const updated = dreams.map(d => d.id === updatedDream.id ? updatedDream : d);
@@ -97,34 +120,32 @@ function Dreams() {
       {selectedDream ? (
         <DreamDetails
           dream={selectedDream}
-          onBack={handleBack}
+          onBack={() => setSelectedDream(null)}
           onUpdate={handleUpdateDream}
+          onDelete={deleteDream}
         />
       ) : (
         <>
           <h2>🌈 Мрії</h2>
 
-          <div className="dream-form">
+          <div className="dream-form" ref={formRef}>
             <input
               type="text"
               placeholder="Назва мрії"
               value={newDream.title}
               onChange={(e) => setNewDream({ ...newDream, title: e.target.value })}
             />
-
             <select
               value={newDream.sphere}
               onChange={(e) => setNewDream({ ...newDream, sphere: e.target.value })}
             >
               {spheres.map(s => <option key={s} value={s}>{s}</option>)}
             </select>
-
             <textarea
               placeholder="План дій"
               value={newDream.plan}
               onChange={(e) => setNewDream({ ...newDream, plan: e.target.value })}
             />
-
             <div className="steps-block">
               {newDream.steps.map((step, i) => (
                 <input
@@ -136,13 +157,8 @@ function Dreams() {
                 />
               ))}
               <button onClick={addStepField}>➕ Ще крок</button>
-              {stepWarning && (
-                <p style={{ color: 'red', fontSize: '12px' }}>
-                  ⚠️ Додай хоча б один крок до мрії
-                </p>
-              )}
+              {stepWarning && <p className="field-error">⚠️ Додай хоча б один крок</p>}
             </div>
-
             <textarea
               placeholder="Чому ця мрія важлива?"
               value={newDream.reason}
@@ -158,20 +174,31 @@ function Dreams() {
               value={newDream.story}
               onChange={(e) => setNewDream({ ...newDream, story: e.target.value })}
             />
-
-            <button onClick={addDream}>💫 Додати мрію</button>
+            <button onClick={addOrUpdateDream}>
+              {editingId ? '✏️ Зберегти зміни' : '💫 Додати мрію'}
+            </button>
           </div>
 
           <DreamChart dreams={dreams} />
-
           <h3>📋 Мої мрії ({dreams.length})</h3>
 
           <ul className="dream-list">
             {dreams.map(d => (
               <li key={d.id} className={d.completed ? 'completed' : ''}>
-                <strong>{d.title || '[без назви]'}</strong> — {d.sphere} — {getProgress(d)}%
-                <button onClick={() => setSelectedDream(d)}>🔍 Переглянути</button>
-                {!d.completed && <button onClick={() => toggleComplete(d.id)}>✅ Здійснено</button>}
+                <div className="dream-header">
+                  <input
+                    type="checkbox"
+                    checked={d.completed}
+                    onChange={() => toggleComplete(d.id)}
+                    style={{ marginRight: '8px' }}
+                  />
+                  <strong>{d.title || '[без назви]'}</strong> — {d.sphere} — {getProgress(d)}%
+                </div>
+                <div className="dream-buttons">
+                  <button onClick={() => setSelectedDream(d)}>🔍</button>
+                  <button onClick={() => editDream(d)}>✏️</button>
+                  <button onClick={() => deleteDream(d.id)} className="delete-btn">🗑️</button>
+                </div>
               </li>
             ))}
           </ul>

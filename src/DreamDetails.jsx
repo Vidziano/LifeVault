@@ -1,38 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import './Dreams.css';
+import React, { useState } from 'react';
+import './DreamDetails.css';
 
-function DreamDetails({ dream, onBack, onUpdate }) {
+function DreamDetails({ dream, onBack }) {
   const [steps, setSteps] = useState(
-    dream.steps.map((s, i) => ({ text: typeof s === 'string' ? s : s.text, done: s.done || false }))
+    (dream.steps || []).map((s) =>
+      typeof s === 'string' ? { text: s, done: false } : s
+    )
   );
-  const [image, setImage] = useState(dream.image || null);
-  const [reflections, setReflections] = useState(dream.reflections || {
-    how: '', help: '', pastMessage: ''
-  });
 
-  useEffect(() => {
-    const storedProgress = JSON.parse(localStorage.getItem('dream_progress_' + dream.id));
-    if (storedProgress) {
-      setSteps(storedProgress.steps || steps);
-      setImage(storedProgress.image || image);
-      setReflections(storedProgress.reflections || reflections);
+  const handleFile = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      console.log("📷 Завантажено файл:", file.name);
     }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem(
-      'dream_progress_' + dream.id,
-      JSON.stringify({ steps, image, reflections })
-    );
-
-    const updatedDream = {
-      ...dream,
-      steps,
-      image,
-      reflections
-    };
-    onUpdate(updatedDream);
-  }, [steps, image, reflections]);
+  };
 
   const toggleStep = (index) => {
     const updated = [...steps];
@@ -40,77 +21,54 @@ function DreamDetails({ dream, onBack, onUpdate }) {
     setSteps(updated);
   };
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => setImage(reader.result);
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleReflectionChange = (field, value) => {
-    setReflections(prev => ({ ...prev, [field]: value }));
-  };
-
-  const progressPercent = Math.round((steps.filter(s => s.done).length / steps.length) * 100);
-
   return (
     <div className="dream-details">
-      <button onClick={onBack}>⬅️ Назад</button>
-
-      <h2>{dream.title}</h2>
+      <button className="back-button" onClick={onBack}>⬅️ Назад</button>
+      <h2 className="dream-title">{dream.title}</h2>
       <p><strong>Сфера:</strong> {dream.sphere}</p>
-      <p><strong>План:</strong> {dream.plan}</p>
+      <p><strong>План:</strong> {dream.plan || '—'}</p>
 
-      {image && <img src={image} alt="dream" className="dream-image" />}<br />
-      <label>
-        📸 Додати фото:
-        <input type="file" onChange={handleImageUpload} />
+      <label className="file-upload">
+        📎 Обрати файл
+        <input type="file" onChange={handleFile} />
       </label>
 
-      <h3>📋 Кроки до мрії</h3>
-      <ul className="steps-list">
-        {steps.map((s, i) => (
-          <li key={i}>
-            <input
-              type="checkbox"
-              checked={s.done}
-              onChange={() => toggleStep(i)}
-            /> {s.text}
-          </li>
-        ))}
-      </ul>
-
-      <p><strong>Прогрес:</strong> {progressPercent}%</p>
-      <div className="progress-bar">
-        <div
-          className="progress-fill"
-          style={{ width: `${progressPercent}%` }}
-        ></div>
+      <div className="dream-section">
+        <h4>📋 Кроки до мрії</h4>
+        <ul className="steps-list">
+          {steps.map((s, i) => (
+            <li key={i}>
+              <input
+                type="checkbox"
+                checked={s.done}
+                onChange={() => toggleStep(i)}
+              />{' '}
+              {s.text}
+            </li>
+          ))}
+        </ul>
+        <p><strong>Прогрес:</strong> {dream.progress || 0}%</p>
+        <div className="progress-bar">
+          <div className="progress-fill" style={{ width: `${dream.progress || 0}%` }}></div>
+        </div>
       </div>
 
-      <h3>📖 Історія мрії</h3>
-      <p><strong>Чому важлива:</strong> {dream.reason}</p>
-      <p><strong>Я себе бачу так:</strong> {dream.futureVision}</p>
-      <p><strong>Історія:</strong> {dream.story}</p>
+      <div className="dream-section">
+        <h4>📖 Історія мрії</h4>
+        <p><strong>Чому це важливо:</strong> {dream.why || '—'}</p>
+        <p><strong>Я себе бачу так:</strong> {dream.future || '—'}</p>
+        <p><strong>Історія:</strong> {dream.story || '—'}</p>
+      </div>
 
-      <h3>🧠 Рефлексія (після досягнення)</h3>
-      <textarea
-        placeholder="Як ти це зробила?"
-        value={reflections.how}
-        onChange={(e) => handleReflectionChange('how', e.target.value)}
-      />
-      <textarea
-        placeholder="Що допомогло?"
-        value={reflections.help}
-        onChange={(e) => handleReflectionChange('help', e.target.value)}
-      />
-      <textarea
-        placeholder="Що сказала б собі в минулому?"
-        value={reflections.pastMessage}
-        onChange={(e) => handleReflectionChange('pastMessage', e.target.value)}
-      />
+      <div className="dream-section">
+        <h4>🧠 Рефлексія (після досягнення)</h4>
+        <p><strong>Як ти це зробила?</strong></p>
+        <textarea rows={2} />
+        <p><strong>Що допомогло?</strong></p>
+        <textarea rows={2} />
+        <p><strong>Що сказала б собі в минулому?</strong></p>
+        <textarea rows={2} />
+      </div>
     </div>
   );
 }
