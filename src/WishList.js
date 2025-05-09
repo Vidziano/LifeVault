@@ -6,7 +6,6 @@ import ShoppingWishList from './ShoppingWishList';
 import MoviesWishList from './MoviesWishList';
 import Dreams from './Dreams';
 
-
 const categories = [
   {
     name: 'Книги',
@@ -45,22 +44,26 @@ function WishList() {
 
     return (
       <div className="wish-subpage">
-        <button className="back-btn" onClick={() => setActiveCategory(null)}>← Назад</button>
+        <button className="icon-back-btn" onClick={() => setActiveCategory(null)} title="Назад до списку бажань">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+          </svg>
+        </button>
+
         <h2>{category.name}</h2>
-    
+
         {activeCategory === 'travel' && <TravelWishMap />}
         {activeCategory === 'books' && <BooksWishList />}
         {activeCategory === 'shopping' && <ShoppingWishList />}
         {activeCategory === 'movies' && <MoviesWishList />}
         {activeCategory === 'dreams' && <Dreams />}
-
       </div>
     );
-    
   };
 
   return (
-    <div className="wish-list">
+    <div className={`wish-list ${!activeCategory ? 'wishlist-home' : ''}`}>
+
       {activeCategory ? (
         renderCategoryContent()
       ) : (

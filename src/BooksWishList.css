@@ -1,9 +1,31 @@
-.books-wrapper {
-  max-width: 1300px;
-  margin: 50px auto;
-  padding: 30px 20px;
-  text-align: center;
+.books-wrapper h2 {
+  font-size: 32px;
+  font-weight: 400;
+  color: #5f5df8;
+  margin-bottom: 10px;
+  position: relative;
+  display: inline-block;
 }
+
+.books-wrapper h2::after {
+  content: '';
+  display: block;
+  height: 4px;
+  width: 80%;
+  background-color: #5f5df8;
+  margin: 8px auto 0;
+  border-radius: 2px;
+}
+
+
+body.dark .books-wrapper h2 {
+  color: #a8b3ff;
+}
+
+body.dark .books-wrapper h2::after {
+  background-color: #a8b3ff;
+}
+
 
 .goal-statistics {
   margin: 40px auto 30px;
@@ -64,20 +86,31 @@
 }
 
 .search-bar {
-  margin-top: 30px;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
+  margin-top: 30px;
 }
 
 .search-bar input {
-  padding: 12px;
-  width: 320px;
-  border-radius: 12px;
+  padding: 16px 24px;
+  flex: 1;
+  max-width: 600px;
+  border-radius: 16px;
   border: 2px solid #5f5df8;
-  font-size: 15px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
 }
+
+.search-bar input:focus {
+  outline: none;
+  border-color: #3a38c2;
+  background-color: #f9f9ff;
+}
+
+
 
 .search-bar button {
   padding: 12px 18px;
@@ -95,12 +128,17 @@
   background-color: #4b49c2;
 }
 
+
 .books-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 24px;
   margin-top: 30px;
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
 }
+
 
 .book-card {
   background: #fff;
@@ -291,3 +329,29 @@ body.dark .goal-update input {
   color: #fff;
   border-color: #555;
 }
+
+
+.custom-back-button {
+  position: absolute;
+  top: 30px;
+  left: 180px;
+  background-color: #5f5df8;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  z-index: 10;
+}
+
+.custom-back-button:hover {
+  background-color: #4b49c2;
+}
+
+body.dark .custom-back-button {
+  background-color: #3a38c2;
+}
+
+
+
+
