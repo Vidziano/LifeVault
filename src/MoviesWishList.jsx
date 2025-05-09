@@ -10,8 +10,9 @@ function MoviesWishList() {
   const [goal, setGoal] = useState(
     parseInt(localStorage.getItem('moviesGoal')) || 10
   );
+  const [newGoal, setNewGoal] = useState(goal);
 
-  const BEARER_TOKEN = 'YOUR_API_TOKEN_HERE';
+  const BEARER_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5OTFhMGZhMTBhZmM1MjExNWJkY2FlZmNiZjZlNDUxYiIsIm5iZiI6MTc0NjAzNzU2NS42Niwic3ViIjoiNjgxMjZiM2QwODVhZWI3NGVmOWIzNjQ0Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.IKUpoSzfpBBORDnPvmHf2zEEvWnaJLgDw-el9ogE4wQ';
 
   useEffect(() => {
     localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
@@ -103,7 +104,10 @@ function MoviesWishList() {
     if (watchedCount >= 1) return '🎞️ Перший перегляд';
     return null;
   };
-  
+
+  const updateGoal = () => {
+    if (newGoal > 0) setGoal(newGoal);
+  };
 
   return (
     <div className="movies-wrapper">
@@ -114,10 +118,10 @@ function MoviesWishList() {
         <div className="goal-update">
           <input
             type="number"
-            value={goal}
-            onChange={(e) => setGoal(parseInt(e.target.value) || 0)}
+            value={newGoal}
+            onChange={(e) => setNewGoal(parseInt(e.target.value) || 0)}
           />
-          <button onClick={() => setGoal(goal)}>Оновити ціль ✏️</button>
+          <button onClick={updateGoal}>Оновити ціль ✏️</button>
         </div>
         <p>📈 Прогрес: {watchedCount}/{goal}</p>
         {getBadge() && <div className="badge">{getBadge()}</div>}
@@ -147,7 +151,7 @@ function MoviesWishList() {
 
               {movie.imdbLink && (
                 <a href={movie.imdbLink} target="_blank" rel="noopener noreferrer" className="watch-link">
-                  🎬 Перейти на TMDB
+                  🎬 Подивитися
                 </a>
               )}
 

@@ -1,4 +1,4 @@
-.movies-wrapper {
+.movies-wrapper { 
   max-width: 1300px;
   margin: 50px auto;
   padding: 30px 20px;
@@ -189,32 +189,6 @@ body.dark .movies-wrapper h2::after {
   font-size: 14px;
 }
 
-.status-button {
-  display: block;
-  width: 100%;
-  padding: 10px 0;
-  margin: 8px 0;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  font-size: 14px;
-}
-
-.status-button.wantToWatch {
-  background-color: #5f5df8;
-  color: white;
-}
-
-.status-button.watching {
-  background-color: #ffa726;
-  color: white;
-}
-
-.status-button.watched {
-  background-color: #66bb6a;
-  color: white;
-}
 
 .watch-link {
   display: block;
@@ -309,16 +283,32 @@ body.dark .movies-wrapper h2::after {
   font-weight: 600;
 }
 
+/* СТАТУСИ */
+.status-button.wantToWatch {
+  background-color: #5f5df8; /* насичений фіолетовий */
+  color: white;
+}
+
+.status-button.watching {
+  background: linear-gradient(to right, #ffe082, #ffcc80); /* м’який жовтий */
+  color: #333;
+  font-weight: bold;
+  border: none;
+}
+
+.status-button.watched {
+  background: linear-gradient(to right, #a5d6a7, #81c784); /* м’який зелений */
+  color: #2e2e2e;
+  font-weight: bold;
+  border: none;
+}
+
+/* ТЕМНА ТЕМА */
 body.dark .movie-card,
 body.dark .search-item {
   background: #1e1e1e;
   color: #f0f0f0;
   border-color: #444;
-}
-
-body.dark .movie-info a,
-body.dark .watch-link {
-  color: #9dc1ff;
 }
 
 body.dark .goal-statistics {
@@ -330,4 +320,28 @@ body.dark .goal-update input {
   background-color: #1c1c1c;
   color: #fff;
   border-color: #555;
+}
+
+body.dark .watch-link {
+  background-color: #5f5df8;
+  color: white;
+}
+
+body.dark .movie-info a,
+body.dark .watch-link:hover {
+  background-color: #4b49c2;
+  color: #fff;
+}
+
+/* Темна тема для статус-кнопок */
+body.dark .status-button.wantToWatch {
+  background-color: #6366f1;
+}
+
+body.dark .status-button.watching {
+  background-color: #fca311;
+}
+
+body.dark .status-button.watched {
+  background-color: #4caf50;
 }
