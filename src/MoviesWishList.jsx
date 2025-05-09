@@ -11,7 +11,7 @@ function MoviesWishList() {
     parseInt(localStorage.getItem('moviesGoal')) || 10
   );
 
-  const BEARER_TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5OTFhMGZhMTBhZmM1MjExNWJkY2FlZmNiZjZlNDUxYiIsIm5iZiI6MTc0NjAzNzU2NS42Niwic3ViIjoiNjgxMjZiM2QwODVhZWI3NGVmOWIzNjQ0Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.IKUpoSzfpBBORDnPvmHf2zEEvWnaJLgDw-el9ogE4wQ'; // заміни своїм
+  const BEARER_TOKEN = 'YOUR_API_TOKEN_HERE';
 
   useEffect(() => {
     localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
@@ -89,15 +89,39 @@ function MoviesWishList() {
   const watchedCount = savedMovies.filter(m => m.status === 'watched').length;
 
   const getBadge = () => {
-    if (watchedCount >= 20) return '🎬 Кіно-легенда!';
+    if (watchedCount >= 100) return '🏆🎬 Абсолютний кіногуру!';
+    if (watchedCount >= 75) return '🌟📽️ Кіно-легенда всіх часів!';
+    if (watchedCount >= 50) return '💎🎞️ Майстер кінематографа!';
+    if (watchedCount >= 35) return '🎬🧠 Ерудит екрану';
+    if (watchedCount >= 25) return '🍿🔥 Кіноентузіаст у дії!';
+    if (watchedCount >= 20) return '🏅🎬 Кіно-легенда!';
+    if (watchedCount >= 15) return '🎯🎥 Влучний глядач';
     if (watchedCount >= 10) return '🏆 Справжній кіноман!';
+    if (watchedCount >= 7) return '🍿 Почесний переглядач';
     if (watchedCount >= 5) return '🎉 Перший рекорд!';
+    if (watchedCount >= 3) return '📼 Новачок з прогресом';
+    if (watchedCount >= 1) return '🎞️ Перший перегляд';
     return null;
   };
+  
 
   return (
     <div className="movies-wrapper">
-      <h2>🎬 Фільми</h2>
+      <h2 className="section-title">🎬 Моя бібліотека фільмів</h2>
+
+      <div className="goal-statistics">
+        🎯 Мета: {goal} фільмів у 2025
+        <div className="goal-update">
+          <input
+            type="number"
+            value={goal}
+            onChange={(e) => setGoal(parseInt(e.target.value) || 0)}
+          />
+          <button onClick={() => setGoal(goal)}>Оновити ціль ✏️</button>
+        </div>
+        <p>📈 Прогрес: {watchedCount}/{goal}</p>
+        {getBadge() && <div className="badge">{getBadge()}</div>}
+      </div>
 
       <div className="search-bar">
         <input
@@ -105,24 +129,9 @@ function MoviesWishList() {
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Пошук фільму..."
         />
-        <button onClick={searchMovies}>🔍 Пошук</button>
+        <button onClick={searchMovies}>🔍</button>
       </div>
 
-      <div className="goal-statistics">
-        🎯 Моя ціль: {goal} фільмів у 2025
-        <div className="goal-update">
-          <input
-            type="number"
-            value={goal}
-            onChange={(e) => setGoal(parseInt(e.target.value) || 0)}
-          />
-          <button onClick={() => setGoal(goal)}>Оновити ціль</button>
-        </div>
-        <p>📈 Прогрес: {watchedCount}/{goal}</p>
-        {getBadge() && <div className="badge">{getBadge()}</div>}
-      </div>
-
-      <h3>🎥 Мій список фільмів</h3>
       <div className="movies-list">
         {savedMovies.map(movie => (
           <div key={movie.id} className="movie-card">
