@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ComposableMap,
   Geographies,
@@ -10,8 +10,16 @@ import './TravelWishMap.css';
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
 function TravelWishMap() {
-  const [visitedCountries, setVisitedCountries] = useState([]);
-  const [dreamCountries, setDreamCountries] = useState([]);
+  const [visitedCountries, setVisitedCountries] = useState(() => {
+    const saved = localStorage.getItem('visitedCountries');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const [dreamCountries, setDreamCountries] = useState(() => {
+    const saved = localStorage.getItem('dreamCountries');
+    return saved ? JSON.parse(saved) : [];
+  });
+
   const [mode, setMode] = useState('visited');
   const [position, setPosition] = useState({ coordinates: [0, 0], zoom: 1 });
   const [hoveredCountry, setHoveredCountry] = useState(null);
@@ -60,7 +68,7 @@ function TravelWishMap() {
         <div key={id} className="country-row">
           <span>{name}</span>
           <div className="small-buttons">
-            <button onClick={() => handleFieldToggle(countries, setList, id, 'showCity')}>🏙 Додати місто</button>
+            <button onClick={() => handleFieldToggle(countries, setList, id, 'showCity')}>🏰 Додати місто</button>
             <button onClick={() => handleFieldToggle(countries, setList, id, 'showComment')}>📝 Коментар</button>
           </div>
           {showCity && (
@@ -83,14 +91,33 @@ function TravelWishMap() {
     </div>
   );
 
+  // Автозбереження в localStorage
+  useEffect(() => {
+    localStorage.setItem('visitedCountries', JSON.stringify(visitedCountries));
+  }, [visitedCountries]);
+
+  useEffect(() => {
+    localStorage.setItem('dreamCountries', JSON.stringify(dreamCountries));
+  }, [dreamCountries]);
+
   return (
     <div className="travel-map-wrapper" onMouseMove={handleMouseMove}>
       <h3>🗺️ Мапа бажаних подорожей</h3>
       <p>Натисни на країну, щоб додати до списку бажаних, або знову натисни, щоб позначити як відвідану.</p>
 
       <div className="map-mode-buttons">
-        <button className={mode === 'visited' ? 'active' : ''} onClick={() => setMode('visited')}>✅ Відвідані</button>
-        <button className={mode === 'dream' ? 'active' : ''} onClick={() => setMode('dream')}>🌐 Мрії</button>
+        <button
+          className={mode === 'visited' ? 'active' : ''}
+          onClick={() => setMode('visited')}
+        >
+          Відвідані
+        </button>
+        <button
+          className={mode === 'dream' ? 'active' : ''}
+          onClick={() => setMode('dream')}
+        >
+          Мрії
+        </button>
       </div>
 
       {hoveredCountry && (
@@ -99,12 +126,7 @@ function TravelWishMap() {
         </div>
       )}
 
-      <div className="map-and-panel reversed-layout">
-        <div className="info-panel">
-          {renderList("✅ Відвідані", visitedCountries, setVisitedCountries)}
-          {renderList("🌐 Мрії", dreamCountries, setDreamCountries)}
-        </div>
-
+      <div className="map-and-panel">
         <div className="map-container">
           <ComposableMap>
             <ZoomableGroup
@@ -149,6 +171,15 @@ function TravelWishMap() {
               </Geographies>
             </ZoomableGroup>
           </ComposableMap>
+        </div>
+
+        <div className="info-columns">
+          <div className="info-panel">
+            {renderList("✅ Відвідані", visitedCountries, setVisitedCountries)}
+          </div>
+          <div className="info-panel">
+            {renderList("🌐 Мрії", dreamCountries, setDreamCountries)}
+          </div>
         </div>
       </div>
     </div>

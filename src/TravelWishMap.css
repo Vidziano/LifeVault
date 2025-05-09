@@ -1,3 +1,98 @@
+.travel-map-wrapper { 
+  text-align: center;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.map-mode-buttons {
+  display: flex;
+  gap: 48px;
+  justify-content: center;
+  align-items: center;
+  font-size: 28px;
+  font-weight: 600;
+  margin: 20px 0 40px;
+}
+
+.map-mode-buttons button {
+  background: none;
+  border: none;
+  padding: 6px 10px;
+  font-size: 25px;
+  font-weight: 600;
+  color: #444;
+  position: relative;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.map-mode-buttons button::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 3px;
+  background-color: #5f5df8;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.map-mode-buttons button:hover {
+  color: #5f5df8;
+}
+
+.map-mode-buttons button.active {
+  color: #5f5df8;
+}
+
+.map-mode-buttons button.active::after {
+  width: 100%;
+}
+
+.map-and-panel {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 10px;
+  width: 100%;
+  max-width: 1800px;
+  gap: 30px;
+}
+
+.map-container {
+  width: 850px;
+  height: 620px;
+  border: 2px solid #ddd;
+  border-radius: 16px;
+  background-color: white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.globe-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.globe-wrapper canvas {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+}
+
 .hover-tooltip {
   position: fixed;
   background: white;
@@ -13,82 +108,25 @@
   white-space: nowrap;
 }
 
-.travel-map-wrapper {
-  text-align: center;
-  margin-top: 30px;
-  padding: 20px;
+.info-columns {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.map-mode-buttons {
-  margin-bottom: 20px;
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-}
-
-.map-mode-buttons button {
-  padding: 10px 20px;
-  border-radius: 12px;
-  border: 2px solid #5f5df8;
-  background-color: white;
-  color: #5f5df8;
-  font-weight: 600;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.map-mode-buttons button:hover {
-  background-color: #f0f0ff;
-}
-
-.map-mode-buttons .active {
-  background-color: #5f5df8;
-  color: white;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.map-and-panel {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  margin-top: 40px;
-  gap: 40px;
-  width: 100%;
-  max-width: 1600px;
-  margin-left: 40px;
-  margin-right: auto;
-}
-
-.map-container {
-  flex: 1;
-  min-width: 800px;
-  min-height: 600px;
-  border: 2px solid #ddd;
-  border-radius: 16px;
-  background-color: white;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  flex-direction: row;
+  gap: 24px;
 }
 
 .info-panel {
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  flex-wrap: nowrap;
-}
-
-.country-block {
-  width: 350px;
-  min-height: 400px;
+  width: 300px;
+  max-height: 700px;
+  overflow-y: auto;
   background-color: #f9f9f9;
   padding: 16px;
   border-radius: 16px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
   border: 1px solid #ddd;
-  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.country-block {
+  margin-bottom: 24px;
 }
 
 .country-row {
@@ -102,12 +140,14 @@
 .country-row input,
 .country-row textarea {
   width: 100%;
+  box-sizing: border-box;
   margin-top: 8px;
   margin-bottom: 6px;
   border-radius: 6px;
   border: 1px solid #ccc;
   padding: 6px 8px;
   font-size: 14px;
+  overflow-x: auto;
 }
 
 .country-row textarea {
@@ -117,16 +157,17 @@
 
 .small-buttons {
   display: flex;
-  gap: 10px;
+  justify-content: center;
+  gap: 12px;
   margin-top: 6px;
 }
 
 .small-buttons button {
-  font-size: 12px;
-  padding: 4px 10px;
+  font-size: 14px;
+  padding: 6px 12px;
   background: #eee;
   border: 1px solid #bbb;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   transition: background 0.2s;
 }
@@ -139,6 +180,7 @@
   outline: none !important;
 }
 
+/* Темна тема */
 body.dark .map-container {
   background-color: #1e1e1e;
   border-color: #444;
@@ -172,14 +214,15 @@ body.dark .hover-tooltip {
 }
 
 body.dark .map-mode-buttons button {
-  background-color: #333;
-  color: #9dc1ff;
-  border-color: #5f5df8;
+  color: #ccc;
 }
 
-body.dark .map-mode-buttons .active {
-  background-color: #5f5df8;
-  color: white;
+body.dark .map-mode-buttons button.active {
+  color: #9dc1ff;
+}
+
+body.dark .map-mode-buttons button.active::after {
+  background-color: #9dc1ff;
 }
 
 body.dark .small-buttons button {
@@ -190,4 +233,41 @@ body.dark .small-buttons button {
 
 body.dark .small-buttons button:hover {
   background-color: #555;
+}
+
+
+.view-toggle {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  margin-top: 1px;
+  padding-left: 650px;
+  width: 100%;
+}
+
+.view-toggle button {
+  background-color: #2e2eec;
+  border: none;
+  padding: 12px 20px;
+  font-size: 24px;
+  font-weight: 600;
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.view-toggle button:hover {
+  background-color: #4747ff;
+  transform: translateY(-1px);
+}
+
+.view-toggle button.active {
+  background-color: #5f5df8;
+}
+
+.view-toggle button.active::after {
+  display: none;
 }

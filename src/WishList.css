@@ -1,68 +1,96 @@
 .wish-list {
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .category-grid {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 30px;
-    margin-top: 30px;
-  }
-  
-  .category-tile {
-    width: 180px;
-    height: 180px;
-    background-color: #f0f0f0;
-    border-radius: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 18px;
-    cursor: pointer;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-    transition: transform 0.2s;
-    padding: 10px;
-    text-align: center;
-  }
-  
-  .category-tile:hover {
-    transform: scale(1.08);
-    background-color: #e0e7ff;
-  }
-  
-  .category-icon {
-    width: 80px;
-    height: 80px;
-    border-radius: 16px;
-    object-fit: contain;
-    margin-bottom: 10px;
-  }
-  
-  .wish-subpage {
-    padding: 20px;
-  }
-  
-  .back-btn {
-    background-color: #4e4eeb;
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-bottom: 20px;
-  }
-  
-  body.dark .category-tile {
-    background-color: #2a2a2a;
-    color: white;
-  }
-  
-  body.dark .category-tile:hover {
-    background-color: #3a3a3a;
-  }
-  
-  
+  padding: 100px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Тільки для головної сторінки */
+.wishlist-home.wish-list {
+  padding-top: 150px;
+}
+
+
+
+/* Центрує заголовок */
+.wish-list h2 {
+  font-size: 35px;
+  margin-bottom: 60px;
+}
+
+.category-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
+.category-tile {
+  width: 220px;
+  height: 220px;
+  background: linear-gradient(135deg, #a4dfff, #b0c4ff, #e2b6ff);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 25px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+  transition: transform 0.25s ease, filter 0.25s ease;
+  padding: 14px;
+  text-align: center;
+  color: white;
+}
+
+.category-tile:hover {
+  transform: scale(1.08);
+  filter: brightness(1.07);
+}
+
+.category-icon {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  margin-bottom: 14px;
+  border-radius: 16px;
+}
+
+.wish-subpage {
+  padding: 100px;
+}
+
+/* Темна тема */
+body.dark .category-tile {
+  background: linear-gradient(135deg, #3c3f85, #4a49a2, #5c4b8a);
+  color: #fff;
+}
+
+body.dark .category-tile:hover {
+  filter: brightness(1.1);
+}
+
+/* Плаваюча кнопка Назад */
+.icon-back-btn {
+  position: absolute;
+  top: 30px;
+  left: 250px;
+  background: #5f5df8;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+.icon-back-btn:hover {
+  background-color: #4b49c2;
+  transform: scale(1.05);
+}

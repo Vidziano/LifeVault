@@ -12,7 +12,7 @@ import './MoodTracker.css';
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale);
 
 const mainEmojis = ['😵', '😞', '🙂', '😊', '😄'];
-const extraEmojis = ['😡', '😭', '😴', '🥳', '🥰', '🧯', '🤒'];
+const extraEmojis = ['😡', '😭', '😴', '🥳', '🥰', '🤒'];
 
 function MoodTracker() {
   const [mood, setMood] = useState(null);

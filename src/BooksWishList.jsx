@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './BooksWishList.css';
 
 function BooksWishList() {
+  const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
-  const [savedBooks, setSavedBooks] = useState(
+  const [savedBooks, setSavedBooks] = useState(() =>
     JSON.parse(localStorage.getItem('savedBooks')) || []
   );
-  const [goal, setGoal] = useState(
+  const [goal, setGoal] = useState(() =>
     parseInt(localStorage.getItem('bookGoal')) || 20
   );
   const [newGoal, setNewGoal] = useState(goal);
@@ -24,7 +26,6 @@ function BooksWishList() {
     if (!query.trim()) return;
     const res = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=12`);
     const data = await res.json();
-
     const mapped = data.items?.map(item => ({
       id: item.id,
       title: item.volumeInfo.title,
@@ -32,13 +33,15 @@ function BooksWishList() {
       image: item.volumeInfo.imageLinks?.thumbnail,
       previewLink: item.volumeInfo.previewLink || ''
     })) || [];
-
     setResults(mapped);
   };
 
   const addBook = (book) => {
     if (!savedBooks.find(b => b.id === book.id)) {
-      setSavedBooks(prev => [...prev, { ...book, status: 'wantToRead', note: '', rating: 0, readDate: null }]);
+      setSavedBooks(prev => [
+        ...prev,
+        { ...book, status: 'wantToRead', note: '', rating: 0, readDate: null }
+      ]);
     }
   };
 
@@ -73,15 +76,13 @@ function BooksWishList() {
   };
 
   const updateGoal = () => {
-    if (newGoal > 0) {
-      setGoal(newGoal);
-    }
+    if (newGoal > 0) setGoal(newGoal);
   };
 
   const currentYear = new Date().getFullYear();
-  const booksReadThisYear = savedBooks.filter(book => 
-    book.status === 'read' && 
-    book.readDate && 
+  const booksReadThisYear = savedBooks.filter(book =>
+    book.status === 'read' &&
+    book.readDate &&
     new Date(book.readDate).getFullYear() === currentYear
   ).length;
 
@@ -94,14 +95,13 @@ function BooksWishList() {
 
   return (
     <div className="books-wrapper">
-      <h2>📚 Книги</h2>
+
+      <h2>📚 Моя бібліотека</h2>
 
       <div className="goal-statistics">
         <div>🎯 Мета на {currentYear}: {goal} книг</div>
-        <div>📈 Прочитано: {booksReadThisYear}/{goal} ({Math.round((booksReadThisYear/goal)*100)}%)</div>
-        {getBadge(booksReadThisYear) && (
-          <div className="badge">{getBadge(booksReadThisYear)}</div>
-        )}
+        <div>📈 Прочитано: {booksReadThisYear}/{goal} ({Math.round((booksReadThisYear / goal) * 100)}%)</div>
+        {getBadge(booksReadThisYear) && <div className="badge">{getBadge(booksReadThisYear)}</div>}
 
         <div className="goal-update">
           <input
@@ -120,15 +120,20 @@ function BooksWishList() {
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Пошук книги..."
         />
-        <button onClick={searchBooks}>🔍 Пошук</button>
+        <button onClick={searchBooks}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white" viewBox="0 0 24 24">
+            <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 
+              6.5 6.5 0 109.5 16a6.471 6.471 0 004.23-1.57l.27.28v.79l5 5 
+              1.5-1.5-5-5zm-6 0C8.01 14 6 11.99 6 9.5S8.01 5 10.5 
+              5 15 7.01 15 9.5 12.99 14 10.5 14z"/>
+          </svg>
+        </button>
       </div>
 
-      <h3>📖 Мій список книг</h3>
       <div className="books-list">
         {savedBooks.map(book => (
           <div key={book.id} className="book-card">
             <button className="delete-button" onClick={() => removeBook(book.id)}>🗑️</button>
-
             {book.image && <img src={book.image} alt={book.title} />}
             <div className="book-info">
               <h4>{book.title}</h4>
@@ -138,7 +143,11 @@ function BooksWishList() {
                 className={`status-button ${book.status}`}
                 onClick={() => changeStatus(book.id)}
               >
-                {book.status === 'wantToRead' ? 'Хочу прочитати' : book.status === 'reading' ? 'Читаю зараз' : 'Прочитано'}
+                {book.status === 'wantToRead'
+                  ? 'Хочу прочитати'
+                  : book.status === 'reading'
+                    ? 'Читаю зараз'
+                    : 'Прочитано'}
               </button>
 
               {book.previewLink && (
@@ -174,16 +183,18 @@ function BooksWishList() {
         ))}
       </div>
 
-      <div className="search-results">
-        {results.map(book => (
-          <div key={book.id} className="search-item">
-            {book.image && <img src={book.image} alt={book.title} />}
-            <h4>{book.title}</h4>
-            <p>{book.author}</p>
-            <button onClick={() => addBook(book)}>➕ Додати</button>
-          </div>
-        ))}
-      </div>
+      {results.length > 0 && (
+        <div className="search-results">
+          {results.map(book => (
+            <div key={book.id} className="search-item">
+              {book.image && <img src={book.image} alt={book.title} />}
+              <h4>{book.title}</h4>
+              <p>{book.author}</p>
+              <button onClick={() => addBook(book)}>➕ Додати</button>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
