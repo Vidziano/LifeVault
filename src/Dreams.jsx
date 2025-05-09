@@ -31,7 +31,7 @@ function Dreams() {
 
   const scrollToForm = () => {
     if (formRef.current) {
-      formRef.current.scrollIntoView({ behavior: 'smooth' });
+      formRef.current?.scrollIntoView?.();
     }
   };
 

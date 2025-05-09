@@ -17,8 +17,6 @@ function CalendarView() {
 
   const todayStr = new Date().toDateString();
 
-
-  
   const handleTransfer = () => {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
@@ -167,15 +165,10 @@ function CalendarView() {
 
   const filteredEvents = filter === 'усі' ? allEvents : allEvents.filter(ev => ev.theme === filter);
 
-
-  
   return (
     <div className="calendar-wrapper">
-  
-      {/* Заголовок розділу */}
       <h2 className="calendar-title">📅 Календар подій і завдань</h2>
-  
-      {/* Модальне вікно */}
+
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-window">
@@ -192,23 +185,22 @@ function CalendarView() {
                 )}
                 {!!tasks[todayStr]?.filter(t => !t.done).length && (
                   <>
-                    <h4>📝 Завдання:</h4>
+                    <h4>📍 Завдання:</h4>
                     <ul>{tasks[todayStr].filter(t => !t.done).map((t, i) => (
-                      <li key={i}><span className="badge особисте">{t.text}</span></li>
+                      <li key={i}><span className="badge завдання">{t.text}</span></li>
                     ))}</ul>
                   </>
                 )}
               </>
             ) : (
-              <p>😌 Сьогодні немає подій або дедлайнів. Можна трохи розслабитися!</p>
+              <p>😌 Сьогодні немає подій або дедлайнів.</p>
             )}
             <button onClick={() => setShowModal(false)}>Закрити</button>
           </div>
         </div>
       )}
-  
-      {/* Верхня частина — Календар і панель */}
-      <div className="calendar-container">
+
+      <div className="calendar-layout">
         <div className="calendar-box">
           <Calendar
             onChange={setSelectedDate}
@@ -219,8 +211,8 @@ function CalendarView() {
             locale="uk-UA"
           />
         </div>
-  
-        <div className="calendar-panel">
+
+        <div className="calendar-right">
           <button
             className="transfer-button-icon"
             title="Перенести невиконані завдання з учора"
@@ -228,84 +220,90 @@ function CalendarView() {
           >
             🔄
           </button>
-  
-          <div className="today-reminder">
-            <h4>🔔 Події на сьогодні:</h4>
-            <ul>
-              {(events[todayStr] || []).map((e, i) => (
-                <li key={i}><span className={`badge ${e.theme}`}>{e.text}</span></li>
-              ))}
-            </ul>
-            <h4>✅ Завдання на сьогодні:</h4>
-            <ul>
-              {(tasks[todayStr] || []).filter(t => !t.done).map((t, i) => (
-                <li key={i}><span className="badge особисте">{t.text}</span></li>
-              ))}
-            </ul>
-          </div>
-  
-          <div>
-            <h3>📌 Події на {selectedDate.toDateString()}:</h3>
-            <ul>
-              {(events[selectedDate.toDateString()] || []).map((ev, i) => (
-                <li key={i}>
-                  <input
-                    value={ev.text}
-                    className={`badge ${ev.theme}`}
-                    onChange={(e) => handleEditChange(e, selectedDate.toDateString(), i, 'event')}
-                  />
-                  <button onClick={() => deleteEvent(selectedDate.toDateString(), i)}>❌</button>
-                </li>
-              ))}
-            </ul>
-            <div className="add-form-group">
-              <input
-                type="text"
-                value={newEvent}
-                onChange={(e) => setNewEvent(e.target.value)}
-                placeholder="Нова подія або дедлайн"
-              />
-              <select value={theme} onChange={(e) => setTheme(e.target.value)}>
-                {themeKeys.map(t => <option key={t} value={t}>{t}</option>)}
-              </select>
-              <button onClick={addEvent}>➕</button>
+
+          <div className="today-columns">
+            <div className="today-events">
+              <h4>🔔 Події на сьогодні:</h4>
+              <ul>
+                {(events[todayStr] || []).map((e, i) => (
+                  <li key={i}><span className={`badge ${e.theme}`}>{e.text}</span></li>
+                ))}
+              </ul>
             </div>
-          </div>
-  
-          <div>
-            <h3>📝 Завдання на {selectedDate.toDateString()}:</h3>
-            <ul>
-              {(tasks[selectedDate.toDateString()] || []).map((t, i) => (
-                <li key={i}>
-                  <input
-                    type="checkbox"
-                    checked={t.done}
-                    onChange={() => toggleTask(selectedDate.toDateString(), i)}
-                  />
-                  <input
-                    className="badge особисте"
-                    style={{ textDecoration: t.done ? 'line-through' : '' }}
-                    value={t.text}
-                    onChange={(e) => handleEditChange(e, selectedDate.toDateString(), i, 'task')}
-                  />
-                  <button onClick={() => deleteTask(selectedDate.toDateString(), i)}>❌</button>
-                </li>
-              ))}
-            </ul>
-            <div className="add-form-group">
-              <input
-                type="text"
-                value={newTask}
-                onChange={(e) => setNewTask(e.target.value)}
-                placeholder="Нове завдання"
-              />
-              <button onClick={addTask}>➕</button>
+
+            <div className="today-tasks">
+              <h4>✅ Завдання на сьогодні:</h4>
+              <ul>
+                {(tasks[todayStr] || []).filter(t => !t.done).map((t, i) => (
+                  <li key={i}><span className="badge завдання">{t.text}</span></li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
       </div>
-  
-      {/* Нижня частина */}
+
+      <div className="calendar-bottom">
+        <div className="date-events">
+          <h3>📌 Події на {selectedDate.toDateString()}:</h3>
+          <ul>
+            {(events[selectedDate.toDateString()] || []).map((ev, i) => (
+              <li key={i}>
+                <input
+                  value={ev.text}
+                  className={`badge ${ev.theme}`}
+                  onChange={(e) => handleEditChange(e, selectedDate.toDateString(), i, 'event')}
+                />
+                <button onClick={() => deleteEvent(selectedDate.toDateString(), i)}>❌</button>
+              </li>
+            ))}
+          </ul>
+          <div className="add-form-group">
+            <input
+              type="text"
+              value={newEvent}
+              onChange={(e) => setNewEvent(e.target.value)}
+              placeholder="Нова подія або дедлайн"
+            />
+            <select value={theme} onChange={(e) => setTheme(e.target.value)}>
+              {themeKeys.map(t => <option key={t} value={t}>{t}</option>)}
+            </select>
+            <button onClick={addEvent}>➕</button>
+          </div>
+        </div>
+
+        <div className="date-tasks">
+          <h3>📋 Завдання на {selectedDate.toDateString()}:</h3>
+          <ul>
+            {(tasks[selectedDate.toDateString()] || []).map((t, i) => (
+              <li key={i}>
+                <input
+                  type="checkbox"
+                  checked={t.done}
+                  onChange={() => toggleTask(selectedDate.toDateString(), i)}
+                />
+                <input
+                  className="badge завдання"
+                  style={{ textDecoration: t.done ? 'line-through' : '' }}
+                  value={t.text}
+                  onChange={(e) => handleEditChange(e, selectedDate.toDateString(), i, 'task')}
+                />
+                <button onClick={() => deleteTask(selectedDate.toDateString(), i)}>❌</button>
+              </li>
+            ))}
+          </ul>
+          <div className="add-form-group">
+            <input
+              type="text"
+              value={newTask}
+              onChange={(e) => setNewTask(e.target.value)}
+              placeholder="Нове завдання"
+            />
+            <button onClick={addTask}>➕</button>
+          </div>
+        </div>
+      </div>
+
       <div className="calendar-lists">
         <div>
           <h3>📂 Усі події</h3>
@@ -329,7 +327,7 @@ function CalendarView() {
             {allTasks.map((task, i) => (
               <li key={i}>
                 <strong>{task.date}:</strong>{' '}
-                <span className="badge особисте" style={{ textDecoration: task.done ? 'line-through' : '' }}>
+                <span className="badge завдання" style={{ textDecoration: task.done ? 'line-through' : '' }}>
                   {task.text}
                 </span>
               </li>
@@ -339,9 +337,6 @@ function CalendarView() {
       </div>
     </div>
   );
-  
-  
-  
 }
 
 export default CalendarView;
