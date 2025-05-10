@@ -1,12 +1,54 @@
+.habit-section {
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
+.habit-input {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 60px;
+  justify-content: center;
+  align-items: center;
+}
+
+.habit-input input {
+  padding: 12px 16px;
+  flex-grow: 1;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  width: 200px;
+  max-width: 30%;
+}
+
+.habit-input button {
+  background: linear-gradient(135deg, #b388ff, #80deea);
+  color: white;
+  padding: 12px 22px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.habit-input button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+}
+
 .habit-table {
   width: 100%;
   border-collapse: collapse;
   text-align: center;
+  margin-bottom: 100px;
 }
 
 .habit-table th,
 .habit-table td {
-  padding: 10px;
+  padding: 12px;
 }
 
 .habit-table th {
@@ -23,8 +65,8 @@
 }
 
 .habit-circle {
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
   border: 2px solid #4e4eeb;
   border-radius: 50%;
   display: inline-flex;
@@ -46,63 +88,6 @@
   background-color: #e0e0ff;
   color: rgb(162, 152, 255);
   border-color: #4e4eeb;
-}
-
-body.dark .habit-circle {
-  border-color: #80deea;
-  color: #80deea;
-}
-
-body.dark .habit-circle.done {
-  background-color: #355b80;
-  color: white;
-  border-color: #80deea;
-}
-
-.habit-input {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-  justify-content: center;
-  align-items: center;
-}
-
-.habit-input input {
-  padding: 10px;
-  flex-grow: 1;
-  font-size: 16px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  max-width: 400px;
-}
-
-.habit-input button {
-  background: linear-gradient(135deg, #b388ff, #80deea);
-  color: white;
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.habit-input button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
-}
-
-body.dark .habit-input input {
-  background-color: #2c2c2c;
-  color: #f0f0f0;
-  border-color: #555;
-}
-
-body.dark .habit-input button {
-  background: linear-gradient(135deg, #2c2c5d, #355b80);
-  color: #f5f5f5;
 }
 
 .suggestions-wrapper {
@@ -135,6 +120,29 @@ body.dark .habit-input button {
 
 .habit-suggestion:hover {
   background-color: #f0f0f0;
+}
+
+/* Dark theme styles */
+body.dark .habit-input input {
+  background-color: #2c2c2c;
+  color: #f0f0f0;
+  border-color: #555;
+}
+
+body.dark .habit-input button {
+  background: linear-gradient(135deg, #2c2c5d, #355b80);
+  color: #f5f5f5;
+}
+
+body.dark .habit-circle {
+  border-color: #80deea;
+  color: #80deea;
+}
+
+body.dark .habit-circle.done {
+  background-color: #355b80;
+  color: white;
+  border-color: #80deea;
 }
 
 body.dark .habit-suggestions {

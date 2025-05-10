@@ -37,7 +37,13 @@ import WishList from './WishList';
 function Sidebar({ darkMode, setDarkMode }) {
   return (
     <div className="sidebar">
-      <h1 className="sidebar-title">📘 LifeVault</h1>
+<div className="sidebar-brand">
+  <span className="logo-emoji">📘</span>
+  <span className="sidebar-text">LifeVault</span>
+</div>
+
+
+
       <ul>
         <li>
         <NavLink to="/profile" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>👤 Профіль</NavLink>

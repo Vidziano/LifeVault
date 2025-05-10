@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
-import './Reminder.css';
+import './PersonalizedReminder.css';
 
 const AchievementContext = createContext(null);
 
