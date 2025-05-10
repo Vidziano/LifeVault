@@ -7,6 +7,7 @@ import {
 } from 'react-simple-maps';
 import './TravelWishMap.css';
 
+
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
 function TravelWishMap() {

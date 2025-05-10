@@ -9,6 +9,8 @@ import {
 } from 'react-simple-maps';
 import * as topojson from 'topojson-client';
 import './TravelWishMap.css';
+import GlobeView from './GlobeView'; 
+import './GlobeView.css';
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
@@ -156,104 +158,97 @@ function TravelWishMap() {
 
   return (
     <div className="travel-map-wrapper" onMouseMove={(e) => setMousePos({ x: e.clientX, y: e.clientY })}>
-      <h3>🗺️ Мапа бажаних подорожей</h3>
+      <h3>🗺️ Мапа подорожей</h3>
       <p>Натисни на країну, щоб додати до списку бажаних або знову натисни, щоб позначити як відвідану.</p>
-
+  
       <div className="map-mode-buttons">
         <button className={mode === 'visited' ? 'active' : ''} onClick={() => setMode('visited')}>✅ Відвідані</button>
         <button className={mode === 'dream' ? 'active' : ''} onClick={() => setMode('dream')}>🌐 Мрії</button>
       </div>
-
+  
       <div className="map-and-panel">
-        <div className="map-container">
-          {viewMode === 'globe' ? (
-            <>
-              <div className="globe-wrapper">
-                <Globe
-                  ref={globeEl}
-                  globeImageUrl={null}
-                  globeMaterial={new THREE.MeshPhongMaterial({
-                    color: '#ffffff',
-                    specular: '#ccc',
-                    shininess: 5
-                  })}
-                  showAtmosphere={false}
-                  polygonsData={countries}
-                  polygonAltitude={0.01}
-                  polygonCapColor={(feat) => {
-                    const id = feat.id;
-                    if (hoveredCountry && feat.properties.name === hoveredCountry) return '#ffd54f';
-                    if (visitedCountries.find(c => c.id === id)) return '#69e36a';
-                    if (dreamCountries.find(c => c.id === id)) return '#83cfff';
-                    return '#333';
-                  }}
-                  polygonSideColor={() => '#444'}
-                  polygonStrokeColor={() => '#555'}
-                  onPolygonClick={(feat) => toggleCountry(feat.id, feat.properties.name)}
-                  onPolygonHover={(feat) => setHoveredCountry(feat?.properties?.name || null)}
-                  polygonsTransitionDuration={300}
-                />
-              </div>
-              {hoveredCountry && (
-                <div className="hover-tooltip" style={{ top: mousePos.y + 10, left: mousePos.x + 10 }}>
-                  {hoveredCountry}
+        <div className="map-column">
+          <div className="map-container">
+            {viewMode === 'globe' ? (
+              <>
+                <div className="globe-wrapper">
+                  <GlobeView
+                    countries={countries}
+                    hoveredCountry={hoveredCountry}
+                    setHoveredCountry={setHoveredCountry}
+                    toggleCountry={toggleCountry}
+                    visitedCountries={visitedCountries}
+                    dreamCountries={dreamCountries}
+                    mousePos={mousePos}
+                  />
                 </div>
-              )}
-            </>
-          ) : (
-            <>
-              <ComposableMap>
-                <ZoomableGroup
-                  center={position.coordinates}
-                  zoom={position.zoom}
-                  onMoveEnd={(pos) => setPosition(pos)}
-                  minZoom={1}
-                  maxZoom={5}
-                  translateExtent={[[-1500, -800], [1500, 800]]}
-                >
-                  <Geographies geography={geoUrl}>
-                    {({ geographies }) =>
-                      geographies.map((geo) => (
-                        <Geography
-                          key={geo.rsmKey}
-                          geography={geo}
-                          onClick={() => toggleCountry(geo.id, geo.properties.name)}
-                          onMouseEnter={() => setHoveredCountry(geo.properties.name)}
-                          onMouseLeave={() => setHoveredCountry(null)}
-                          style={{
-                            default: {
-                              fill: getColor(geo.id),
-                              stroke: "#999",
-                              strokeWidth: 0.5,
-                              outline: "none"
-                            },
-                            hover: {
-                              fill: "#ffd54f",
-                              stroke: "#555",
-                              strokeWidth: 0.75,
-                              cursor: "pointer",
-                              outline: "none"
-                            },
-                            pressed: {
-                              fill: "#ffb300",
-                              outline: "none"
-                            }
-                          }}
-                        />
-                      ))
-                    }
-                  </Geographies>
-                </ZoomableGroup>
-              </ComposableMap>
-              {hoveredCountry && (
-                <div className="hover-tooltip" style={{ top: mousePos.y + 10, left: mousePos.x + 10 }}>
-                  {hoveredCountry}
-                </div>
-              )}
-            </>
-          )}
+                {hoveredCountry && (
+                  <div className="hover-tooltip" style={{ top: mousePos.y + 10, left: mousePos.x + 10 }}>
+                    {hoveredCountry}
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                <ComposableMap>
+                  <ZoomableGroup
+                    center={position.coordinates}
+                    zoom={position.zoom}
+                    onMoveEnd={(pos) => setPosition(pos)}
+                    minZoom={1}
+                    maxZoom={5}
+                    translateExtent={[[-1500, -800], [1500, 800]]}
+                  >
+                    <Geographies geography={geoUrl}>
+                      {({ geographies }) =>
+                        geographies.map((geo) => (
+                          <Geography
+                            key={geo.rsmKey}
+                            geography={geo}
+                            onClick={() => toggleCountry(geo.id, geo.properties.name)}
+                            onMouseEnter={() => setHoveredCountry(geo.properties.name)}
+                            onMouseLeave={() => setHoveredCountry(null)}
+                            style={{
+                              default: {
+                                fill: getColor(geo.id),
+                                stroke: "#999",
+                                strokeWidth: 0.5,
+                                outline: "none"
+                              },
+                              hover: {
+                                fill: "#ffd54f",
+                                stroke: "#555",
+                                strokeWidth: 0.75,
+                                cursor: "pointer",
+                                outline: "none"
+                              },
+                              pressed: {
+                                fill: "#ffb300",
+                                outline: "none"
+                              }
+                            }}
+                          />
+                        ))
+                      }
+                    </Geographies>
+                  </ZoomableGroup>
+                </ComposableMap>
+                {hoveredCountry && (
+                  <div className="hover-tooltip" style={{ top: mousePos.y + 10, left: mousePos.x + 10 }}>
+                    {hoveredCountry}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+  
+          {/* Вирівняні по лівому краю мапи */}
+          <div className="view-toggle">
+            <button className={viewMode === 'globe' ? 'active' : ''} onClick={() => setViewMode('globe')}>🌍</button>
+            <button className={viewMode === 'map' ? 'active' : ''} onClick={() => setViewMode('map')}>🗺️</button>
+          </div>
         </div>
-
+  
         <div className="info-columns">
           <div className="info-panel">
             {renderList("✅ Відвідані", visitedCountries, setVisitedCountries)}
@@ -263,13 +258,10 @@ function TravelWishMap() {
           </div>
         </div>
       </div>
-
-      <div className="view-toggle">
-        <button className={viewMode === 'globe' ? 'active' : ''} onClick={() => setViewMode('globe')}>🌍</button>
-        <button className={viewMode === 'map' ? 'active' : ''} onClick={() => setViewMode('map')}>🗺️</button>
-      </div>
     </div>
   );
+  
+  
 }
 
 export default TravelWishMap;

@@ -10,44 +10,63 @@
   font-family: 'Segoe UI', sans-serif;
 }
 
+body.dark .sidebar {
+  background: linear-gradient(to bottom, #2a2a2a, #1e1e1e);
+  border-right: 1px solid #444;
+}
+
 .sidebar-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   margin-bottom: 40px;
-  padding-left: 4px;
+  padding-left: 6px;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.logo-emoji {
-  font-size: 24px;
-  transform: translateY(1px);
+
+
+
+.sidebar-icon {
+  width: 14px;
+  height: 26px;
+  background: linear-gradient(160deg, #5f5df8, #8fbaff);
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(95, 93, 248, 0.3);
+}
+
+body.dark .sidebar-icon {
+  background: linear-gradient(160deg, #8faaff, #a3bcff);
 }
 
 .sidebar-text {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 800;
-  background: linear-gradient(90deg, #5f5df8, #6ecbff);
+  background: linear-gradient(90deg, #5f5df8, #8fbaff);
+  background-clip: text;
   -webkit-background-clip: text;
+  color: transparent;
   -webkit-text-fill-color: transparent;
   transition: letter-spacing 0.25s ease, transform 0.25s ease;
 }
 
+body.dark .sidebar-text {
+  background: linear-gradient(90deg, #a8b3ff, #c2d1ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo-emoji {
+  font-size: 25px; 
+  transform: translateY(2px); 
+}
+
+
 .sidebar-brand:hover .sidebar-text {
   letter-spacing: 1.5px;
   transform: scale(1.03);
-}
-
-body.dark .sidebar-text {
-  background: linear-gradient(90deg, #a8b3ff, #8ed6ff);
-}
-
-
-
-
-
-body.dark .sidebar {
-  background: linear-gradient(to bottom, #2a2a2a, #1e1e1e);
-  border-right: 1px solid #444;
 }
 
 .sidebar-title {
@@ -136,3 +155,5 @@ body.dark .theme-toggle button {
   background: linear-gradient(to right, #6366f1, #3b82f6);
   color: white;
 }
+
+
