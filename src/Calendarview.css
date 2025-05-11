@@ -11,9 +11,11 @@
   --color-особисте: #fdc2cb;
   --color-інше: #f197ff;
   --color-завдання: #ffecb2;
+  
 
   --badge-text: #000;
 }
+
 
 body.dark {
   --bg-light: #2a2a2a;
@@ -21,9 +23,10 @@ body.dark {
   --primary: #333;
   --primary-dark: #444;
 
-  --color-робота: #f48fb1;
-  --color-навчання: #4fc3f7;
-  --color-особисте: #66bb6a;
+  --color-робота: #4fc3f7;
+  --color-навчання: #66bb6a;
+  --color-особисте: #ff3a7b; 
+  --color-завдання: #f7cc4e;
   --color-інше: #ba68c8;
 
   --badge-text: #fff;
@@ -117,7 +120,7 @@ body.dark .react-calendar {
 
 body.dark .react-calendar__navigation button {
   background-color: #3a3a3a;
-  color: var(--text-dark);
+  color: white !important;
 }
 
 
@@ -156,8 +159,14 @@ body.dark .react-calendar__tile:hover {
 
 /* Сьогодні */
 .calendar-today {
+  background-color: #81c78433; /* напівпрозорий зелений фон */
   border: 2px solid #81c784;
   border-radius: 10px;
+  font-weight: bold;
+}
+body.dark .calendar-today {
+  background-color: #388e3c55; /* темно-зелений для темної теми */
+  border-color: #81c784;
 }
 
 /* Крапки подій */
@@ -464,3 +473,58 @@ calendar-container {
 }
 
 
+.react-calendar__tile--now {
+  background: linear-gradient(135deg, #ff86b4, #d78cf5) !important;
+  color: white !important;
+  border: 2px solid white !important;
+  box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.4);
+  font-weight: bold;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+body.dark .react-calendar__tile--now {
+  background: linear-gradient(135deg, #9a53af, #f578a2) !important;
+  border: 2px solid #fff !important;
+  box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.2);
+  color: black !important;
+}
+
+.badge.робота,
+input.badge.робота {
+  background-color: var(--color-робота) !important;
+  color: var(--badge-text) !important;
+}
+
+.badge.навчання,
+input.badge.навчання {
+  background-color: var(--color-навчання) !important;
+  color: var(--badge-text) !important;
+}
+
+.badge.особисте,
+input.badge.особисте {
+  background-color: var(--color-особисте) !important;
+  color: var(--badge-text) !important;
+}
+
+.badge.інше,
+input.badge.інше {
+  background-color: var(--color-інше) !important;
+  color: var(--badge-text) !important;
+}
+
+.badge.завдання,
+input.badge.завдання {
+  background-color: var(--color-завдання) !important;
+  color: var(--badge-text) !important;
+}
+
+body.dark .react-calendar__navigation button:nth-child(3) {
+  color: white !important;
+}
+
+.dot.робота { background-color: var(--color-робота) !important; }
+.dot.навчання { background-color: var(--color-навчання) !important; }
+.dot.особисте { background-color: var(--color-особисте) !important; }
+.dot.інше { background-color: var(--color-інше) !important; }
