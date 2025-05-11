@@ -16,6 +16,13 @@
   --badge-text: #000;
 }
 
+.full-width {
+  width: 100%;
+  max-width: 100%;
+  flex: 1;
+}
+
+
 
 body.dark {
   --bg-light: #2a2a2a;
@@ -44,21 +51,8 @@ body.dark .calendar-wrapper {
   color: var(--text-dark);
 }
 
-/* Layout */
-.calendar-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 32px;
-}
 
-.calendar-box {
-  flex: 0 0 auto;
-  width: 5000px;
-  display: flex;
-  justify-content: center;
-}
+
 
 .calendar-panel {
   flex: 1 1 340px;
@@ -68,17 +62,25 @@ body.dark .calendar-wrapper {
   gap: 20px;
 }
 
-/* react-calendar */
+.calendar-box {
+  flex: 0 0 520px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+
 .react-calendar {
   width: 100%;
-  font-family:'Comfortaa', cursive;;
-  font-size: 16px;
-  background-color: var(--bg-light);
+  max-width: 580px;
+  min-width: 580px;
+  margin: 0 auto;
+  padding: 28px;
+  height: 460px; /* або auto */
   border-radius: 20px;
-  padding: 24px;
+  background-color: var(--bg-light);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-  color: var(--text-light);
-  border: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 17px;
 }
 
 body.dark .react-calendar {
@@ -93,6 +95,50 @@ body.dark .react-calendar {
   gap: 4px;
   margin-bottom: 12px;
 }
+
+.block-wrapper {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #ddd;
+}
+
+body.dark .block-wrapper {
+  background: #2e2e2e;
+  border-color: #444;
+}
+
+
+/* Вирівнювання today-блоків */
+.today-wrapper {
+  display: flex;
+  gap: 20px;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+
+
+.today-block {
+  flex: 1 1 0;
+  min-width: 240px;
+  max-width: 520px;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #ddd;
+}
+
+
+body.dark .today-block {
+  background: #2e2e2e;
+  border-color: #444;
+}
+
+
 
 .react-calendar__navigation button {
   font-size: 16px;
@@ -126,11 +172,11 @@ body.dark .react-calendar__navigation button {
 
 
 .react-calendar__tile {
-  padding: 18px 0;
-  border-radius: 10px;
-  color: var(--text-light);
-  background-color: transparent;
+  height: 60px;
+  padding: 10px 0;
+  font-size: 16px;
 }
+
 
 body.dark .react-calendar__tile {
   color: var(--text-dark);
@@ -215,6 +261,7 @@ input.badge {
   padding: 6px 10px;
   border-radius: 8px;
   font-weight: 500;
+  font-family: 'Comfortaa', cursive;
 }
 
 body.dark input.badge {
@@ -295,6 +342,7 @@ body.dark .modal-window {
   flex-wrap: wrap;
   gap: 40px;
   margin-top: 40px;
+  font-family: 'Comfortaa', cursive;
 }
 
 .calendar-lists > div {
@@ -304,6 +352,7 @@ body.dark .modal-window {
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  font-family: 'Comfortaa', cursive;
 }
 
 body.dark .calendar-lists > div {
@@ -317,6 +366,17 @@ body.dark .calendar-lists > div {
   align-items: center;
   gap: 10px;
   margin-top: 10px;
+  width: 100%;
+}
+
+.add-form-group input,
+.add-form-group select {
+  height: 40px;
+  padding: 0 12px;
+  font-size: 15px;
+  vertical-align: middle;
+  box-sizing: border-box;
+  font-family: 'Comfortaa', cursive;
 }
 
 /* Чекбокс */
@@ -331,6 +391,19 @@ input[type="checkbox"] {
   .calendar-box, .calendar-panel {
     width: 100%;
   }
+}
+
+.task-completed {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: #555;
+  opacity: 0.7;
+}
+
+.task-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 
@@ -367,22 +440,7 @@ input[type="checkbox"] {
   font-family: 'Comfortaa', cursive;
 }
 
-.calendar-box {
-  display: flex;
-  justify-content: left;
-  width: 100%;
-}
 
-.react-calendar {
-  width: 460px !important; /* ← ЖОРСТКА ширина */
-  max-width: 460px;
-  min-width: 460px;
-  padding: 24px;
-  border-radius: 20px;
-  background-color: var(--bg-light);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-  font-family: 'Inter', sans-serif;
-}
 
 calendar-container {
   display: flex;
@@ -392,27 +450,41 @@ calendar-container {
   gap: 32px;
 }
 
-.calendar-box {
-  flex: 0 0 auto;
-  width: 460px;
-}
 
 .calendar-panel {
   flex: 1;
   min-width: 320px;
 }
 
+
 .calendar-layout {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 32px;
   align-items: flex-start;
   justify-content: center;
 }
 
-.calendar-left {
-  width: 460px;
+.select-shrink {
+  max-width: 180px;
+  flex: 0 0 auto;
+  font-family: 'Comfortaa', cursive;
 }
+
+.date-events ul,
+.date-tasks ul {
+  padding-left: 0;
+  margin-left: 0;
+}
+
+.date-events li,
+.date-tasks li {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+
+
 
 .calendar-right {
   display: flex;
@@ -445,13 +517,7 @@ calendar-container {
   flex: 1;
   min-width: 300px;
 }
-.add-form-group {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  align-items: center;
-  margin-top: 12px;
-}
+
 
 .today-columns {
   display: flex;
@@ -485,17 +551,28 @@ calendar-container {
   transition: all 0.3s ease;
 }
 
-body.dark .react-calendar__tile--now {
-  background: linear-gradient(135deg, #5453af, #e678f5) !important;
-  border: 2px solid #fff !important;
-  box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.2);
-  color: black !important;
+.filter-select {
+  font-family: 'Comfortaa', cursive;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #fff;
 }
+
+body.dark .filter-select {
+  background-color: #2e2e2e;
+  color: var(--text-dark);
+  border-color: #666;
+}
+
 
 .badge.робота,
 input.badge.робота {
   background-color: var(--color-робота) !important;
   color: var(--badge-text) !important;
+  
 }
 
 .badge.навчання,
@@ -514,6 +591,7 @@ input.badge.особисте {
 input.badge.інше {
   background-color: var(--color-інше) !important;
   color: var(--badge-text) !important;
+  font-family: 'Comfortaa', cursive;
 }
 
 .badge.завдання,
