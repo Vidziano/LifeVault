@@ -1,3 +1,4 @@
+/* 🔘 FAB-кнопка */
 .quick-notes-fab {
   position: fixed;
   bottom: 24px;
@@ -31,13 +32,14 @@ body.dark .quick-notes-fab:hover {
   background-color: #5050ff;
 }
 
+/* 🔲 Панель */
 .quick-notes-panel {
   position: fixed;
   top: 0;
   right: 0;
   width: 340px;
   height: 100vh;
-  background: #f0f2ff;
+  background: #ffffff;
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -48,12 +50,13 @@ body.dark .quick-notes-fab:hover {
 }
 
 body.dark .quick-notes-panel {
-  background: #232334;
+  background: #1e1e2a;
   color: #f0f0f0;
-  box-shadow: -4px 0 20px rgba(255, 255, 255, 0.05);
   border-left: 1px solid #333;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
 }
 
+/* 🔠 Хедер */
 .quick-notes-header {
   display: flex;
   justify-content: space-between;
@@ -89,6 +92,7 @@ body.dark .quick-notes-header button:hover {
   background-color: rgba(255, 255, 255, 0.08);
 }
 
+/* 📋 Список */
 .quick-notes-list {
   flex: 1;
   overflow-y: auto;
@@ -98,6 +102,7 @@ body.dark .quick-notes-header button:hover {
   padding-right: 6px;
 }
 
+/* 📝 Швидка нотатка */
 .quick-note {
   padding: 10px 14px;
   border-radius: 10px;
@@ -107,27 +112,44 @@ body.dark .quick-notes-header button:hover {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  background: #fff;
+  color: #111;
 }
 
+/* 🌕 Світла тема категорій */
+.quick-note.робота     { background-color: #e3f2fd; }
+.quick-note.навчання   { background-color: #e8f5e9; }
+.quick-note.особисте   { background-color: #ffebee; }
+.quick-note.інше       { background-color: #f3e5f5; }
+.quick-note.завдання   { background-color: #fff8e1; }
+.quick-note.натхнення  { background-color: #ede7f6; }
+
+/* 🌑 Темна тема — ті ж кольори, як у Notes */
+body.dark .quick-note.робота     { background-color: #203c5a; color: #fff; }
+body.dark .quick-note.навчання   { background-color: #224d36; color: #fff; }
+body.dark .quick-note.особисте   { background-color: #4b2c2c; color: #fff; }
+body.dark .quick-note.інше       { background-color: #402d4f; color: #fff; }
+body.dark .quick-note.завдання   { background-color: #4a3b23; color: #fff; }
+body.dark .quick-note.натхнення  { background-color: #3a2b52; color: #fff; }
+
+/* 🖼️ Фото */
 .quick-note img {
   max-width: 100%;
   border-radius: 6px;
   margin-top: 6px;
 }
 
+/* 📅 Дата */
 .quick-date {
   font-size: 12px;
   color: #555;
   text-align: right;
 }
 
-.quick-note {
-  background: #ffffff; /* явно вказати білий для світлої */
-  color: #222;
+body.dark .quick-date {
+  color: #ccc;
 }
 
-
+/* ❗ Повідомлення */
 .no-notes {
   text-align: center;
   color: #777;
