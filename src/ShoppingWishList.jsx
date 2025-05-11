@@ -133,7 +133,7 @@ function ShoppingWishList() {
 
   return (
     <div className="shopping-wishlist">
-      <h2>🛍️ Список покупок</h2>
+      <h2>🛍️ Мій вішліст</h2>
 
       <div className="shopping-inputs">
         <input
@@ -191,16 +191,14 @@ function ShoppingWishList() {
       <div className="shopping-list">
         {savedItems.map(item => (
           <div className="shopping-card">
-          <div className="card-header">
-            <div className="card-actions">
-              <button className="edit-button" onClick={() => startEdit(item)}>✏️</button>
-              <button className="delete-button" onClick={() => removeItem(item.id)}>🗑️</button>
-            </div>
+          <div className="card-buttons">
+            <button className="icon-btn" onClick={() => startEdit(item)}>✏️</button>
+            <button className="icon-btn" onClick={() => removeItem(item.id)}>🗑️</button>
           </div>
-        
+
           {item.imageData && <img src={item.imageData} alt={item.title} />}
           {!item.imageData && item.imageUrl && <img src={item.imageUrl} alt={item.title} />}
-        
+
           <div className="shopping-info">
             <h4>{item.title}</h4>
             {item.price && <p>💸 {item.price}</p>}
@@ -210,7 +208,8 @@ function ShoppingWishList() {
               </a>
             )}
           </div>
-        </div>        
+        </div>
+  
         ))}
       </div>
     </div>

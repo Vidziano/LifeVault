@@ -5,9 +5,25 @@
 }
 
 .shopping-wishlist h2 {
-  font-size: 1.8rem;
-  color: #4e4eeb;
-  margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: 600;
+  color: #5f5df8;
+  padding: 20px;
+  margin-bottom: 12px;
+  margin-top: 0;
+  position: relative;
+  display: inline-block;
+  text-align: center;
+}
+
+.shopping-wishlist h2::after {
+  content: '';
+  display: block;
+  height: 3px;
+  width: 80%;
+  background-color: #5f5df8;
+  margin: 6px auto 0;
+  border-radius: 2px;
 }
 
 /* Вхідні поля */
@@ -63,6 +79,7 @@
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
   position: relative;
   transition: transform 0.2s ease;
+  overflow: hidden;
 }
 
 .shopping-card:hover {
@@ -74,8 +91,10 @@
   height: auto;
   border-radius: 8px;
   margin-bottom: 8px;
+  margin-top: 32px;
 }
 
+/* Інформація про товар */
 .shopping-info h4 {
   margin: 8px 0 4px;
   font-size: 1.1rem;
@@ -95,25 +114,38 @@
   font-weight: 600;
 }
 
-/* Кнопки редагування і видалення */
-.delete-button,
-.edit-button {
+/* Header з кнопками */
+.card-header {
   position: absolute;
-  top: 6px;
-  background: none;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 6px;
+  z-index: 2;
+}
+
+.card-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.card-actions button {
+  background: rgba(255, 255, 255, 0.8);
   border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 18px;
   cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: background 0.2s;
 }
 
-.delete-button {
-  right: 6px;
-  color: #e57373;
-}
-
-.edit-button {
-  right: 36px;
-  color: #4e4eeb;
+.card-actions button:hover {
+  background: rgba(255, 255, 255, 1);
 }
 
 /* Темна тема */
@@ -145,7 +177,16 @@ body.dark .shopping-info a {
   color: #9dc1ff;
 }
 
+body.dark .card-actions button {
+  background: rgba(60, 60, 60, 0.8);
+  color: white;
+}
 
+body.dark .card-actions button:hover {
+  background: rgba(60, 60, 60, 1);
+}
+
+/* File upload */
 .file-upload {
   background: #e0e0e0;
   padding: 6px 10px;
@@ -180,38 +221,50 @@ body.dark .file-upload {
   margin-bottom: -4px;
 }
 
-.card-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 6px;
-  margin-bottom: 6px;
-}
-
-.card-header {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 16px;
-}
-
-.card-actions button {
-  font-size: 16px;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.card-actions .edit-button {
-  color: #4e4eeb;
-  margin-right: 8px;
-}
-
-.card-actions .delete-button {
-  color: #e57373;
-}
-
+/* Помилка */
 .field-error {
   font-size: 0.85rem;
   color: #e57373;
   margin-top: -6px;
   margin-bottom: 6px;
+}
+
+/* Кнопки дій — фіксуються вгорі праворуч */
+.card-buttons {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 6px;
+  z-index: 5;
+}
+
+/* Загальний стиль для кнопок */
+.icon-btn {
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  transition: background 0.2s ease;
+}
+
+.icon-btn:hover {
+  background: #ffffff;
+}
+
+/* Темна тема */
+body.dark .icon-btn {
+  background: rgba(60, 60, 60, 0.8);
+  color: white;
+}
+
+body.dark .icon-btn:hover {
+  background: rgba(60, 60, 60, 1);
 }
