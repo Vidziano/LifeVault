@@ -29,7 +29,7 @@
   border: 1px solid #ccc;
   border-radius: 10px;
   background: #ffffff;
-  font-size: 15px;
+  font-size: 18px;
   box-sizing: border-box;
   font-family: 'Comfortaa', cursive;
 }
@@ -71,7 +71,7 @@
 }
 
 .dream-header {
-  font-size: 16px;
+  font-size: 18px;
   margin-bottom: 8px;
 }
 
@@ -338,7 +338,6 @@ body.dark .dream-list button:nth-child(3) {
   color: #5f5df8;
   padding: 20px;
   margin-bottom: 12px;
-  margin-top: 0;
   position: relative;
   display: inline-block;
   text-align: center;
@@ -347,11 +346,19 @@ body.dark .dream-list button:nth-child(3) {
 .dreams h2::after {
   content: '';
   display: block;
-  height: 3px;
+  height: 4px;
   width: 80%;
   background-color: #5f5df8;
   margin: 6px auto 0;
   border-radius: 2px;
+}
+
+body.dark .dreams h2::after {
+  background-color: #a8b3ff;
+}
+
+body.dark .dreams h2 {
+  color: #a8b3ff;
 }
 
 .select-wrapper {

@@ -19,20 +19,25 @@
   }
   
   .back-button {
-    padding: 8px 16px;
-    background: linear-gradient(135deg, #b388ff, #80deea);
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.2s ease;
-    margin-bottom: 20px;
-  }
-  
-  .back-button:hover {
-    opacity: 0.9;
-  }
+  background: linear-gradient(135deg, #5f5df8, #5d8ef8);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-right: 16px;
+}
+.back-button:hover {
+  background: linear-gradient(135deg, #321b9a, #7e63e2);
+}
+
   
   .file-upload {
     display: inline-block;
@@ -57,7 +62,7 @@
   
   .dream-section h4 {
     margin-bottom: 10px;
-    font-size: 18px;
+    font-size: 25px;
     color: var(--accent-color, #6a4fc3);
   }
   
@@ -69,6 +74,7 @@
     font-family: inherit;
     resize: vertical;
     margin-bottom: 14px;
+    font-size: 16pt;
   }
   
   .progress-bar {
@@ -88,6 +94,11 @@
   body.dark .dream-details {
     background: #1f1f2a;
     color: #f0f0f0;
+  }
+
+  body.dark .dream-details-wrapper {
+  background: #1f1f2a;
+  border-radius: 20px;
   }
   
   body.dark .file-upload {
@@ -114,3 +125,10 @@
     color: white;
   }
   
+ .dream-details p {
+    font-size: 15pt;
+  }
+
+  .dream-details li {
+    font-size: 16pt;
+  }
