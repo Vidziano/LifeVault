@@ -43,12 +43,12 @@ function InspirationBoard() {
         console.error('Помилка при зчитуванні з localStorage:', err);
       }
     }
-    setHasLoadedStorage(true); // ← додали це
+    setHasLoadedStorage(true); 
   }, []);
   
   
   useEffect(() => {
-    if (!hasLoadedStorage) return; // ← не зберігаємо, поки не завантажено
+    if (!hasLoadedStorage) return; 
     try {
       localStorage.setItem('inspo-savedItems', JSON.stringify(savedItems));
       console.log('Saved to localStorage:', savedItems);
