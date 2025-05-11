@@ -10,13 +10,24 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 34px;
 }
 
 .toolbar button,
 .toolbar label {
+  font-family: 'Comfortaa', 'Arial', sans-serif;
+}
+
+.inspo-board h2 {
+  margin-bottom: 50px;
+}
+
+
+
+.toolbar button,
+.toolbar label {
   padding: 10px 18px;
-  font-size: 15px;
+  font-size: 16px;
   background: linear-gradient(135deg, #a18cd1, #fbc2eb);
   color: #fff;
   border: none;
@@ -37,6 +48,7 @@
 
 .color-thickness-controls {
   margin-top: 10px;
+  margin-bottom: 24px;
   display: flex;
   justify-content: center;
   gap: 20px;
