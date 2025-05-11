@@ -96,7 +96,7 @@
 
 .map-container {
   flex-shrink: 0;
-  width: 1000px;
+  width: 800px;
   height: 620px;
   border: 2px solid #ddd;
   border-radius: 16px;
