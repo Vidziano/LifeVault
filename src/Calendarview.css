@@ -71,7 +71,7 @@ body.dark .calendar-wrapper {
 /* react-calendar */
 .react-calendar {
   width: 100%;
-  font-family: 'Inter', sans-serif;
+  font-family:'Comfortaa', cursive;;
   font-size: 16px;
   background-color: var(--bg-light);
   border-radius: 20px;
@@ -116,6 +116,7 @@ body.dark .react-calendar {
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-transform: capitalize;
 }
 
 body.dark .react-calendar__navigation button {
@@ -363,6 +364,7 @@ input[type="checkbox"] {
   overflow: visible;
   text-overflow: unset;
   text-align: center;
+  font-family: 'Comfortaa', cursive;
 }
 
 .calendar-box {
@@ -474,17 +476,17 @@ calendar-container {
 
 
 .react-calendar__tile--now {
-  background: linear-gradient(135deg, #ff86b4, #d78cf5) !important;
+  background: linear-gradient(135deg, #9b57f3, #d78cf5) !important;
   color: white !important;
-  border: 2px solid white !important;
-  box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.4);
+  border: 2px solid rgb(255, 255, 255) !important;
+  box-shadow: 0 0 6px 2px rgba(255, 71, 117, 0.4);
   font-weight: bold;
   border-radius: 10px;
   transition: all 0.3s ease;
 }
 
 body.dark .react-calendar__tile--now {
-  background: linear-gradient(135deg, #9a53af, #f578a2) !important;
+  background: linear-gradient(135deg, #5453af, #e678f5) !important;
   border: 2px solid #fff !important;
   box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.2);
   color: black !important;
@@ -528,3 +530,7 @@ body.dark .react-calendar__navigation button:nth-child(3) {
 .dot.навчання { background-color: var(--color-навчання) !important; }
 .dot.особисте { background-color: var(--color-особисте) !important; }
 .dot.інше { background-color: var(--color-інше) !important; }
+
+.react-calendar__month-view__weekdays abbr {
+  font-family: 'Comfortaa', cursive;
+}
