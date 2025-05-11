@@ -52,23 +52,9 @@ function DreamChart({ dreams }) {
       }}>
         📊 Баланс сфер мрій
       </h4>
-      <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          margin: '0 auto',
-          maxWidth: '700px',
-          width: '100%',
-          height: 'auto'
-        }}>
-          <Doughnut
-            data={chartData}
-            options={{
-              ...options,
-              cutout: '50%' 
-            }}
-          />
-        </div>
+      <div style={{ maxWidth: '500px', height: '500px', margin: '40px auto 0' }}>
+        <Doughnut data={chartData} options={options} />
+      </div>
     </div>
   );
 }
