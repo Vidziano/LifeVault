@@ -68,7 +68,7 @@ function WishList() {
         renderCategoryContent()
       ) : (
         <>
-          <h2>💖 Список бажань</h2>
+          <h3>💖 Список бажань</h3>
           <div className="category-grid">
             {categories.map(cat => (
               <div key={cat.key} className="category-tile" onClick={() => setActiveCategory(cat.key)}>

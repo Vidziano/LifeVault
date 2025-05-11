@@ -1,11 +1,12 @@
 .dream-details {
-    background: var(--bg-color, #f9f9ff);
-    padding: 32px;
-    border-radius: 16px;
-    max-width: 700px;
-    margin: 0 auto;
-    font-family: 'Comfortaa', sans-serif;
-  }
+  width: 100%;
+  max-width: 1000px;
+  padding: 40px;
+  background: var(--bg-color, #f9f9ff);
+  border-radius: 16px;
+  box-sizing: border-box;
+}
+
   
   .dream-title {
     color: var(--accent-color, #6a4fc3);
