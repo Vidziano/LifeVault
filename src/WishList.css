@@ -1,5 +1,5 @@
 .wish-list {
-  padding: 100px;
+  padding: 80px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -16,8 +16,16 @@
 /* Центрує заголовок */
 .wish-list h2 {
   font-size: 35px;
-  margin-bottom: 60px;
+  margin-bottom: 20px;
+  margin-top: 10px;
 }
+
+.wish-list h3 {
+  font-size: 35px;
+  margin-bottom: 60px;
+  margin-top: 10px;
+}
+
 
 .category-grid {
   display: flex;
@@ -58,10 +66,6 @@
   object-fit: contain;
   margin-bottom: 14px;
   border-radius: 16px;
-}
-
-.wish-subpage {
-  padding: 100px;
 }
 
 /* Темна тема */
