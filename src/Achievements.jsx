@@ -48,7 +48,6 @@ function Achievements() {
       { text: '🌟 Додати перший малюнок на дошку натхнення', current: inspoBoards.length >= 1 ? 1 : 0, goal: 1 },
       { text: '📚 Прочитати 5 книг', current: readBooks, goal: 5 },
       { text: '🎬 Переглянути 5 фільмів', current: watchedMovies, goal: 5 },
-      { text: '🌈 Зберегти 1 мудборд', current: inspoBoards.length, goal: 1 },
       { text: '🌈 Зберегти 5 мудбордів', current: inspoBoards.length, goal: 5 },
       { text: '🌈 Зберегти 10 мудбордів', current: inspoBoards.length, goal: 10 },
       { text: '🌍 Відвідати 1 країну', current: visitedCountries.length, goal: 1 },
