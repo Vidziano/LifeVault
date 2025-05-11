@@ -17,7 +17,7 @@ function DreamChart({ dreams }) {
 
   const spheres = ['здоров’я', 'кар’єра', 'особисте', 'соціальне'];
   const data = spheres.map(s => dreams.filter(d => d.sphere === s).length);
-  const backgroundColors = ['#81c784', '#64b5f6', '#ffb74d', '#ce93d8'];
+  const backgroundColors = ['#a4faad', '#a0d3f7', '#fd90a0', '#f197ff'];
 
   const options = {
     plugins: {
