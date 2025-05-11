@@ -7,6 +7,9 @@
   box-sizing: border-box;
 }
 
+.dream-details-wrapper {
+  width: 900px;
+}
   
   .dream-title {
     color: var(--accent-color, #6a4fc3);
