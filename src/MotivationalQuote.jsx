@@ -394,10 +394,15 @@ const QUOTES = [
   
     return (
       <div className="motivational-quote enhanced">
-        <p>💬 {quote}</p>
-        <button className="refresh-button" onClick={getRandomQuote}>🔁 Оновити цитату</button>
+        <div className="quote-line">
+          <span>💬 {quote}</span>
+          <button className="refresh-button" onClick={getRandomQuote}>
+            🔁
+          </button>
+        </div>
       </div>
     );
+    
   }
   
   export default MotivationalQuote;
