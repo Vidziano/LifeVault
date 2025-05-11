@@ -22,6 +22,10 @@ function HabitTracker() {
   const [newHabit, setNewHabit] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [weekOffset, setWeekOffset] = useState(0);
+  const [warning, setWarning] = useState('');
+  const [warningPos, setWarningPos] = useState({ x: 0, y: 0 });
+  
+
 
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem('habits')) || [];
@@ -75,13 +79,25 @@ function HabitTracker() {
     setShowSuggestions(false);
   };
 
-  const toggleDay = (id, date) => {
+  const toggleDay = (id, date, event) => {
+    const today = getToday();
+    if (date !== today) {
+      const rect = event.target.getBoundingClientRect();
+      setWarning('❌ Мітки можна ставити лише за сьогодні');
+      setWarningPos({ x: rect.left + rect.width / 2, y: rect.top - 10 }); // трохи над клітинкою
+      setTimeout(() => setWarning(''), 2500);
+      return;
+    }
+  
     setHabits(habits.map(habit => {
       if (habit.id !== id) return habit;
       const updatedLog = { ...habit.log, [date]: !habit.log[date] };
       return { ...habit, log: updatedLog };
     }));
   };
+  
+  
+  
 
   const removeHabit = (id) => {
     setHabits(habits.filter(h => h.id !== id));
@@ -118,6 +134,16 @@ function HabitTracker() {
   return (
     <div className="habit-tracker">
       <h2>🎯 Трекер звичок</h2>
+      {warning && (
+  <div
+    className="habit-toast"
+    style={{ left: `${warningPos.x}px`, top: `${warningPos.y}px` }}
+  >
+    {warning}
+  </div>
+)}
+
+
 
       <div className="habit-input">
   <input
@@ -187,15 +213,18 @@ function HabitTracker() {
                     )}
                   </td>
                   {weekDates.map(date => (
-                    <td key={date}>
-                      <div
-                        className={`habit-circle ${habit.log[date] ? 'done' : ''}`}
-                        onClick={() => toggleDay(habit.id, date)}
-                      >
-                        {habit.log[date] ? '✔' : ''}
-                      </div>
-                    </td>
-                  ))}
+  <td key={date}>
+    <div
+      className={`habit-circle ${habit.log[date] ? 'done' : ''}`}
+      onClick={(e) => toggleDay(habit.id, date, e)}
+
+      title={date !== getToday() ? 'Мітки можна ставити лише за сьогодні' : ''}
+    >
+      {habit.log[date] ? '✔' : ''}
+    </div>
+  </td>
+))}
+
                 </tr>
                 <tr>
                   <td colSpan={8}>
