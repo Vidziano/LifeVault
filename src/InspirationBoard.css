@@ -25,6 +25,7 @@
 
 
 .toolbar button,
+.toolbar .file-btn,
 .toolbar label {
   padding: 10px 18px;
   font-size: 16px;
@@ -179,4 +180,8 @@ body.dark .saved-buttons button:last-child {
 
 body.dark .saved-buttons button:last-child:hover {
   background: #b03030;
+}
+
+body.dark .toolbar .file-btn {
+  background: linear-gradient(135deg, #2c2c5d, #355b80);
 }

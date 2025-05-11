@@ -156,32 +156,31 @@ function TravelWishMap() {
     </div>
   );
 
-  return (
-    <div className="travel-map-wrapper" onMouseMove={(e) => setMousePos({ x: e.clientX, y: e.clientY })}>
-      <h3>🗺️ Мапа подорожей</h3>
-      <p>Натисни на країну, щоб додати до списку бажаних або знову натисни, щоб позначити як відвідану.</p>
-  
-      <div className="map-mode-buttons">
-        <button className={mode === 'visited' ? 'active' : ''} onClick={() => setMode('visited')}>✅ Відвідані</button>
-        <button className={mode === 'dream' ? 'active' : ''} onClick={() => setMode('dream')}>🌐 Мрії</button>
-      </div>
-  
-      <div className="map-and-panel">
-        <div className="map-column">
-          <div className="map-container">
+return (
+  <div className="travel-map-wrapper" onMouseMove={(e) => setMousePos({ x: e.clientX, y: e.clientY })}>
+    <h3>🗺️ Мапа подорожей</h3>
+    <p>Натисни на країну, щоб додати до списку бажаних або знову натисни, щоб позначити як відвідану.</p>
+
+    <div className="map-mode-buttons">
+      <button className={mode === 'visited' ? 'active' : ''} onClick={() => setMode('visited')}>✅ Відвідані</button>
+      <button className={mode === 'dream' ? 'active' : ''} onClick={() => setMode('dream')}>🌐 Мрії</button>
+    </div>
+
+    <div className="map-and-panel">
+      <div className="map-column">
+        <div className="map-container">
+          <div className="map-globe-inner">
             {viewMode === 'globe' ? (
               <>
-                <div className="globe-wrapper">
-                  <GlobeView
-                    countries={countries}
-                    hoveredCountry={hoveredCountry}
-                    setHoveredCountry={setHoveredCountry}
-                    toggleCountry={toggleCountry}
-                    visitedCountries={visitedCountries}
-                    dreamCountries={dreamCountries}
-                    mousePos={mousePos}
-                  />
-                </div>
+                <GlobeView
+                  countries={countries}
+                  hoveredCountry={hoveredCountry}
+                  setHoveredCountry={setHoveredCountry}
+                  toggleCountry={toggleCountry}
+                  visitedCountries={visitedCountries}
+                  dreamCountries={dreamCountries}
+                  mousePos={mousePos}
+                />
                 {hoveredCountry && (
                   <div className="hover-tooltip" style={{ top: mousePos.y + 10, left: mousePos.x + 10 }}>
                     {hoveredCountry}
@@ -241,25 +240,26 @@ function TravelWishMap() {
               </>
             )}
           </div>
-  
-          {/* Вирівняні по лівому краю мапи */}
-          <div className="view-toggle">
-            <button className={viewMode === 'globe' ? 'active' : ''} onClick={() => setViewMode('globe')}>🌍</button>
-            <button className={viewMode === 'map' ? 'active' : ''} onClick={() => setViewMode('map')}>🗺️</button>
-          </div>
         </div>
-  
-        <div className="info-columns">
-          <div className="info-panel">
-            {renderList("✅ Відвідані", visitedCountries, setVisitedCountries)}
-          </div>
-          <div className="info-panel">
-            {renderList("🌐 Мрії", dreamCountries, setDreamCountries)}
-          </div>
+
+        {/* Центровані кнопки перемикання */}
+        <div className="view-toggle">
+          <button className={viewMode === 'globe' ? 'active' : ''} onClick={() => setViewMode('globe')}>🌍</button>
+          <button className={viewMode === 'map' ? 'active' : ''} onClick={() => setViewMode('map')}>🗺️</button>
+        </div>
+      </div>
+
+      <div className="info-columns">
+        <div className="info-panel">
+          {renderList("✅ Відвідані", visitedCountries, setVisitedCountries)}
+        </div>
+        <div className="info-panel">
+          {renderList("🌐 Мрії", dreamCountries, setDreamCountries)}
         </div>
       </div>
     </div>
-  );
+  </div>
+);
   
   
 }
