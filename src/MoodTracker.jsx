@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -28,28 +28,30 @@ function MoodTracker() {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date();
+  const todayStr = today.toISOString().split('T')[0];
+  const todayDisplay = today.toLocaleDateString('uk-UA');
 
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem('moodHistory')) || [];
     setHistory(stored);
-    const todayEntry = stored.find((entry) => entry.date === today);
+    const todayEntry = stored.find((entry) => entry.date === todayStr);
     if (todayEntry) {
       setMood(todayEntry.mood);
       setComment(todayEntry.comment);
     }
-  }, []);
+  }, [todayStr]);
 
   useEffect(() => {
     if (mood !== null && typeof mood === 'string') {
-      const updated = history.filter((entry) => entry.date !== today);
-      updated.push({ date: today, mood, comment });
+      const updated = history.filter((entry) => entry.date !== todayStr);
+      updated.push({ date: todayStr, mood, comment });
       setHistory(updated);
       localStorage.setItem('moodHistory', JSON.stringify(updated));
     }
-  }, [mood, comment]);
+  }, [mood, comment, history, todayStr]);
 
-  const getFilteredData = () => {
+  const getFilteredData = useCallback(() => {
     const filtered = history.filter((entry) => mainEmojis.includes(entry.mood));
     if (viewMode === 'week') {
       const end = new Date(weekStart);
@@ -64,12 +66,12 @@ function MoodTracker() {
         return d.getMonth() === selectedMonth && d.getFullYear() === selectedYear;
       });
     }
-  };
+  }, [history, viewMode, weekStart, selectedMonth, selectedYear]);
 
   const filtered = getFilteredData().sort((a, b) => a.date.localeCompare(b.date));
 
   const chartData = {
-    labels: filtered.map((entry) => entry.date),
+    labels: filtered.map((entry) => new Date(entry.date).toLocaleDateString('uk-UA')),
     datasets: [
       {
         label: 'Оцінка настрою',
@@ -100,7 +102,6 @@ function MoodTracker() {
   
   const bestDays = filtered.filter(e => mainEmojis.indexOf(e.mood) === maxIndex);
   const worstDays = filtered.filter(e => mainEmojis.indexOf(e.mood) === minIndex);
-  
 
   const handleExtraEmoji = (emoji) => {
     setComment((prev) => (prev.includes(emoji) ? prev : prev + ' ' + emoji));
@@ -128,7 +129,7 @@ function MoodTracker() {
   return (
     <div className="mood-tracker">
       <h2>😊 Трекер настрою</h2>
-      <p>Оціни свій настрій на сьогодні ({today}):</p>
+      <p>Оціни свій настрій на сьогодні ({todayDisplay}):</p>
 
       <div className="mood-emojis">
         <div className="main-emojis">
@@ -203,12 +204,12 @@ function MoodTracker() {
       <div className="mood-summary">
         {bestDays.length > 0 && (
           <p>
-            🌞 <strong>Найкращі дні:</strong> {bestDays.map(d => d.date).join(', ')}
+            🌞 <strong>Найкращі дні:</strong> {bestDays.map(d => new Date(d.date).toLocaleDateString('uk-UA')).join(', ')}
           </p>
         )}
         {worstDays.length > 0 && (
           <p>
-            🌧️ <strong>Найгірші дні:</strong> {worstDays.map(d => d.date).join(', ')}
+            🌧️ <strong>Найгірші дні:</strong> {worstDays.map(d => new Date(d.date).toLocaleDateString('uk-UA')).join(', ')}
           </p>
         )}
       </div>
@@ -217,7 +218,7 @@ function MoodTracker() {
       <ul className="mood-history">
         {history.sort((a, b) => b.date.localeCompare(a.date)).map((entry, i) => (
           <li key={i}>
-            <strong>{entry.date}</strong>: {typeof entry.mood === 'string' ? entry.mood : '❓'} — {entry.comment}
+            <strong>{new Date(entry.date).toLocaleDateString('uk-UA')}</strong>: {typeof entry.mood === 'string' ? entry.mood : '❓'} — {entry.comment}
           </li>
         ))}
       </ul>
