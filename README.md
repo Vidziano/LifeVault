@@ -65,6 +65,7 @@
 ---
 
 > _“LifeVault — це не просто органайзер. Це помічник у твоїй подорожі до більш усвідомленого життя.”_
->
-> ![CI Status](https://github.com/Vidziano/LifeVault/actions/workflows/ci.yml/badge.svg)
+
+
+![CI Status](https://github.com/Vidziano/LifeVault/actions/workflows/ci.yml/badge.svg)
 
