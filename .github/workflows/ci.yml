@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [main]  
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Клон репозиторію
+      uses: actions/checkout@v3
+
+    - name: Встановлення Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    - name: Встановити залежності
+      run: npm install
+
+    - name: Перевірка lint
+      run: npm run lint
+
+    - name: Запуск тестів
+      run: npm test -- --watchAll=false
