@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import App from '../App';
 
+jest.mock('../TravelWishMap', () => () => <div>Mock Globe</div>);
+
 test('рендерить App без помилок і показує головний інтерфейс', () => {
   render(<App />);
   // Використаємо getAllByText для унікального тексту
