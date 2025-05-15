@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './PersonalizedReminder.css';
 
-function PersonalizedReminder({ intervalMinutes = 5 }) {
+function PersonalizedReminder({ intervalMinutes = 5, duration = 10000 }) {
   const stored = localStorage.getItem('userProfile');
   const parsed = stored ? JSON.parse(stored) : null;
   const name = parsed?.name?.trim() || '';
@@ -16,7 +16,6 @@ function PersonalizedReminder({ intervalMinutes = 5 }) {
     { text: ' зроби глибокий вдих і повільний видих.', gif: 'https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmNvdmI1NXlleTBncmIzdzFjMDBmcHZwbG0wOXc4OXh3czF3eWpnYyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/RT3S8fkHUxECJJpwvT/giphy.gif' },
     { text: ' зроби легку зарядку або пройдися по кімнаті', gif: 'https://i.giphy.com/4KkSbPnZ5Skec.webp' }
   ];
-  
 
   const [message, setMessage] = useState('');
   const [gif, setGif] = useState('');
@@ -35,6 +34,11 @@ function PersonalizedReminder({ intervalMinutes = 5 }) {
       setGif(gif);
       setShow(true);
 
+      // ⏳ Автоматичне закриття нагадування
+      setTimeout(() => {
+        setShow(false);
+      }, duration);
+
       if (Notification.permission !== 'granted') {
         Notification.requestPermission();
       }
@@ -46,7 +50,7 @@ function PersonalizedReminder({ intervalMinutes = 5 }) {
     }, intervalMinutes * 60 * 1000);
 
     return () => clearInterval(interval);
-  }, [name, intervalMinutes]);
+  }, [name, intervalMinutes, duration]);
 
   return show ? (
     <div className="reminder-toast">

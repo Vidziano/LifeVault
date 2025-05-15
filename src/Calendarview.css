@@ -75,7 +75,7 @@ body.dark .calendar-wrapper {
   min-width: 580px;
   margin: 0 auto;
   padding: 28px;
-  height: 460px; /* або auto */
+  height: 500px; 
   border-radius: 20px;
   background-color: var(--bg-light);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
