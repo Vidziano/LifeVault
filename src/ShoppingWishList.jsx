@@ -190,7 +190,7 @@ function ShoppingWishList() {
 
       <div className="shopping-list">
         {savedItems.map(item => (
-          <div className="shopping-card">
+          <div key={item.id} className="shopping-card">
           <div className="card-buttons">
             <button className="icon-btn" onClick={() => startEdit(item)}>✏️</button>
             <button className="icon-btn" onClick={() => removeItem(item.id)}>🗑️</button>
