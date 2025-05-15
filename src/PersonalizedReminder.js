@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './PersonalizedReminder.css';
 
-function PersonalizedReminder({ intervalMinutes = 0.5, duration = 10000 }) {
+function PersonalizedReminder({ intervalMinutes = 5, duration = 10000 }) {
   const stored = localStorage.getItem('userProfile');
   const parsed = stored ? JSON.parse(stored) : null;
   const name = parsed?.name?.trim() || '';
