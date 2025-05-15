@@ -53,7 +53,8 @@ function PersonalizedReminder({ intervalMinutes = 5, duration = 10000 }) {
   }, [name, intervalMinutes, duration]);
 
   return show ? (
-    <div className="reminder-toast">
+    <div className="reminder-toast" data-testid="reminder-box">
+
       <button className="close-button" onClick={() => setShow(false)}>×</button>
       <img src={gif} alt="reminder" className="reminder-gif" />
       <p>{message}</p>
