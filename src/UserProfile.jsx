@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; 
 import './UserProfile.css';
 
 const avatarOptions = [
@@ -67,8 +67,9 @@ function UserProfile() {
       {editing ? (
         <>
           <div className="form-row">
-            <label>Ім’я:</label>
+            <label htmlFor="name">Ім’я:</label>
             <input
+              id="name"
               type="text"
               value={profile.name}
               onChange={(e) => handleChange('name', e.target.value)}
@@ -76,8 +77,9 @@ function UserProfile() {
           </div>
 
           <div className="form-row">
-            <label>Статус:</label>
+            <label htmlFor="status">Статус:</label>
             <input
+              id="status"
               type="text"
               value={profile.status}
               onChange={(e) => handleChange('status', e.target.value)}
@@ -85,8 +87,9 @@ function UserProfile() {
           </div>
 
           <div className="form-row">
-            <label>День народження:</label>
+            <label htmlFor="birthday">День народження:</label>
             <input
+              id="birthday"
               type="date"
               value={profile.birthday}
               onChange={(e) => handleChange('birthday', e.target.value)}
