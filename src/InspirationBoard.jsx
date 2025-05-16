@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+
 import './InspirationBoard.css';
 import html2canvas from 'html2canvas';
 
@@ -79,28 +80,29 @@ function InspirationBoard() {
 
 
   
-  const saveHistory = () => {
+  const saveHistory = useCallback(() => {
     setHistory(prev => [...prev, objects]);
     setRedoStack([]);
-  };
-
-  const undo = () => {
+  }, [objects]);
+  
+  const undo = useCallback(() => {
     if (history.length > 0) {
       const prevState = history[history.length - 1];
       setRedoStack(prev => [objects, ...prev]);
       setHistory(prev => prev.slice(0, -1));
       setObjects(prevState);
     }
-  };
-
-  const redo = () => {
+  }, [history, objects]);
+  
+  const redo = useCallback(() => {
     if (redoStack.length > 0) {
       const nextState = redoStack[0];
       setHistory(prev => [...prev, objects]);
       setRedoStack(prev => prev.slice(1));
       setObjects(nextState);
     }
-  };
+  }, [redoStack, objects]);
+  
 
   
 
@@ -141,6 +143,7 @@ function InspirationBoard() {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [objects, selectedObjectId, clipboardObject, saveHistory, undo, redo]);
+
   
 
   const startDrawing = (e) => {
