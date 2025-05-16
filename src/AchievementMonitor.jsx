@@ -1,5 +1,6 @@
 // src/AchievementMonitor.jsx
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
+
 import { useAchievement } from './AchievementContext';
 
 const achievementGifs = {
@@ -40,7 +41,6 @@ function AchievementMonitor() {
         const notes = JSON.parse(localStorage.getItem('notes')) || [];
         const habits = JSON.parse(localStorage.getItem('habits')) || [];
         const moodHistory = JSON.parse(localStorage.getItem('moodHistory')) || [];
-        const wishlist = JSON.parse(localStorage.getItem('wishlist')) || {};
         const calendarEvents = JSON.parse(localStorage.getItem('calendarEvents')) || {};
         const books = JSON.parse(localStorage.getItem('savedBooks')) || [];
         const movies = JSON.parse(localStorage.getItem('savedMovies')) || [];

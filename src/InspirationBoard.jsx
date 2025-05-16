@@ -65,9 +65,8 @@ function InspirationBoard() {
     canvas.height = 600;
     const ctx = canvas.getContext('2d');
     ctx.lineCap = 'round';
-    ctx.strokeStyle = color;
-    ctx.lineWidth = lineWidth;
   }, []);
+  
 
   useEffect(() => {
     if (tool === 'pen' || tool === 'eraser') {
