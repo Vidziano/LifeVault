@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Globe from 'react-globe.gl';
-import * as THREE from 'three';
 import {
   ComposableMap,
   Geographies,

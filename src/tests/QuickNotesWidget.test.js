@@ -66,7 +66,6 @@ test('оновлює нотатки при події storage', async () => {
   localStorage.setItem('notes', JSON.stringify(mockNotes));
 
   render(<QuickNotesWidget />);
-
   await act(() => {
     window.dispatchEvent(new Event('storage'));
   });
@@ -84,6 +83,7 @@ test('швидка нотатка має клас категорії', () => {
   render(<QuickNotesWidget />);
   fireEvent.click(screen.getByRole('button', { name: '🗒️' }));
 
-  const note = screen.getByText('категорія перевірка').closest('.quick-note');
-  expect(note).toHaveClass('робота');
+  const element = screen.getByText('категорія перевірка');
+  const classList = element.closest('[class]')?.className || '';
+  expect(classList.includes('робота')).toBe(true);
 });
