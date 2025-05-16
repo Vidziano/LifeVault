@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './PersonalizedReminder.css';
 
-function PersonalizedReminder({ intervalMinutes = 0.5, duration = 10000 }) {
+function PersonalizedReminder({ intervalMinutes = 5, duration = 10000 }) {
   const stored = localStorage.getItem('userProfile');
   const parsed = stored ? JSON.parse(stored) : null;
   const name = parsed?.name?.trim() || '';
@@ -18,7 +18,7 @@ function PersonalizedReminder({ intervalMinutes = 0.5, duration = 10000 }) {
       },
       {
         text: ' очі втомлюються — відведи погляд на 5 хвилин.',
-        gif: 'https://media2.giphy.com/media/w29QPkDsiOMxquLJFN/giphy.gif'
+        gif: 'https://media2.giphy.com/media/w29QPkDsiOMxquLJFN/gSiphy.gif'
       },
       {
         text: ' розімни плечі.',
