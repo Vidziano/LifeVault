@@ -83,7 +83,7 @@ test('швидка нотатка має клас категорії', () => {
   render(<QuickNotesWidget />);
   fireEvent.click(screen.getByRole('button', { name: '🗒️' }));
 
-  const element = screen.getByText('категорія перевірка');
-  const classList = element.closest('[class]')?.className || '';
-  expect(classList.includes('робота')).toBe(true);
+  const note = screen.getByTestId('quick-note-5');
+  expect(note).toHaveClass('робота');
 });
+

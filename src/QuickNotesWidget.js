@@ -34,21 +34,23 @@ function QuickNotesWidget() {
             <p className="no-notes">Немає обраних нотаток</p>
           ) : (
             <div className="quick-notes-list">
-              {notes.map(note => {
-                const categoryClass = note.category
-                  ? note.category.trim().toLowerCase()
-                  : '';
-                return (
-                  <div
-                    key={note.id}
-                    className={`quick-note ${categoryClass}`}
-                  >
-                    {note.text && <p>{note.text}</p>}
-                    {note.fileUrl && <img src={note.fileUrl} alt="note" />}
-                    <span className="quick-date">{note.created}</span>
-                  </div>
-                );
-              })}
+{notes.map(note => {
+  const categoryClass = note.category
+    ? note.category.trim().toLowerCase()
+    : '';
+  return (
+    <div
+      key={note.id}
+      data-testid={`quick-note-${note.id}`} 
+      className={`quick-note ${categoryClass}`}
+    >
+      {note.text && <p>{note.text}</p>}
+      {note.fileUrl && <img src={note.fileUrl} alt="note" />}
+      <span className="quick-date">{note.created}</span>
+    </div>
+  );
+})}
+
             </div>
           )}
         </div>

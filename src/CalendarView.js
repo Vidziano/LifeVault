@@ -66,7 +66,8 @@ function CalendarView() {
       delete updated[yKey];
       saveTasks(updated);
     }
-  }, []);
+  }, [tasks, todayStr]);
+
 
   const saveEvents = (updated) => {
     setEvents(updated);
