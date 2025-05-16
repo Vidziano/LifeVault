@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './InspirationBoard.css';
 import html2canvas from 'html2canvas';
 
@@ -65,6 +65,7 @@ function InspirationBoard() {
     canvas.height = 600;
     const ctx = canvas.getContext('2d');
     ctx.lineCap = 'round';
+
   }, []);
   
 
@@ -75,6 +76,32 @@ function InspirationBoard() {
       ctx.lineWidth = lineWidth;
     }
   }, [tool, color, lineWidth]); 
+
+
+  
+  const saveHistory = () => {
+    setHistory(prev => [...prev, objects]);
+    setRedoStack([]);
+  };
+
+  const undo = () => {
+    if (history.length > 0) {
+      const prevState = history[history.length - 1];
+      setRedoStack(prev => [objects, ...prev]);
+      setHistory(prev => prev.slice(0, -1));
+      setObjects(prevState);
+    }
+  };
+
+  const redo = () => {
+    if (redoStack.length > 0) {
+      const nextState = redoStack[0];
+      setHistory(prev => [...prev, objects]);
+      setRedoStack(prev => prev.slice(1));
+      setObjects(nextState);
+    }
+  };
+
   
 
   useEffect(() => {
@@ -113,30 +140,7 @@ function InspirationBoard() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [objects, selectedObjectId, clipboardObject, history, redoStack]);
-
-  const saveHistory = useCallback(() => {
-    setHistory(prev => [...prev, objects]);
-    setRedoStack([]);
-  }, [objects]);
-  
-  const undo = useCallback(() => {
-    if (history.length > 0) {
-      const prevState = history[history.length - 1];
-      setRedoStack(prev => [objects, ...prev]);
-      setHistory(prev => prev.slice(0, -1));
-      setObjects(prevState);
-    }
-  }, [history, objects]);
-  
-  const redo = useCallback(() => {
-    if (redoStack.length > 0) {
-      const nextState = redoStack[0];
-      setHistory(prev => [...prev, objects]);
-      setRedoStack(prev => prev.slice(1));
-      setObjects(nextState);
-    }
-  }, [redoStack, objects]);
+  }, [objects, selectedObjectId, clipboardObject, saveHistory, undo, redo]);
   
 
   const startDrawing = (e) => {
