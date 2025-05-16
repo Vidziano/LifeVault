@@ -9,14 +9,16 @@ describe('WishList логіка — юніт-тести', () => {
     const components = ['travel', 'books', 'shopping', 'movies', 'dreams'];
 
     components.forEach((key) => {
-      const result = renderCategoryContent(key, mockSet);
-      expect(result.key).toBe(key);
+      const view = renderCategoryContent(key, mockSet);
+      expect(view.key).toBe(key);
+      
     });
   });
 
   test('renderCategoryContent повертає null, якщо ключ невідомий', () => {
-    const result = renderCategoryContent('невідомий', mockSet);
-    expect(result).toBeNull();
+    const view = renderCategoryContent('невідомий', mockSet);
+    expect(view).toBeNull();
+    
   });
 });
 
