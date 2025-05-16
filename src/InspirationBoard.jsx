@@ -28,7 +28,6 @@ function InspirationBoard() {
 
   const [imageFile, setImageFile] = useState(null);
   const [hasLoadedStorage, setHasLoadedStorage] = useState(false);
-  const [toolSize, setToolSize] = useState(16);
 
   useEffect(() => {
     const stored = localStorage.getItem('inspo-savedItems');
@@ -76,7 +75,8 @@ function InspirationBoard() {
       ctx.strokeStyle = tool === 'pen' ? color : '#ffffff';
       ctx.lineWidth = lineWidth;
     }
-  }, [tool, color, lineWidth]);
+  }, [tool, color, lineWidth]); 
+  
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -156,9 +156,6 @@ function InspirationBoard() {
     ctx.stroke();
   };
 
-  const stopDrawing = () => {
-    setIsDrawing(false);
-  };
 
   const handleBoardClick = (e) => {
     if (tool === 'select') {

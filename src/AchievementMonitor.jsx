@@ -49,7 +49,6 @@ function AchievementMonitor() {
         const inspoBoards = JSON.parse(localStorage.getItem('inspo-savedItems')) || [];
         const visitedCountries = JSON.parse(localStorage.getItem('visitedCountries')) || [];
 
-        const totalWishes = Object.values(wishlist).flat().length;
         const totalEvents = Object.values(calendarEvents).flat().length;
         const moodDays = moodHistory.length;
         const completedHabits7 = habits.filter(habit => Object.values(habit.log || {}).filter(Boolean).length >= 7).length;
