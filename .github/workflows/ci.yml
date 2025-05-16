@@ -17,9 +17,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
+          cache: 'npm'  # кешування для уникнення помилок install
 
-      - name: Clean npm cache
-        run: npm cache clean --force
+      - name: Clean potentially broken npm cache
+        run: |
+          rm -rf ~/.npm/_cacache
+          npm cache verify
 
       - name: Install dependencies with legacy-peer-deps
         run: npm install --legacy-peer-deps
