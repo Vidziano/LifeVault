@@ -2,6 +2,7 @@
   "name": "lifevault",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://Vidziano.github.io/LifeVault",
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
     "chart.js": "^4.4.9",
@@ -23,9 +24,7 @@
     "recharts": "^2.15.2",
     "three": "^0.176.0",
     "web-vitals": "^2.1.4",
-    "world-atlas": "^2.0.2",
-    "homepage": "https://Vidziano.github.io/LifeVault"
-
+    "world-atlas": "^2.0.2"
   },
   "scripts": {
     "start": "react-scripts start",
