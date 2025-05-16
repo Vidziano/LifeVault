@@ -17,7 +17,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: 'npm'  # кешування для уникнення помилок install
+          cache: 'npm'
 
       - name: Clean potentially broken npm cache
         run: |
@@ -28,10 +28,10 @@ jobs:
         run: npm install --legacy-peer-deps
 
       - name: Run lint
-        run: npm run lint || true
+        run: npm run lint
 
       - name: Run tests
-        run: npm test -- --watchAll=false || true
+        run: npm test -- --watchAll=false
 
       - name: Build project
         run: npm run build
