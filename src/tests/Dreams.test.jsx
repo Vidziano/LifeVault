@@ -68,7 +68,8 @@ test('редагує мрію і зберігає зміни', async () => {
 
   expect(await screen.findByText('Стара мрія')).toBeInTheDocument();
 
-  const editButton = screen.getAllByText('✏️')[0];
+  const editButton = screen.getByRole('button', { name: /змінити/i });
+
   fireEvent.click(editButton);
 
   const titleInput = await screen.findByDisplayValue('Стара мрія');
