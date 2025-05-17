@@ -74,11 +74,15 @@ function Dreams() {
     setTitleWarning(false);
   };
 
-  const editDream = (dream) => {
-    setNewDream({ ...dream });
-    setEditingId(dream.id);
-    scrollToForm();
-  };
+const editDream = (dream) => {
+  setNewDream({
+    ...dream,
+    steps: Array.isArray(dream.steps) ? dream.steps.map(s => typeof s === 'string' ? s : s.text) : ['']
+  });
+  setEditingId(dream.id);
+  scrollToForm();
+};
+
 
   const deleteDream = (id) => {
     const updated = dreams.filter(d => d.id !== id);

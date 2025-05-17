@@ -51,7 +51,7 @@ function DreamDetails({ dream, onBack, onUpdate }) {
       onUpdate(updatedDream);
       localStorage.setItem(`dream-steps-${dream.id}`, JSON.stringify(steps));
     }
-  }, [steps]);
+  }, [steps, dream, onUpdate]);
 
   const handleFile = (e) => {
     const file = e.target.files[0];
