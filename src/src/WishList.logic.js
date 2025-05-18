@@ -1,7 +1,9 @@
 // WishList.logic.js — спрощений для юніт-тестів
 import React from 'react';
 
-export const renderCategoryContent = (key, setActiveCategory) => {
+export const renderCategoryContent = (key) => {
+
+  
   const Component = (label) => <div key={key}>{label}</div>;
 
   const map = {

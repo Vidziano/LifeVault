@@ -7,7 +7,7 @@ import {
   } from '../src/MoodTracker.logic';
   
   describe('MoodTracker.logic — юніт-тести', () => {
-    const baseDate = new Date('2024-01-01');
+  //  const baseDate = new Date('2024-01-01');
   
     describe('getFilteredData()', () => {
       const history = [

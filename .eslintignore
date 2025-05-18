@@ -1,0 +1,6 @@
+# .eslintignore
+node_modules/
+build/
+public/
+coverage/
+cypress/downloads/

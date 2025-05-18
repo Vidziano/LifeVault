@@ -27,7 +27,7 @@ function DreamDetails({ dream, onBack, onUpdate }) {
 
       if (savedSteps && Array.isArray(savedSteps)) {
         // мержимо: беремо текст і done зі збережених, але тільки якщо текст співпадає
-        const merged = initialSteps.map((step, idx) => {
+        const merged = initialSteps.map((step) => {
           const saved = savedSteps.find(s => s.text === step.text);
           return saved ? { ...step, done: saved.done } : step;
         });

@@ -57,7 +57,7 @@
     "@testing-library/user-event": "^14.6.1",
     "cypress": "^14.3.3",
     "cypress-image-snapshot": "^4.0.1",
-    "eslint": "^8.57.1"
+    "eslint": "^8.57.1",
+    "eslint-plugin-cypress": "^4.3.0"
   }
-  
 }
