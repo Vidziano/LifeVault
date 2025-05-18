@@ -114,7 +114,7 @@ function UserProfile() {
               {avatarOptions.map((src, i) => (
                 <img
                   key={i}
-                  src={src}
+                  src={`${process.env.PUBLIC_URL}${src}`}
                   alt={`avatar-${i}`}
                   className={`option ${profile.avatar === src ? 'selected' : ''}`}
                   onClick={() => handleChange('avatar', src)}
