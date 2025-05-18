@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect } from 'react';
 import './UserProfile.css';
 
 const avatarOptions = [
@@ -20,7 +20,6 @@ function UserProfile() {
   const [profile, setProfile] = useState(() => {
     const stored = localStorage.getItem('userProfile');
     if (stored) return JSON.parse(stored);
-
     const randomAvatar = avatarOptions[Math.floor(Math.random() * avatarOptions.length)];
     return {
       name: '',
@@ -49,7 +48,6 @@ function UserProfile() {
   const handleAvatarFile = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
     const reader = new FileReader();
     reader.onload = () => {
       setProfile(prev => ({ ...prev, customAvatar: reader.result }));
@@ -63,7 +61,9 @@ function UserProfile() {
     <div className="user-profile">
       <h2>👤 Профіль користувача</h2>
       <img
-        src={displayedAvatar.startsWith('data:') ? displayedAvatar : `${process.env.PUBLIC_URL}${displayedAvatar}`}
+        src={displayedAvatar.startsWith('data:')
+          ? displayedAvatar
+          : `${process.env.PUBLIC_URL}${displayedAvatar}`}
         alt="Аватар"
         className="avatar"
       />
@@ -107,6 +107,18 @@ function UserProfile() {
               <input type="file" accept="image/*" onChange={handleAvatarFile} />
             </label>
           </div>
+
+          {profile.customAvatar && (
+            <div className="form-row">
+              <button
+                type="button"
+                className="remove-avatar-button"
+                onClick={() => handleChange('customAvatar', '')}
+              >
+                🗑️ Видалити завантажене фото
+              </button>
+            </div>
+          )}
 
           <div className="form-row">
             <label>Або вибери з варіантів:</label>

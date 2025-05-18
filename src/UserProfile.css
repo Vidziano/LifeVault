@@ -185,3 +185,14 @@ body.dark .user-profile button:hover {
 body.dark .avatar-options img.option.selected {
   border-color: #bb86fc;
 }
+
+.remove-avatar-button {
+  background: #e57373;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 6px;
+}
+
