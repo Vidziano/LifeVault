@@ -1,64 +1,47 @@
-// AchievementContext.unit.test.js
-import React from 'react';
-import { render, screen, act } from '@testing-library/react';
-import { AchievementProvider, useAchievement } from '../AchievementContext';
+// AchievementContext.logic.unit.test.js — юніт-тести для логіки досягнень
+import { triggerAchievement, resetAchievements, defaultGif } from '../src/AchievementContext.logic';
 
-const TestComponent = () => {
-  const { triggerAchievement, resetAchievements } = useAchievement();
+describe('triggerAchievement()', () => {
+  jest.useFakeTimers();
 
-  return (
-    <>
-      <button onClick={() => triggerAchievement('Тест досягнення', 'https://gif.test/test.gif')}>Trigger</button>
-      <button onClick={resetAchievements}>Reset</button>
-    </>
-  );
-};
+  test('встановлює повідомлення та гіфку', () => {
+    const setMessage = jest.fn();
+    const setGif = jest.fn();
 
-describe('AchievementContext', () => {
-  beforeEach(() => {
-    jest.useFakeTimers();
-    jest.spyOn(window.localStorage.__proto__, 'removeItem');
-    window.localStorage.__proto__.removeItem = jest.fn();
-    delete window.location;
-    window.location = { reload: jest.fn() };
+    triggerAchievement('Ура!', 'https://test.gif', setMessage, setGif);
+
+    expect(setMessage).toHaveBeenCalledWith('Ура!');
+    expect(setGif).toHaveBeenCalledWith('https://test.gif');
+
+    jest.advanceTimersByTime(7000);
+    expect(setMessage).toHaveBeenLastCalledWith(null);
+    expect(setGif).toHaveBeenLastCalledWith(null);
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-    jest.useRealTimers();
+  test('використовує defaultGif, якщо не передано gifUrl', () => {
+    const setMessage = jest.fn();
+    const setGif = jest.fn();
+
+    triggerAchievement('Досягнення!', undefined, setMessage, setGif);
+
+    expect(setGif).toHaveBeenCalledWith(defaultGif);
   });
+});
 
-  test('triggerAchievement відображає тост і очищається', () => {
-    render(
-      <AchievementProvider>
-        <TestComponent />
-      </AchievementProvider>
-    );
+describe('resetAchievements()', () => {
+  test('очищає localStorage і викликає reload', () => {
+    const removeItem = jest.fn();
+    const reload = jest.fn();
 
-    act(() => {
-      screen.getByText('Trigger').click();
-    });
+    const mockWindow = {
+      localStorage: { removeItem },
+      location: { reload }
+    };
 
-    expect(screen.getByText('Тест досягнення')).toBeInTheDocument();
-    act(() => {
-      jest.advanceTimersByTime(7000);
-    });
-    expect(screen.queryByText('Тест досягнення')).toBeNull();
-  });
+    resetAchievements(mockWindow);
 
-  test('resetAchievements очищає localStorage і викликає reload', () => {
-    render(
-      <AchievementProvider>
-        <TestComponent />
-      </AchievementProvider>
-    );
-
-    act(() => {
-      screen.getByText('Reset').click();
-    });
-
-    expect(localStorage.removeItem).toHaveBeenCalledWith('achievementsState');
-    expect(localStorage.removeItem).toHaveBeenCalledWith('achievementsProgress');
-    expect(window.location.reload).toHaveBeenCalled();
+    expect(removeItem).toHaveBeenCalledWith('achievementsState');
+    expect(removeItem).toHaveBeenCalledWith('achievementsProgress');
+    expect(reload).toHaveBeenCalled();
   });
 });

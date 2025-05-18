@@ -2,6 +2,8 @@
 import { renderCategoryContent } from '../src/WishList.logic';
 
 
+
+
 describe('WishList логіка — юніт-тести', () => {
   const mockSet = () => {};
 
