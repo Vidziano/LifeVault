@@ -62,7 +62,11 @@ function UserProfile() {
   return (
     <div className="user-profile">
       <h2>👤 Профіль користувача</h2>
-      <img src={displayedAvatar} alt="Аватар" className="avatar" />
+      <img
+        src={displayedAvatar.startsWith('data:') ? displayedAvatar : `${process.env.PUBLIC_URL}${displayedAvatar}`}
+        alt="Аватар"
+        className="avatar"
+      />
 
       {editing ? (
         <>
