@@ -9,7 +9,8 @@ function NoteModal({ isOpen, onClose, onSave, existingNote }) {
   const [filePreview, setFilePreview] = useState(null);
   const [fileUrl, setFileUrl] = useState(null);
 
-  useEffect(() => {
+useEffect(() => {
+  if (isOpen) {
     if (existingNote) {
       setTitle(existingNote.title || '');
       setText(existingNote.text || '');
@@ -25,7 +26,9 @@ function NoteModal({ isOpen, onClose, onSave, existingNote }) {
       setFilePreview(null);
       setFileUrl(null);
     }
-  }, [existingNote]);
+  }
+}, [isOpen, existingNote]);
+
 
   const handleSave = () => {
     if (!title.trim() && !text.trim()) return;
