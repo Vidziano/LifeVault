@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Routes,
   Route,
   NavLink
 } from 'react-router-dom';
+
 import { AchievementProvider } from './AchievementContext';
 import AchievementMonitor from './AchievementMonitor';
 import Achievements from './Achievements';
