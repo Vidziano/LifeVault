@@ -212,18 +212,22 @@ function HabitTracker() {
                       </>
                     )}
                   </td>
-                  {weekDates.map(date => (
-  <td key={date}>
-    <div
-      className={`habit-circle ${habit.log[date] ? 'done' : ''}`}
-      onClick={(e) => toggleDay(habit.id, date, e)}
+                  {weekDates.map((date) => {
+  const isToday = date === getToday();
 
-      title={date !== getToday() ? 'Мітки можна ставити лише за сьогодні' : ''}
-    >
-      {habit.log[date] ? '✔' : ''}
-    </div>
-  </td>
-))}
+  return (
+    <td key={date}>
+      <div
+        className={`habit-circle ${habit.log[date] ? 'done' : ''} ${isToday ? 'is-today' : ''}`}
+        onClick={(e) => toggleDay(habit.id, date, e)}
+        title={!isToday ? 'Мітки можна ставити лише за сьогодні' : undefined}
+      >
+        {habit.log[date] ? '✔' : ''}
+      </div>
+    </td>
+  );
+})}
+
 
                 </tr>
                 <tr>
