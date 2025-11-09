@@ -40,9 +40,18 @@ function Sidebar({ darkMode, setDarkMode }) {
   return (
     <div className="sidebar">
 <div className="sidebar-brand">
-  <span className="logo-emoji">📘</span>
+<img
+  src={darkMode 
+    ? `${process.env.PUBLIC_URL}/Logo_LV_dark_theme2.png`   // логотип для темної теми
+    : `${process.env.PUBLIC_URL}/Logo_LV.png`}       // логотип для світлої
+  alt="LifeVault logo"
+  className="sidebar-logo"
+/>
+
   <span className="sidebar-text">LifeVault</span>
 </div>
+
+
 
 
 

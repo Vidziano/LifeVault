@@ -63,6 +63,15 @@ body.dark .sidebar-text {
   transform: translateY(2px); 
 }
 
+.sidebar-logo {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  display: block;
+  border-radius: 6px;
+}
+
+
 
 .sidebar-brand:hover .sidebar-text {
   letter-spacing: 1.5px;
