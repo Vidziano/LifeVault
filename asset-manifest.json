@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/LifeVault/static/css/main.d94c1b4a.css",
-    "main.js": "/LifeVault/static/js/main.41d5f167.js",
+    "main.css": "/LifeVault/static/css/main.6dda0f10.css",
+    "main.js": "/LifeVault/static/js/main.8a965edd.js",
     "static/js/453.e5fb35d0.chunk.js": "/LifeVault/static/js/453.e5fb35d0.chunk.js",
     "index.html": "/LifeVault/index.html",
-    "main.d94c1b4a.css.map": "/LifeVault/static/css/main.d94c1b4a.css.map",
-    "main.41d5f167.js.map": "/LifeVault/static/js/main.41d5f167.js.map",
+    "main.6dda0f10.css.map": "/LifeVault/static/css/main.6dda0f10.css.map",
+    "main.8a965edd.js.map": "/LifeVault/static/js/main.8a965edd.js.map",
     "453.e5fb35d0.chunk.js.map": "/LifeVault/static/js/453.e5fb35d0.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d94c1b4a.css",
-    "static/js/main.41d5f167.js"
+    "static/css/main.6dda0f10.css",
+    "static/js/main.8a965edd.js"
   ]
 }
